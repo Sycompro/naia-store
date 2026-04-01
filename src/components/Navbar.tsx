@@ -114,42 +114,46 @@ export default function Navbar() {
           padding: 15px 0;
         }
         .nav-container {
-          max-width: 1200px;
+          max-width: 1300px;
           margin: 0 auto;
-          height: 85px;
+          height: 100px;
           border-radius: 50px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 35px;
-          width: 92%;
+          padding: 0 40px;
+          width: 94%;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .nav-v3.scrolled .nav-container {
-          width: 95%;
-          height: 70px;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+          width: 96%;
+          height: 80px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.12);
         }
         
         .premium-logo {
-          font-size: 42px;
-          font-weight: 800;
-          color: var(--fg);
-          text-decoration: none;
-          letter-spacing: 4px;
-          display: flex;
-          align-items: center;
-          gap: 4px;
+          font-size: 56px !important;
+          font-weight: 800 !important;
+          color: var(--fg) !important;
+          text-decoration: none !important;
+          letter-spacing: 2px !important;
+          display: flex !important;
+          align-items: baseline !important;
+          gap: 2px;
           text-transform: uppercase;
           font-style: italic;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
+          z-index: 10;
+          line-height: 1;
         }
         .premium-logo:hover {
-          letter-spacing: 7px;
+          letter-spacing: 5px !important;
+          transform: scale(1.02);
         }
         .logo-text {
           display: inline-block;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
         }
         .logo-highlight {
           background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
@@ -158,15 +162,16 @@ export default function Navbar() {
           -webkit-text-fill-color: transparent;
         }
         .logo-dot {
-          width: 10px;
-          height: 10px;
+          width: 12px;
+          height: 12px;
           border-radius: 50%;
           background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
           display: inline-block;
           margin-left: 2px;
-          margin-bottom: -4px;
-          box-shadow: 0 0 12px var(--primary-light);
+          box-shadow: 0 0 15px var(--primary-light);
           animation: logoPulse 3s ease-in-out infinite;
+          align-self: center;
+          margin-bottom: 8px;
         }
         @keyframes logoPulse {
           0%, 100% { opacity: 1; transform: scale(1); }
