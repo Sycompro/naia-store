@@ -27,46 +27,43 @@ export default function NovedadesPage() {
     ];
 
     return (
-        <main className="novedades-page">
+        <main className="novedades-page-v3">
             <Navbar />
 
-            <section className="news-hero">
-                <div className="container">
-                    <Zap size={48} className="zap-icon" />
+            <section className="n-hero mesh-bg">
+                <div className="container n-hero-content animate-entrance">
+                    <span className="n-tag">Portal de Novedades</span>
                     <h1>Lo Último en <span className="text-gradient">Naia</span></h1>
-                    <p>Mantente al día con nuestros lanzamientos exclusivos, eventos y consejos de belleza.</p>
+                    <p>Mantente al día con nuestros lanzamientos exclusivos, eventos presenciales y avances cosméticos.</p>
                 </div>
             </section>
 
-            <section className="news-container container">
-                <div className="featured-news glass">
-                    <div className="featured-content">
-                        <span className="featured-tag">Destacado</span>
-                        <h2>Colección "Brillo de Verano 2026"</h2>
-                        <p>La espera terminó. Presentamos nuestra colección más esperada del año diseñada para proteger y realzar tu piel durante la temporada de sol.</p>
-                        <button className="btn-read">Leer Más <ArrowRight size={18} /></button>
+            <section className="n-body container">
+                <div className="n-featured glass-premium animate-fade">
+                    <div className="n-feat-info">
+                        <span className="n-badge-featured">Destacado</span>
+                        <h2>Colección Brillo de Verano 2026</h2>
+                        <p>La espera terminó. Presentamos nuestra colección más avanzada del año diseñada para proteger y realzar tu piel durante la temporada de mayor impacto solar.</p>
+                        <button className="n-btn">Leer Historia Completa <ArrowRight size={16} /></button>
                     </div>
-                    <div className="featured-image">
-                        <div className="placeholder-image"><Sparkles size={40} /></div>
-                    </div>
+                    <div className="n-feat-img"></div>
                 </div>
 
-                <div className="news-grid">
+                <div className="n-grid">
                     {news.map((item, index) => (
-                        <div key={index} className="news-card glass">
-                            <div className="news-card-image">
-                                <div className="placeholder-image-small"></div>
+                        <article key={index} className="n-card glass-premium animate-fade">
+                            <div className="n-img-wrapper">
+                                <span className="n-card-badge">{item.tag}</span>
                             </div>
-                            <div className="news-card-content">
-                                <div className="news-meta">
-                                    <span className="news-tag">{item.tag}</span>
-                                    <span className="news-date"><Calendar size={14} /> {item.date}</span>
+                            <div className="n-content">
+                                <div className="n-meta">
+                                    <span className="n-date"><Calendar size={12} strokeWidth={2.5} /> {item.date}</span>
                                 </div>
                                 <h3>{item.title}</h3>
                                 <p>{item.desc}</p>
-                                <a href="#" className="read-link">Continuar leyendo</a>
+                                <a href="#" className="n-link">Continuar leyendo <ArrowRight size={14} /></a>
                             </div>
-                        </div>
+                        </article>
                     ))}
                 </div>
             </section>
@@ -74,55 +71,82 @@ export default function NovedadesPage() {
             <Footer />
 
             <style jsx>{`
-        .novedades-page { padding-top: 100px; background: var(--bg); }
-        .news-hero { text-align: center; padding: 100px 20px; background: linear-gradient(135deg, var(--primary-light), transparent); }
-        .zap-icon { color: var(--primary); margin-bottom: 20px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.1); } }
-        .news-hero h1 { font-size: 56px; font-weight: 900; margin-bottom: 20px; }
-        .text-gradient { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .featured-news {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          border-radius: 40px;
-          overflow: hidden;
-          margin-top: -60px;
-          margin-bottom: 60px;
-          min-height: 400px;
-        }
-        .featured-content { padding: 60px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
-        .featured-tag { background: var(--primary); color: white; padding: 4px 15px; border-radius: 20px; font-size: 14px; font-weight: 700; margin-bottom: 20px; }
-        .featured-news h2 { font-size: 42px; font-weight: 800; margin-bottom: 20px; color: var(--fg); }
-        .featured-news p { font-size: 18px; color: #555; margin-bottom: 30px; line-height: 1.6; }
-        .btn-read { background: var(--fg); color: white; padding: 15px 30px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.3s; }
-        .btn-read:hover { background: var(--primary); transform: translateX(10px); }
-        
-        .featured-image { background: linear-gradient(45deg, #fce4ec, #f3e5f5); display: flex; align-items: center; justify-content: center; }
-        .placeholder-image { color: var(--primary); animation: rotate 10s linear infinite; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                .novedades-page-v3 { min-height: 100vh; }
+                .n-hero { padding: 150px 0 80px; text-align: center; position: relative; }
+                .n-hero-content { position: relative; z-index: 10; }
+                
+                .n-tag { 
+                    font-size: 13px; font-weight: 800; color: var(--primary); text-transform: uppercase; 
+                    letter-spacing: 0.2em; margin-bottom: 20px; display: block;
+                }
+                .n-hero h1 { font-size: clamp(40px, 8vw, 65px); font-weight: 900; margin-bottom: 20px; line-height: 1.1; letter-spacing: -1.5px; }
+                .n-hero p { font-size: 18px; color: var(--slate-500); max-width: 650px; margin: 0 auto; line-height: 1.6; font-weight: 500; }
+                
+                .n-body { padding-bottom: 100px; }
+                
+                .n-featured {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    border-radius: var(--radius-xl);
+                    overflow: hidden;
+                    margin-top: -40px;
+                    margin-bottom: 70px;
+                    position: relative;
+                    z-index: 20;
+                    box-shadow: var(--shadow-lg);
+                }
+                .n-feat-info { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+                .n-badge-featured { 
+                    align-self: flex-start; background: var(--fg); color: var(--bg); padding: 6px 16px; 
+                    border-radius: 30px; font-size: 12px; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;
+                }
+                .men-theme .n-badge-featured { background: var(--primary); color: white; }
+                .n-feat-info h2 { font-size: 40px; font-weight: 900; margin-bottom: 20px; color: var(--fg); line-height: 1.1; letter-spacing: -1px; }
+                .n-feat-info p { font-size: 17px; color: var(--slate-500); margin-bottom: 35px; line-height: 1.6; font-weight: 500; }
+                
+                .n-btn { 
+                    align-self: flex-start; background: var(--primary); color: white; padding: 14px 28px; 
+                    border-radius: 14px; font-weight: 800; font-size: 14px; border: none; cursor: pointer; 
+                    display: flex; align-items: center; gap: 10px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+                .n-btn:hover { background: var(--primary-dark); transform: translateX(8px); }
+                
+                .n-feat-img { background: var(--slate-100); min-height: 400px; }
+                .men-theme .n-feat-img { background: rgba(0,0,0,0.3); }
 
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding-bottom: 80px; }
-        .news-card { border-radius: 28px; overflow: hidden; transition: transform 0.3s; }
-        .news-card:hover { transform: translateY(-10px); }
-        .news-card-image { height: 200px; background: #eee; }
-        .placeholder-image-small { width: 100%; height: 100%; background: linear-gradient(to bottom right, #f8f9fa, #e9ecef); }
-        
-        .news-card-content { padding: 30px; }
-        .news-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .news-tag { color: var(--primary); font-weight: 700; font-size: 13px; text-transform: uppercase; }
-        .news-date { font-size: 13px; color: #888; display: flex; align-items: center; gap: 5px; }
-        
-        .news-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 15px; color: var(--fg); }
-        .news-card p { color: #666; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
-        .read-link { color: var(--primary); font-weight: 700; text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.3s; }
-        .read-link:hover { border-bottom-color: var(--primary); padding-bottom: 2px; }
+                .n-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
+                .n-card { border-radius: var(--radius-xl); overflow: hidden; transition: all 0.4s ease; padding: 10px; }
+                .n-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); }
+                
+                .n-img-wrapper { height: 220px; background: var(--slate-100); border-radius: var(--radius-lg); position: relative; }
+                .men-theme .n-img-wrapper { background: rgba(0,0,0,0.3); }
+                
+                .n-card-badge { 
+                    position: absolute; top: 15px; left: 15px; background: white; color: black; 
+                    padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase;
+                }
+                
+                .n-content { padding: 25px 15px 15px; display: flex; flex-direction: column; height: 100%; }
+                .n-meta { margin-bottom: 12px; }
+                .n-date { font-size: 12px; font-weight: 800; color: var(--slate-400); display: flex; align-items: center; gap: 6px; text-transform: uppercase; }
+                
+                .n-content h3 { font-size: 22px; font-weight: 800; margin-bottom: 15px; color: var(--fg); line-height: 1.3; transition: color 0.3s; }
+                .n-card:hover h3 { color: var(--primary); }
+                .n-content p { color: var(--slate-500); font-size: 15px; margin-bottom: 25px; line-height: 1.6; font-weight: 500; flex: 1; }
+                
+                .n-link { 
+                    color: var(--primary); font-weight: 800; font-size: 14px; text-decoration: none; 
+                    display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; width: max-content;
+                }
+                .n-link:hover { gap: 12px; }
 
-        @media (max-width: 768px) {
-          .featured-news { grid-template-columns: 1fr; }
-          .featured-content { padding: 40px; }
-          .news-hero h1 { font-size: 40px; }
-        }
-      `}</style>
+                @media (max-width: 900px) {
+                    .n-featured { grid-template-columns: 1fr; margin-top: -20px; }
+                    .n-feat-img { min-height: 250px; order: -1; }
+                    .n-feat-info { padding: 40px 30px; }
+                    .n-hero h1 { font-size: 36px; }
+                }
+            `}</style>
         </main>
     );
 }

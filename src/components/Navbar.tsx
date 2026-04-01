@@ -34,7 +34,7 @@ export default function Navbar() {
         <div className="nav-container glass-premium">
           <div className="nav-left">
             <Link href="/" className="premium-logo">
-              Naia<span className="logo-sparkle">💖</span>
+              Naia
             </Link>
           </div>
 
@@ -138,11 +138,6 @@ export default function Navbar() {
           display: flex;
           align-items: center;
         }
-        .logo-sparkle {
-          font-size: 20px;
-          margin-left: 4px;
-          animation: pulse 2s infinite;
-        }
         
         .nav-center {
           display: flex;
@@ -154,13 +149,22 @@ export default function Navbar() {
           text-decoration: none;
           color: var(--fg);
           font-weight: 700;
-          font-size: 14px;
+          font-size: 13px;
           border-radius: 20px;
+          background: rgba(0,0,0,0.03);
+          border: 1px solid var(--slate-200);
           transition: all 0.3s;
         }
+        .men-theme .p-nav-link {
+          background: rgba(255,255,255,0.05);
+          border-color: rgba(255,255,255,0.05);
+          color: var(--slate-200);
+        }
         .p-nav-link:hover {
-          background: rgba(0,0,0,0.04);
-          color: var(--primary);
+          background: var(--fg);
+          color: var(--bg);
+          border-color: var(--fg);
+          transform: translateY(-2px);
         }
         .nav-divider {
           width: 1px;

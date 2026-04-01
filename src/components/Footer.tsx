@@ -20,7 +20,7 @@ export default function Footer() {
         <div className="p-footer-grid">
           <div className="p-brand">
             <Link href="/" className="premium-logo mb-20">
-              Naia<span className="logo-sparkle">💖</span>
+              Naia
             </Link>
             <p className="p-tagline">Elevando tu belleza natural con ciencia avanzada y pasión por lo orgánico.</p>
             <div className="p-socials">

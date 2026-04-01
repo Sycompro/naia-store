@@ -269,12 +269,15 @@ function CatalogContent() {
                     background: var(--bg);
                     border: 1px solid var(--slate-100);
                     box-shadow: var(--shadow-sm);
+                    will-change: transform, box-shadow;
+                    transform: translateZ(0);
+                    backface-visibility: hidden;
                 }
                 .men-theme .p-card {
                     background: var(--glass);
                     border-color: var(--glass-border);
                 }
-                .p-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); }
+                .p-card:hover { transform: translateY(-8px) translateZ(0); box-shadow: var(--shadow-xl); }
                 
                 .p-img-link { display: block; border-radius: var(--radius-lg); overflow: hidden; position: relative; background: var(--slate-100); }
                 .men-theme .p-img-link { background: rgba(0,0,0,0.3); }

@@ -132,8 +132,11 @@ export default function ProductSection() {
           padding: 12px;
           transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           position: relative;
+          will-change: transform, box-shadow;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
-        .p-card:hover { transform: translateY(-12px); box-shadow: var(--shadow-xl); }
+        .p-card:hover { transform: translateY(-12px) translateZ(0); box-shadow: var(--shadow-xl); }
         
         .p-img-wrapper { display: block; border-radius: var(--radius-lg); overflow: hidden; }
         .p-img {
