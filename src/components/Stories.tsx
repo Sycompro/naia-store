@@ -28,16 +28,18 @@ export default function Stories() {
 
   return (
     <section className="stories-section container">
-      <div className="stories-container">
+      <div className="stories-container animate-fade">
         {loading ? (
-          <div className="stories-skeleton"></div>
+          [1, 2, 3, 4, 5].map(i => (
+            <div key={i} className="story-skeleton"></div>
+          ))
         ) : Array.isArray(stories) && stories.length > 0 ? (
           stories.map((story) => (
             <div key={story.id} className="story-item">
-              <div className="story-ring">
-                <div className="story-image" style={{ backgroundImage: `url(${story.imageUrl})` }}></div>
+              <div className="story-ring-premium">
+                <div className="story-image-premium" style={{ backgroundImage: `url(${story.imageUrl})` }}></div>
               </div>
-              <span className="story-name">{story.title}</span>
+              <span className="story-name-premium">{story.title}</span>
             </div>
           ))
         ) : null}
@@ -45,52 +47,92 @@ export default function Stories() {
 
       <style jsx>{`
         .stories-section {
-          padding: 100px 0 20px;
+          padding: 100px 0 30px;
           overflow-x: auto;
           scrollbar-width: none;
+          mask-image: linear-gradient(to right, black 85%, transparent 100%);
         }
         .stories-section::-webkit-scrollbar {
           display: none;
         }
         .stories-container {
           display: flex;
-          gap: 20px;
+          gap: 24px;
           padding: 10px 0;
         }
+        .story-skeleton {
+          width: 84px;
+          height: 84px;
+          border-radius: 50%;
+          background: var(--slate-100);
+          flex-shrink: 0;
+          animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+          0% { opacity: 0.6; }
+          50% { opacity: 1; }
+          100% { opacity: 0.6; }
+        }
+        
         .story-item {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           cursor: pointer;
-          transition: transform 0.3s;
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           flex-shrink: 0;
         }
         .story-item:hover {
-          transform: scale(1.05);
+          transform: translateY(-5px);
         }
-        .story-ring {
-          width: 80px;
-          height: 80px;
+        .story-item:hover .story-ring-premium {
+          padding: 2px;
+          transform: rotate(15deg);
+        }
+        .story-ring-premium {
+          width: 84px;
+          height: 84px;
           border-radius: 50%;
-          padding: 3px;
-          background: linear-gradient(45deg, var(--primary), var(--primary-dark), #FFD700);
+          padding: 4px;
+          background: linear-gradient(45deg, #FF7EB3, #E05A94, #FFB7B2, #FF7EB3);
+          background-size: 300% 300%;
+          animation: gradientMove 5s ease infinite;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-shadow: 0 10px 20px rgba(255, 126, 179, 0.2);
+          transition: all 0.4s;
         }
-        .story-image {
+        
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        .story-image-premium {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          border: 3px solid var(--bg);
+          border: 4px solid var(--white);
           background-size: cover;
           background-position: center;
+          box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
         }
-        .story-name {
+        .story-name-premium {
           font-size: 13px;
-          font-weight: 600;
+          font-weight: 800;
           color: var(--fg);
+          letter-spacing: -0.01em;
+        }
+        
+        :global(.men-theme) .story-ring-premium {
+          background: linear-gradient(45deg, #1e293b, #334155, #94a3b8);
+          box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+        }
+        :global(.men-theme) .story-image-premium {
+          border-color: #0f172a;
         }
       `}</style>
     </section>

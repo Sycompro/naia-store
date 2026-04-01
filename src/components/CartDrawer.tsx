@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { ShoppingCart, X, Plus, Minus, Trash2, Send } from 'lucide-react';
+import { ShoppingCart, X, Plus, Minus, Trash2, Send, Sparkles } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
@@ -16,36 +16,52 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
     };
 
     return (
-        <div className="cart-overlay animate-fade">
-            <div className="cart-drawer glass shadow-lg">
-                <div className="drawer-header">
-                    <h3>Tu Carrito</h3>
-                    <button onClick={onClose} className="close-btn"><X size={24} /></button>
+        <div className="p-cart-overlay animate-fade" onClick={onClose}>
+            <div className="p-cart-drawer glass-premium" onClick={e => e.stopPropagation()}>
+                <div className="p-drawer-header">
+                    <div className="header-top">
+                        <h3 className="text-gradient">Tu Selección</h3>
+                        <button onClick={onClose} className="p-close-btn glass-premium"><X size={20} /></button>
+                    </div>
+                    {cart.length > 0 && (
+                        <div className="p-items-count">
+                            <span>{cart.reduce((acc, item) => acc + item.quantity, 0)} Productos</span>
+                            <Sparkles size={14} className="text-primary" />
+                        </div>
+                    )}
                 </div>
 
-                <div className="drawer-content">
+                <div className="p-drawer-content">
                     {cart.length === 0 ? (
-                        <div className="empty-cart">
-                            <ShoppingCart size={48} />
-                            <p>Tu carrito está vacío</p>
-                            <button onClick={onClose} className="btn btn-primary">Ver Productos</button>
+                        <div className="p-empty-cart">
+                            <div className="empty-icon glass-premium">
+                                <ShoppingCart size={40} strokeWidth={1.5} />
+                            </div>
+                            <h4>Tu carrito espera ser llenado</h4>
+                            <p>Explora nuestras colecciones y descubre tu próximo favorito.</p>
+                            <button onClick={onClose} className="btn-premium btn-primary-v3 mt-20">Ver Catálogo</button>
                         </div>
                     ) : (
-                        <div className="cart-items">
+                        <div className="p-cart-items">
                             {cart.map((item) => (
-                                <div key={item.id} className="cart-item">
-                                    <div className="item-img" style={{ backgroundImage: `url(${item.imageUrl})` }}></div>
-                                    <div className="item-details">
+                                <div key={item.id} className="p-cart-item glass-premium animate-fade">
+                                    <div className="p-item-img" style={{ backgroundImage: `url(${item.imageUrl})` }}></div>
+                                    <div className="p-item-info">
+                                        <div className="p-item-top">
+                                            <span className="p-item-cat">{item.category}</span>
+                                            <button className="p-item-trash" onClick={() => removeFromCart(item.id)}><Trash2 size={16} /></button>
+                                        </div>
                                         <h4>{item.name}</h4>
-                                        <span className="item-price">
-                                            ${(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}
-                                            {isWholesaleActive && <span className="may-tag">May.</span>}
-                                        </span>
-                                        <div className="item-qty">
-                                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}><Minus size={14} /></button>
-                                            <span>{item.quantity}</span>
-                                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}><Plus size={14} /></button>
-                                            <button className="del-item" onClick={() => removeFromCart(item.id)}><Trash2 size={14} /></button>
+                                        <div className="p-item-bottom">
+                                            <span className="p-item-price">
+                                                ${(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}
+                                                {isWholesaleActive && <span className="p-tag-may">Mayorista</span>}
+                                            </span>
+                                            <div className="p-item-qty glass-premium">
+                                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)}><Minus size={14} /></button>
+                                                <span>{item.quantity}</span>
+                                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)}><Plus size={14} /></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -55,75 +71,95 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 </div>
 
                 {cart.length > 0 && (
-                    <div className="drawer-footer">
-                        <div className="total-row">
-                            <span>Total Estimado</span>
-                            <span className="total-price">${totalAmount.toFixed(2)}</span>
+                    <div className="p-drawer-footer glass-premium">
+                        <div className="p-total-row">
+                            <div className="total-l">
+                                <span>Total Estimado</span>
+                                {isWholesaleActive && <span className="wholesale-hint">¡Ahorro mayorista aplicado!</span>}
+                            </div>
+                            <span className="p-total-price">${totalAmount.toFixed(2)}</span>
                         </div>
-                        {isWholesaleActive && <p className="wholesale-msg">¡Precio Mayorista Aplicado! ✨</p>}
-                        <button className="btn btn-primary full-width checkout-btn" onClick={handleWhatsAppCheckout}>
-                            Pedir por WhatsApp <Send size={18} />
+                        <button className="btn-premium btn-primary-v3 w-full checkout-btn" onClick={handleWhatsAppCheckout}>
+                            Finalizar Pedido <Send size={18} />
                         </button>
+                        <p className="p-footer-note">Serás redirigido a WhatsApp para concretar tu pedido.</p>
                     </div>
                 )}
             </div>
 
             <style jsx>{`
-        .cart-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0,0,0,0.4);
-          backdrop-filter: blur(4px);
-          z-index: 2000;
-          display: flex;
-          justify-content: flex-end;
-        }
-        .cart-drawer {
-          width: 100%;
-          max-width: 400px;
-          height: 100%;
-          background: white;
-          display: flex;
-          flex-direction: column;
-          box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-        }
-        .drawer-header {
-          padding: 20px;
-          border-bottom: 1px solid #eee;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .drawer-header h3 { font-size: 20px; font-weight: 700; margin: 0; }
-        .close-btn { background: none; border: none; cursor: pointer; color: #666; }
-        
-        .drawer-content { flex: 1; overflow-y: auto; padding: 20px; }
-        .empty-cart { text-align: center; margin-top: 100px; color: #888; }
-        .empty-cart p { margin: 15px 0 25px; }
+                .p-cart-overlay {
+                    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+                    backdrop-filter: blur(8px); z-index: 2000;
+                    display: flex; justify-content: flex-end;
+                }
+                .p-cart-drawer {
+                    width: 100%; max-width: 440px; height: 100%;
+                    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+                    display: flex; flex-direction: column;
+                    border: none; border-left: 1px solid var(--glass-border);
+                    box-shadow: -20px 0 50px rgba(0,0,0,0.15);
+                }
+                
+                .p-drawer-header { padding: 30px; border-bottom: 1px solid var(--slate-100); }
+                .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+                .header-top h3 { font-size: 24px; font-weight: 800; }
+                .p-close-btn { width: 44px; height: 44px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
+                .p-close-btn:hover { background: var(--secondary); color: var(--primary); transform: rotate(90deg); }
+                
+                .p-items-count { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--slate-400); }
+                .text-primary { color: var(--primary); }
 
-        .cart-items { display: flex; flex-direction: column; gap: 20px; }
-        .cart-item { display: flex; gap: 15px; align-items: center; }
-        .item-img { width: 70px; height: 70px; border-radius: 12px; background-size: cover; background-position: center; border: 1px solid #eee; }
-        .item-details { flex: 1; }
-        .item-details h4 { margin: 0 0 5px; font-size: 14px; }
-        .item-price { font-weight: 700; color: var(--primary-dark); font-size: 15px; display: flex; align-items: center; gap: 5px; }
-        .may-tag { background: #EBF5FF; color: #007bff; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
-        
-        .item-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-        .item-qty button { width: 24px; height: 24px; border: 1px solid #ddd; border-radius: 6px; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .item-qty span { font-size: 14px; font-weight: 600; min-width: 20px; text-align: center; }
-        .del-item { margin-left: auto; color: #ff4d4d; border-color: #ff4d4d !important; }
+                .p-drawer-content { flex: 1; overflow-y: auto; padding: 30px; scrollbar-width: none; }
+                .p-drawer-content::-webkit-scrollbar { display: none; }
 
-        .drawer-footer { padding: 20px; border-top: 1px solid #eee; }
-        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .total-row span:first-child { color: #666; }
-        .total-price { font-size: 24px; font-weight: 800; color: #1a1a1a; }
-        .wholesale-msg { color: #10b981; font-size: 12px; text-align: center; margin-bottom: 10px; font-weight: 600; }
-        .checkout-btn { gap: 10px; padding: 16px; font-size: 16px; border-radius: 14px; }
-      `}</style>
+                .p-empty-cart { text-align: center; margin-top: 80px; }
+                .empty-icon { 
+                    width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 25px;
+                    display: flex; align-items: center; justify-content: center;
+                    color: var(--slate-400);
+                }
+                .p-empty-cart h4 { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
+                .p-empty-cart p { color: var(--slate-400); font-size: 15px; font-weight: 500; line-height: 1.5; }
+                .mt-20 { margin-top: 25px; }
+
+                .p-cart-items { display: flex; flex-direction: column; gap: 20px; }
+                .p-cart-item { padding: 15px; border-radius: 20px; display: flex; gap: 18px; }
+                .p-item-img { 
+                    width: 90px; height: 90px; border-radius: 14px; 
+                    background-size: cover; background-position: center; 
+                    flex-shrink: 0; box-shadow: var(--shadow-sm);
+                }
+                .p-item-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+                .p-item-top { display: flex; justify-content: space-between; align-items: center; }
+                .p-item-cat { font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; }
+                .p-item-trash { background: none; border: none; cursor: pointer; color: var(--slate-300); transition: color 0.3s; }
+                .p-item-trash:hover { color: #f43f5e; }
+                
+                .p-item-info h4 { font-size: 16px; font-weight: 800; margin: 4px 0 10px; line-height: 1.3; }
+                .p-item-bottom { display: flex; justify-content: space-between; align-items: center; }
+                .p-item-price { font-weight: 900; font-size: 17px; display: flex; align-items: center; gap: 8px; color: var(--fg); }
+                .p-tag-may { font-size: 9px; padding: 3px 8px; background: var(--primary-light); color: var(--primary); border-radius: 4px; font-weight: 800; }
+                
+                .p-item-qty { display: flex; align-items: center; gap: 12px; padding: 5px 10px; border-radius: 12px; }
+                .p-item-qty button { background: none; border: none; cursor: pointer; color: var(--fg); display: flex; align-items: center; }
+                .p-item-qty span { font-size: 14px; font-weight: 800; min-width: 20px; text-align: center; }
+
+                .p-drawer-footer { padding: 30px; margin: 0 20px 20px; border-radius: 30px; }
+                .p-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+                .total-l { display: flex; flex-direction: column; }
+                .total-l span:first-child { font-size: 14px; font-weight: 700; color: var(--slate-500); }
+                .wholesale-hint { font-size: 11px; font-weight: 800; color: #10b981; }
+                .p-total-price { font-size: 28px; font-weight: 950; color: var(--fg); }
+                
+                .checkout-btn { height: 60px; font-size: 17px; margin-bottom: 15px; }
+                .p-footer-note { font-size: 12px; text-align: center; color: var(--slate-400); font-weight: 600; }
+                .w-full { width: 100%; justify-content: center; }
+
+                @media (max-width: 500px) {
+                    .p-cart-drawer { max-width: 100%; border-radius: 0; }
+                }
+            `}</style>
         </div>
     );
 }

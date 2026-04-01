@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Menu, User, Sparkles, Moon, Sun, Search, Heart, ShoppingCart } from 'lucide-react';
+import { ShoppingBag, Menu, User, Sparkles, X, LogOut, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -10,12 +10,13 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [theme, setTheme] = useState<'woman' | 'man'>('woman');
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { totalItems } = useCart();
   const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -28,190 +29,337 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled glass' : ''}`}>
-      <div className="container nav-content">
-        <div className="nav-left">
-          <Menu className="mobile-menu" />
-          <Link href="/" className="logo">
-            Naia<span className="logo-heart">❤</span>
-          </Link>
-        </div>
-
-        <div className="nav-center desktop-only">
-          <Link href="/productos" className="nav-link">Productos</Link>
-          <Link href="/novedades" className="nav-link">Novedades</Link>
-          <Link href="/nosotros" className="nav-link">Nosotros</Link>
-          <Link href="/contacto" className="nav-link">Contacto</Link>
-        </div>
-
-        <div className="nav-right">
-          <button onClick={toggleTheme} className={`theme-toggle ${theme}`}>
-            {theme === 'woman' ? 'Ella' : 'Él'}
-          </button>
-
-          <div className="nav-actions">
-            <button className="nav-icon-btn cart-btn" onClick={() => setIsCartOpen(true)}>
-              <ShoppingBag size={22} />
-              {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
-            </button>
-
-            {user ? (
-              <div className="user-nav">
-                <span className="user-name desktop-only">{user.name || 'Usuario'}</span>
-                <button onClick={logout} className="logout-btn">
-                  <User className="nav-icon" />
-                  <span className="logout-tooltip">Cerrar Sesión</span>
-                </button>
-              </div>
-            ) : (
-              <Link href="/auth/login" className="login-link">
-                <User className="nav-icon" />
-              </Link>
-            )}
+    <>
+      <nav className={`nav-v3 ${isScrolled ? 'scrolled' : ''}`}>
+        <div className="nav-container glass-premium">
+          <div className="nav-left">
+            <Link href="/" className="premium-logo">
+              Naia<span className="logo-sparkle">💖</span>
+            </Link>
           </div>
 
-          <button className="nav-icon-btn mobile-only"><Menu size={22} /></button>
+          <div className="nav-center desktop-only">
+            <Link href="/productos" className="p-nav-link">Productos</Link>
+            <Link href="/novedades" className="p-nav-link">Novedades</Link>
+            <div className="nav-divider"></div>
+            <Link href="/nosotros" className="p-nav-link">Nosotros</Link>
+            <Link href="/contacto" className="p-nav-link">Contacto</Link>
+          </div>
+
+          <div className="nav-right">
+            <button onClick={toggleTheme} className={`p-theme-toggle ${theme}`}>
+              <div className="toggle-sphere"></div>
+              <span>{theme === 'woman' ? 'Ella' : 'Él'}</span>
+            </button>
+
+            <div className="p-actions">
+              <button className="p-icon-btn" onClick={() => setIsCartOpen(true)}>
+                <ShoppingBag size={22} strokeWidth={2.5} />
+                {totalItems > 0 && <span className="p-badge">{totalItems}</span>}
+              </button>
+
+              {user ? (
+                <div className="p-user-menu">
+                  <button className="p-user-btn glass-premium">
+                    <User size={20} strokeWidth={2.5} />
+                    <span className="p-user-name desktop-only">{user.name.split(' ')[0]}</span>
+                  </button>
+                  <div className="p-user-dropdown glass-premium">
+                    <Link href="/perfil" className="dropdown-item">Mi Perfil <ChevronRight size={14} /></Link>
+                    <button onClick={logout} className="dropdown-item logout">Cerrar Sesión <LogOut size={14} /></button>
+                  </div>
+                </div>
+              ) : (
+                <Link href="/auth/login" className="p-icon-btn">
+                  <User size={22} strokeWidth={2.5} />
+                </Link>
+              )}
+
+              <button className="p-icon-btn mobile-only" onClick={() => setIsMobileMenuOpen(true)}>
+                <Menu size={24} strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      </nav>
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-content glass-premium">
+          <button className="close-menu" onClick={() => setIsMobileMenuOpen(false)}><X /></button>
+          <div className="mobile-links">
+            <Link href="/productos" onClick={() => setIsMobileMenuOpen(false)}>Productos</Link>
+            <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)}>Novedades</Link>
+            <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)}>Nosotros</Link>
+            <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)}>Contacto</Link>
+          </div>
+        </div>
+      </div>
+
       <style jsx>{`
-        .cart-btn { position: relative; background: none; border: none; cursor: pointer; color: var(--fg); }
-        .cart-badge {
+        .nav-v3 {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          padding: 25px 0;
+          z-index: 1000;
+          transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-v3.scrolled {
+          padding: 15px 0;
+        }
+        .nav-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          height: 70px;
+          border-radius: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 35px;
+          width: 92%;
+          transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-v3.scrolled .nav-container {
+          width: 95%;
+          height: 60px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .premium-logo {
+          font-size: 26px;
+          font-weight: 900;
+          color: var(--fg);
+          text-decoration: none;
+          letter-spacing: -1.5px;
+          display: flex;
+          align-items: center;
+        }
+        .logo-sparkle {
+          font-size: 20px;
+          margin-left: 4px;
+          animation: pulse 2s infinite;
+        }
+        
+        .nav-center {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+        .p-nav-link {
+          padding: 8px 18px;
+          text-decoration: none;
+          color: var(--fg);
+          font-weight: 700;
+          font-size: 14px;
+          border-radius: 20px;
+          transition: all 0.3s;
+        }
+        .p-nav-link:hover {
+          background: rgba(0,0,0,0.04);
+          color: var(--primary);
+        }
+        .nav-divider {
+          width: 1px;
+          height: 18px;
+          background: var(--slate-200);
+          margin: 0 10px;
+        }
+
+        .nav-right {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+        
+        .p-theme-toggle {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: var(--slate-100);
+          border: none;
+          padding: 5px 15px 5px 6px;
+          border-radius: 30px;
+          cursor: pointer;
+          font-weight: 800;
+          font-size: 13px;
+          transition: all 0.4s;
+          color: var(--slate-500);
+        }
+        .toggle-sphere {
+          width: 26px;
+          height: 26px;
+          background: var(--primary);
+          border-radius: 50%;
+          box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+          transition: transform 0.4s;
+        }
+        .p-theme-toggle.man .toggle-sphere {
+          transform: translateX(33px);
+          background: #0f172a;
+        }
+        .p-theme-toggle.man {
+          padding: 5px 6px 5px 15px;
+          flex-direction: row-reverse;
+        }
+
+        .p-actions {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+        .p-icon-btn {
+          position: relative;
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: var(--fg);
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .p-icon-btn:hover {
+          color: var(--primary);
+          transform: translateY(-2px);
+        }
+        .p-badge {
           position: absolute;
-          top: -5px;
-          right: -5px;
+          top: -8px;
+          right: -8px;
           background: var(--primary);
           color: white;
           font-size: 10px;
-          font-weight: 700;
+          font-weight: 900;
           width: 18px;
           height: 18px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 2px solid white;
+          border: 2px solid var(--white);
         }
-        .navbar {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 80px;
-          display: flex;
-          align-items: center;
-          z-index: 1000;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          background: transparent;
-        }
-        .navbar.scrolled {
-          height: 70px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .nav-content {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-        }
-        .logo {
-          font-size: 28px;
-          font-weight: 800;
-          color: var(--primary);
-          text-decoration: none;
-          letter-spacing: -1px;
-          display: flex;
-          align-items: center;
-        }
-        .logo-heart {
-          font-size: 18px;
-          margin-left: 2px;
-          color: var(--primary-dark);
-        }
-        .nav-link {
-          margin: 0 20px;
-          text-decoration: none;
-          color: var(--fg);
-          font-weight: 500;
-          font-size: 15px;
-          transition: color 0.3s;
+
+        .p-user-menu {
           position: relative;
         }
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: -5px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: var(--primary);
-          transition: width 0.3s;
-        }
-        .nav-link:hover::after {
-          width: 100%;
-        }
-        .nav-right {
+        .p-user-btn {
           display: flex;
           align-items: center;
-          gap: 20px;
-        }
-        .nav-icon {
-          width: 22px;
-          height: 22px;
+          gap: 10px;
+          padding: 6px 14px;
+          border-radius: 30px;
+          border: none;
           cursor: pointer;
+          font-weight: 800;
+          font-size: 13px;
           color: var(--fg);
-          transition: transform 0.3s;
-        }
-        .nav-icon:hover {
-          transform: translateY(-2px);
-          color: var(--primary);
-        }
-        .theme-toggle {
-          padding: 6px 16px;
-          border-radius: 20px;
-          border: 2px solid var(--primary);
-          background: transparent;
-          color: var(--primary);
-          font-weight: 700;
-          cursor: pointer;
           transition: all 0.3s;
         }
-        .theme-toggle.man {
-          background: var(--primary);
-          color: white;
-        }
-        .cart-wrapper {
-          position: relative;
-        }
-        .cart-count {
+        .p-user-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        .p-user-dropdown {
           position: absolute;
-          top: -8px;
-          right: -8px;
-          background: var(--primary-dark);
-          color: white;
-          font-size: 10px;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
+          top: 130%;
+          right: 0;
+          width: 180px;
+          padding: 10px;
+          border-radius: 20px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(10px);
+          transition: all 0.3s;
+        }
+        .p-user-menu:hover .p-user-dropdown {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+        .dropdown-item {
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: space-between;
+          padding: 12px 15px;
+          border-radius: 12px;
+          text-decoration: none;
+          color: var(--fg);
           font-weight: 700;
+          font-size: 14px;
+          transition: all 0.2s;
+          width: 100%;
+          border: none;
+          background: none;
+          cursor: pointer;
         }
-        .desktop-only {
-          display: none;
+        .dropdown-item:hover {
+          background: rgba(0,0,0,0.04);
         }
-        @media (min-width: 768px) {
-          .desktop-only {
-            display: flex;
-          }
-          .mobile-menu {
-            display: none;
-          }
+        .dropdown-item.logout { color: #f43f5e; }
+
+        .mobile-only { display: none; }
+        .desktop-only { display: flex; }
+
+        .mobile-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.5);
+          z-index: 2000;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s;
+          display: flex;
+          justify-content: flex-end;
+        }
+        .mobile-overlay.open { opacity: 1; visibility: visible; }
+        .mobile-menu-content {
+          width: 280px;
+          height: 100%;
+          padding: 40px 30px;
+          position: relative;
+          transform: translateX(100%);
+          transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .mobile-overlay.open .mobile-menu-content { transform: translateX(0); }
+        .close-menu {
+          position: absolute;
+          top: 25px;
+          right: 25px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: var(--fg);
+        }
+        .mobile-links {
+          display: flex;
+          flex-direction: column;
+          gap: 25px;
+          margin-top: 60px;
+        }
+        .mobile-links a {
+          font-size: 24px;
+          font-weight: 900;
+          color: var(--fg);
+          text-decoration: none;
+        }
+
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.2); }
+        }
+
+        @media (max-width: 768px) {
+          .desktop-only { display: none; }
+          .mobile-only { display: flex; }
+          .nav-container { padding: 0 15px 0 25px; }
+          .p-theme-toggle { padding: 4px; width: 44px; height: 44px; justify-content: center; }
+          .p-theme-toggle span { display: none; }
+          .p-theme-toggle.man .toggle-sphere { transform: none; }
+          .p-actions { gap: 10px; }
         }
       `}</style>
-    </nav>
+    </>
   );
 }
