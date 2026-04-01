@@ -145,6 +145,7 @@ export default function ProductSection() {
           background-position: center;
           position: relative;
           transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+          border-radius: 20px;
         }
         .p-card:hover .p-img { transform: scale(1.08); }
         

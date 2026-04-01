@@ -281,7 +281,7 @@ function CatalogContent() {
                 
                 .p-img-link { display: block; border-radius: 22px; overflow: hidden; position: relative; background: var(--slate-100); }
                 :global(.men-theme) .p-img-link { background: rgba(0,0,0,0.3); }
-                .p-img-v3 { height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; }
+                .p-img-v3 { height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; border-radius: 22px; }
                 .p-card:hover .p-img-v3 { transform: scale(1.05); }
                 
                 .p-overlay-v3 {
