@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { ArrowRight, Star, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, Star, ShieldCheck } from 'lucide-react';
 
 export default function Hero() {
   const [isMen, setIsMen] = React.useState(false);
@@ -40,7 +40,8 @@ export default function Hero() {
       <div className="container hero-content">
         <div className="hero-text animate-entrance">
           <div className="badge-premium animate-fade">
-            <span>Nueva Colección 2026</span>
+            <Sparkles size={16} />
+            <span>{content.emoji} Nueva Colección 2026</span>
           </div>
 
           <h1 className="hero-title">
@@ -125,17 +126,14 @@ export default function Hero() {
           align-items: center;
           gap: 10px;
           padding: 10px 20px;
-          background: var(--glass);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid var(--glass-border);
+          background: var(--white);
+          border: 1px solid var(--accent);
           border-radius: 50px;
-          color: var(--primary);
+          color: var(--primary-dark);
           font-weight: 800;
           font-size: 13px;
           margin-bottom: 30px;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
+          box-shadow: var(--shadow-md);
         }
         .hero-title {
           font-size: clamp(48px, 6vw, 84px);

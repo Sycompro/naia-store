@@ -142,7 +142,7 @@ export default function RegisterPage() {
                     padding-left: 5px;
                 }
                 .p-input-group input {
-                    padding: 15px;
+                    padding: 16px;
                     border-radius: 16px;
                     border: 1px solid var(--slate-200);
                     background: var(--bg);
@@ -152,20 +152,29 @@ export default function RegisterPage() {
                     outline: none;
                     transition: all 0.3s;
                 }
+                :global(.men-theme) .p-input-group input {
+                    background: rgba(255,255,255,0.03);
+                    border-color: rgba(255,255,255,0.08);
+                }
                 .p-input-group input:focus {
                     border-color: var(--primary);
-                    box-shadow: 0 0 0 3px var(--primary-light);
+                    background: var(--bg);
+                    box-shadow: 0 0 0 4px var(--primary-light);
+                }
+                :global(.men-theme) .p-input-group input:focus {
+                    background: rgba(255,255,255,0.05);
+                    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
                 }
 
                 .auth-error-v3 {
-                    background: #fff1f2;
+                    background: rgba(225, 29, 72, 0.1);
                     color: #e11d48;
                     padding: 14px;
                     border-radius: 12px;
                     font-size: 14px;
                     font-weight: 700;
                     text-align: center;
-                    border: 1px solid rgba(225, 29, 72, 0.1);
+                    border: 1px solid rgba(225, 29, 72, 0.2);
                 }
 
                 .auth-footer-v3 {
@@ -183,6 +192,11 @@ export default function RegisterPage() {
                     align-items: center;
                     gap: 5px;
                     margin-left: 5px;
+                    transition: all 0.3s;
+                }
+                .auth-footer-v3 :global(a:hover) {
+                    opacity: 0.8;
+                    transform: translateX(3px);
                 }
             `}</style>
         </main>

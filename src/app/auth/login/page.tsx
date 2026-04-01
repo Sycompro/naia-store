@@ -3,7 +3,7 @@ import React, { useState, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { Mail, Lock, ArrowRight, CheckCircle } from 'lucide-react';
+import { LogIn, Mail, Lock, ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function LoginForm() {
@@ -43,9 +43,9 @@ function LoginForm() {
         <div className="auth-card-premium glass-premium animate-entrance">
             <div className="auth-header-v3">
                 <div className="auth-icon-premium">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" y1="12" x2="3" y2="12" /></svg>
+                    <LogIn size={28} strokeWidth={2.5} />
                 </div>
-                <h1>Bienveni<span className="text-gradient">do</span></h1>
+                <h1 className="text-gradient">Bienvenido</h1>
                 <p>Ingresa a tu paraíso de belleza personal.</p>
             </div>
 
@@ -87,7 +87,7 @@ function LoginForm() {
             </form>
 
             <div className="auth-footer-v3">
-                ¿Aún no eres parte? <Link href="/auth/register">Crea tu cuenta</Link>
+                ¿Aún no eres parte? <Link href="/auth/register">Crea tu cuenta <Sparkles size={14} /></Link>
             </div>
 
             <style jsx>{`
@@ -112,8 +112,7 @@ function LoginForm() {
                     margin: 0 auto 20px;
                     box-shadow: var(--shadow-sm);
                 }
-                :global(.men-theme) .auth-icon-premium { background: rgba(14, 165, 233, 0.15); }
-                .auth-header-v3 h1 { font-size: 36px; margin-bottom: 10px; color: var(--fg); }
+                .auth-header-v3 h1 { font-size: 36px; margin-bottom: 10px; }
                 .auth-header-v3 p { color: var(--slate-500); font-size: 15px; font-weight: 500; }
 
                 .auth-form-v3 { display: flex; flex-direction: column; gap: 24px; }
@@ -138,23 +137,32 @@ function LoginForm() {
                     outline: none;
                     transition: all 0.3s;
                 }
+                :global(.men-theme) .p-input-group input {
+                    background: rgba(255,255,255,0.03);
+                    border-color: rgba(255,255,255,0.08);
+                }
                 .p-input-group input:focus {
                     border-color: var(--primary);
-                    box-shadow: 0 0 0 3px var(--primary-light);
+                    background: var(--bg);
+                    box-shadow: 0 0 0 4px var(--primary-light);
+                }
+                :global(.men-theme) .p-input-group input:focus {
+                    background: rgba(255,255,255,0.05);
+                    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
                 }
 
                 .auth-error-v3 {
-                    background: #fff1f2;
+                    background: rgba(225, 29, 72, 0.1);
                     color: #e11d48;
                     padding: 14px;
                     border-radius: 12px;
                     font-size: 14px;
                     font-weight: 700;
                     text-align: center;
-                    border: 1px solid rgba(225, 29, 72, 0.1);
+                    border: 1px solid rgba(225, 29, 72, 0.2);
                 }
                 .auth-success-v3 {
-                    background: #f0fdf4;
+                    background: rgba(22, 163, 74, 0.1);
                     color: #16a34a;
                     padding: 14px;
                     border-radius: 12px;
@@ -165,7 +173,7 @@ function LoginForm() {
                     align-items: center;
                     justify-content: center;
                     gap: 10px;
-                    border: 1px solid rgba(22, 163, 74, 0.1);
+                    border: 1px solid rgba(22, 163, 74, 0.2);
                 }
 
                 .auth-footer-v3 {
@@ -183,6 +191,11 @@ function LoginForm() {
                     align-items: center;
                     gap: 5px;
                     margin-left: 5px;
+                    transition: all 0.3s;
+                }
+                .auth-footer-v3 :global(a:hover) {
+                    opacity: 0.8;
+                    transform: translateX(3px);
                 }
             `}</style>
         </div>
