@@ -116,7 +116,7 @@ export default function Navbar() {
         .nav-container {
           max-width: 1200px;
           margin: 0 auto;
-          height: 70px;
+          height: 85px;
           border-radius: 50px;
           display: flex;
           align-items: center;
@@ -127,26 +127,26 @@ export default function Navbar() {
         }
         .nav-v3.scrolled .nav-container {
           width: 95%;
-          height: 60px;
+          height: 70px;
           box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
         
         .premium-logo {
-          font-size: 30px;
+          font-size: 42px;
           font-weight: 800;
           color: var(--fg);
           text-decoration: none;
-          letter-spacing: 3px;
+          letter-spacing: 4px;
           display: flex;
           align-items: center;
-          gap: 2px;
+          gap: 4px;
           text-transform: uppercase;
           font-style: italic;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
         }
         .premium-logo:hover {
-          letter-spacing: 5px;
+          letter-spacing: 7px;
         }
         .logo-text {
           display: inline-block;
@@ -158,14 +158,14 @@ export default function Navbar() {
           -webkit-text-fill-color: transparent;
         }
         .logo-dot {
-          width: 7px;
-          height: 7px;
+          width: 10px;
+          height: 10px;
           border-radius: 50%;
           background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
           display: inline-block;
-          margin-left: 1px;
-          margin-bottom: -2px;
-          box-shadow: 0 0 10px var(--primary-light);
+          margin-left: 2px;
+          margin-bottom: -4px;
+          box-shadow: 0 0 12px var(--primary-light);
           animation: logoPulse 3s ease-in-out infinite;
         }
         @keyframes logoPulse {
