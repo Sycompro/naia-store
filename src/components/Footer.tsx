@@ -142,6 +142,7 @@ export default function Footer() {
           outline: none;
           font-weight: 600;
           font-size: 14px;
+          color: var(--fg);
         }
         .p-news-btn {
           width: 48px;
@@ -149,13 +150,15 @@ export default function Footer() {
           border-radius: 14px;
           border: none;
           background: var(--fg);
-          color: white;
+          color: var(--bg);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           transition: all 0.3s;
+          flex-shrink: 0;
         }
+        :global(.men-theme) .p-news-btn { background: var(--primary); color: white; }
         .p-news-btn:hover { background: var(--primary); transform: scale(1.05); }
 
         .p-footer-bottom {
