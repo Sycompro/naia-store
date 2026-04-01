@@ -41,7 +41,7 @@ export default function Hero() {
         <div className="hero-text animate-entrance">
           <div className="badge-premium animate-fade">
             <Sparkles size={16} />
-            <span>{content.emoji} Nueva Colección 2026</span>
+            <span>Nueva Colección 2026</span>
           </div>
 
           <h1 className="hero-title">
@@ -127,10 +127,12 @@ export default function Hero() {
           align-items: center;
           gap: 10px;
           padding: 10px 20px;
-          background: var(--white);
-          border: 1px solid var(--accent);
+          background: var(--glass);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid var(--glass-border);
           border-radius: 50px;
-          color: var(--primary-dark);
+          color: var(--primary);
           font-weight: 800;
           font-size: 13px;
           margin-bottom: 30px;
