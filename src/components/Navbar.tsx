@@ -62,7 +62,7 @@ export default function Navbar() {
                 <div className="p-user-menu">
                   <button className="p-user-btn glass-premium">
                     <User size={20} strokeWidth={2.5} />
-                    <span className="p-user-name desktop-only">{user.name.split(' ')[0]}</span>
+                    <span className="p-user-name desktop-only">{user?.name?.split(' ')[0] || 'Invitado'}</span>
                   </button>
                   <div className="p-user-dropdown glass-premium">
                     <Link href="/perfil" className="dropdown-item">Mi Perfil <ChevronRight size={14} /></Link>

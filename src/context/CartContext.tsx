@@ -9,6 +9,8 @@ type CartItem = {
     imageUrl: string;
     quantity: number;
     presentation: string;
+    category: string;
+    gender: string;
 };
 
 type CartContextType = {
@@ -57,6 +59,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                     wholesalePrice: product.wholesalePrice,
                     imageUrl: product.imageUrl,
                     presentation: product.presentation,
+                    category: product.category || 'Belleza',
+                    gender: product.gender || 'Femenino',
                     quantity: 1,
                 },
             ];
