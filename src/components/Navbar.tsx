@@ -110,17 +110,17 @@ export default function Navbar() {
           top: 0;
           left: 0;
           width: 100%;
-          padding: 25px 0;
+          padding: 12px 0;
           z-index: 1000;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .nav-v3.scrolled {
-          padding: 15px 0;
+          padding: 8px 0;
         }
         .nav-container {
           max-width: 1300px;
           margin: 0 auto;
-          height: 100px;
+          height: 80px;
           border-radius: 50px;
           display: flex;
           align-items: center;
@@ -131,7 +131,7 @@ export default function Navbar() {
         }
         .nav-v3.scrolled .nav-container {
           width: 96%;
-          height: 80px;
+          height: 64px;
           box-shadow: 0 10px 40px rgba(0,0,0,0.12);
         }
         
@@ -142,7 +142,7 @@ export default function Navbar() {
           text-decoration: none !important;
           letter-spacing: 2px !important;
           display: flex !important;
-          align-items: baseline !important;
+          align-items: center !important;
           gap: 2px;
           text-transform: uppercase;
           font-style: italic;
