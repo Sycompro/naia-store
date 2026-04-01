@@ -164,7 +164,7 @@ export default function Hero() {
           transition: all 0.3s;
           display: inline-flex;
           align-items: center;
-          background: var(--white);
+          background: var(--bg);
         }
         .btn-outline-premium:hover {
           border-color: var(--primary);
