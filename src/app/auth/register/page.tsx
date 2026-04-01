@@ -145,7 +145,8 @@ export default function RegisterPage() {
                     padding: 15px;
                     border-radius: 16px;
                     border: 1px solid var(--slate-200);
-                    background: rgba(255, 255, 255, 0.5);
+                    background: var(--bg);
+                    color: var(--fg);
                     font-size: 15px;
                     font-weight: 600;
                     outline: none;
@@ -153,8 +154,7 @@ export default function RegisterPage() {
                 }
                 .p-input-group input:focus {
                     border-color: var(--primary);
-                    background: white;
-                    box-shadow: 0 0 0 4px var(--primary-light);
+                    box-shadow: 0 0 0 3px var(--primary-light);
                 }
 
                 .auth-error-v3 {

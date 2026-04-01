@@ -3,7 +3,7 @@ import React, { useState, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { LogIn, Mail, Lock, ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
+import { Mail, Lock, ArrowRight, CheckCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function LoginForm() {
@@ -43,9 +43,9 @@ function LoginForm() {
         <div className="auth-card-premium glass-premium animate-entrance">
             <div className="auth-header-v3">
                 <div className="auth-icon-premium">
-                    <LogIn size={28} strokeWidth={2.5} />
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" y1="12" x2="3" y2="12" /></svg>
                 </div>
-                <h1 className="text-gradient">Bienvenido</h1>
+                <h1>Bienveni<span className="text-gradient">do</span></h1>
                 <p>Ingresa a tu paraíso de belleza personal.</p>
             </div>
 
@@ -87,7 +87,7 @@ function LoginForm() {
             </form>
 
             <div className="auth-footer-v3">
-                ¿Aún no eres parte? <Link href="/auth/register">Crea tu cuenta <Sparkles size={14} /></Link>
+                ¿Aún no eres parte? <Link href="/auth/register">Crea tu cuenta</Link>
             </div>
 
             <style jsx>{`
@@ -112,7 +112,8 @@ function LoginForm() {
                     margin: 0 auto 20px;
                     box-shadow: var(--shadow-sm);
                 }
-                .auth-header-v3 h1 { font-size: 36px; margin-bottom: 10px; }
+                :global(.men-theme) .auth-icon-premium { background: rgba(14, 165, 233, 0.15); }
+                .auth-header-v3 h1 { font-size: 36px; margin-bottom: 10px; color: var(--fg); }
                 .auth-header-v3 p { color: var(--slate-500); font-size: 15px; font-weight: 500; }
 
                 .auth-form-v3 { display: flex; flex-direction: column; gap: 24px; }
@@ -130,7 +131,8 @@ function LoginForm() {
                     padding: 16px;
                     border-radius: 16px;
                     border: 1px solid var(--slate-200);
-                    background: rgba(255, 255, 255, 0.5);
+                    background: var(--bg);
+                    color: var(--fg);
                     font-size: 15px;
                     font-weight: 600;
                     outline: none;
@@ -138,8 +140,7 @@ function LoginForm() {
                 }
                 .p-input-group input:focus {
                     border-color: var(--primary);
-                    background: white;
-                    box-shadow: 0 0 0 4px var(--primary-light);
+                    box-shadow: 0 0 0 3px var(--primary-light);
                 }
 
                 .auth-error-v3 {
