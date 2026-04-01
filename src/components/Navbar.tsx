@@ -34,7 +34,11 @@ export default function Navbar() {
         <div className="nav-container glass-premium">
           <div className="nav-left">
             <Link href="/" id="main-naia-logo" className="premium-logo" style={{ fontSize: '56px', fontWeight: '800', letterSpacing: '2px', display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-              <span className="logo-text" style={{ fontSize: '56px' }}>N<span className="logo-highlight">ai</span>a</span>
+              {theme === 'woman' ? (
+                <span className="logo-text" style={{ fontSize: '56px' }}>N<span className="logo-highlight">ai</span>a</span>
+              ) : (
+                <span className="logo-text" style={{ fontSize: '56px' }}>N<span className="logo-highlight">oi</span>r</span>
+              )}
               <span className="logo-dot" style={{ width: '12px', height: '12px', marginBottom: '8px' }}></span>
             </Link>
           </div>
