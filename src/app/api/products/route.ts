@@ -32,3 +32,20 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
     }
 }
+
+export async function PATCH(request: Request) {
+    try {
+        const { id, stock } = await request.json();
+        if (!id || stock === undefined) {
+            return NextResponse.json({ error: 'ID y stock requeridos' }, { status: 400 });
+        }
+        const product = await prisma.product.update({
+            where: { id: parseInt(id) },
+            data: { stock: parseInt(stock) }
+        });
+        return NextResponse.json(product);
+    } catch (error) {
+        return NextResponse.json({ error: 'Error al actualizar stock' }, { status: 500 });
+    }
+}
+

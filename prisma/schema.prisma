@@ -39,6 +39,20 @@ model User {
   email     String   @unique
   password  String
   name      String?
+  phone     String?
   role      String   @default("USER") // USER, ADMIN
   createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  items      String   // JSON string of cart items
+  total      Float
+  status     String   @default("PENDIENTE") // PENDIENTE, EN_PROCESO, ENTREGADO, CANCELADO
+  note       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

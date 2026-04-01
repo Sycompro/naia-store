@@ -94,6 +94,7 @@ export default function Navbar() {
             <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)}>Novedades</Link>
             <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)}>Nosotros</Link>
             <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)}>Contacto</Link>
+            {user && <Link href="/perfil" onClick={() => setIsMobileMenuOpen(false)}>Mi Perfil</Link>}
           </div>
         </div>
       </div>
