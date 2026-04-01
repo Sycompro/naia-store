@@ -41,7 +41,7 @@ export default function Hero() {
         <div className="hero-text animate-entrance">
           <div className="badge-premium animate-fade">
             <Sparkles size={16} />
-            <span>Nueva Colección 2026</span>
+            <span>{content.emoji} Nueva Colección 2026</span>
           </div>
 
           <h1 className="hero-title">
@@ -87,14 +87,13 @@ export default function Hero() {
                 <div className="footer-tag">New</div>
               </div>
             </div>
-            <div className="floating-element element-1 glass-premium">
-              <div className="icon-box"><Sparkles size={20} /></div>
+            <div className="floating-element element-1">
               <div className="text-box">
                 <span className="bold">100% Orgánico</span>
                 <span className="small">Pureza certificada</span>
               </div>
             </div>
-            <div className="floating-element element-2 glass-premium">
+            <div className="floating-element element-2">
               <div className="user-avatars">
                 <div className="avatar" style={{ backgroundColor: '#FFD2E5' }}></div>
                 <div className="avatar" style={{ backgroundColor: '#E05A94' }}></div>
@@ -127,12 +126,10 @@ export default function Hero() {
           align-items: center;
           gap: 10px;
           padding: 10px 20px;
-          background: var(--glass);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid var(--glass-border);
+          background: var(--white);
+          border: 1px solid var(--accent);
           border-radius: 50px;
-          color: var(--primary);
+          color: var(--primary-dark);
           font-weight: 800;
           font-size: 13px;
           margin-bottom: 30px;
@@ -243,6 +240,10 @@ export default function Hero() {
           align-items: center;
           gap: 15px;
           z-index: 10;
+          background: rgba(255,255,255,0.08);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255,255,255,0.1);
         }
         .element-1 {
           top: -20px;
