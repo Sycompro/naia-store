@@ -138,7 +138,7 @@ export default function ProductSection() {
         }
         .p-card:hover { transform: translateY(-12px) translateZ(0); box-shadow: var(--shadow-xl); }
         
-        .p-img-wrapper { display: block; border-radius: var(--radius-lg); overflow: hidden; }
+        .p-img-wrapper { display: block; border-radius: 20px; overflow: hidden; }
         .p-img {
           height: 280px;
           background-size: cover;
