@@ -34,7 +34,8 @@ export default function Navbar() {
         <div className="nav-container glass-premium">
           <div className="nav-left">
             <Link href="/" className="premium-logo">
-              Naia
+              <span className="logo-text">N<span className="logo-highlight">ai</span>a</span>
+              <span className="logo-dot"></span>
             </Link>
           </div>
 
@@ -131,13 +132,45 @@ export default function Navbar() {
         }
         
         .premium-logo {
-          font-size: 26px;
-          font-weight: 900;
+          font-size: 30px;
+          font-weight: 800;
           color: var(--fg);
           text-decoration: none;
-          letter-spacing: -1.5px;
+          letter-spacing: 3px;
           display: flex;
           align-items: center;
+          gap: 2px;
+          text-transform: uppercase;
+          font-style: italic;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+        }
+        .premium-logo:hover {
+          letter-spacing: 5px;
+        }
+        .logo-text {
+          display: inline-block;
+        }
+        .logo-highlight {
+          background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .logo-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
+          display: inline-block;
+          margin-left: 1px;
+          margin-bottom: -2px;
+          box-shadow: 0 0 10px var(--primary-light);
+          animation: logoPulse 3s ease-in-out infinite;
+        }
+        @keyframes logoPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(0.8); }
         }
         
         .nav-center {
