@@ -1,9 +1,19 @@
 'use client';
 import React from 'react';
-import { Mail, MapPin, Phone, Heart, Globe, Share2, Instagram, Facebook, Twitter, Send } from 'lucide-react';
+import { Mail, MapPin, Phone, Heart, Globe, Share2, Send } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
+  const InstagramIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+  );
+  const FacebookIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+  );
+  const TwitterIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.2-18 11.6 7.2 1.5 11-5.4 11-5.4-5.7-1.4-1.5-8.7-1.5-8.7A10.7 10.7 0 0 1 12 8s3.4-1.5 10-4z"></path></svg>
+  );
+
   return (
     <footer className="p-footer mesh-bg">
       <div className="container">
@@ -14,9 +24,9 @@ export default function Footer() {
             </Link>
             <p className="p-tagline">Elevando tu belleza natural con ciencia avanzada y pasión por lo orgánico.</p>
             <div className="p-socials">
-              <a href="#" className="p-social-btn glass-premium"><Instagram size={20} /></a>
-              <a href="#" className="p-social-btn glass-premium"><Facebook size={20} /></a>
-              <a href="#" className="p-social-btn glass-premium"><Twitter size={20} /></a>
+              <a href="#" className="p-social-btn glass-premium"><InstagramIcon /></a>
+              <a href="#" className="p-social-btn glass-premium"><FacebookIcon /></a>
+              <a href="#" className="p-social-btn glass-premium"><TwitterIcon /></a>
             </div>
           </div>
 
