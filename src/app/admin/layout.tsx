@@ -5,70 +5,70 @@ import { LayoutDashboard, Package, Image as ImageIcon, Settings, LogOut, Chevron
 import { usePathname } from 'next/navigation';
 
 export default function AdminLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const pathname = usePathname();
+  const pathname = usePathname();
 
-    const menuItems = [
-        { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin' },
-        { name: 'Productos', icon: <Package size={20} />, path: '/admin/productos' },
-        { name: 'Historias', icon: <ImageIcon size={20} />, path: '/admin/historias' },
-        { name: 'Configuración', icon: <Settings size={20} />, path: '/admin/config' },
-    ];
+  const menuItems = [
+    { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin' },
+    { name: 'Productos', icon: <Package size={20} />, path: '/admin/productos' },
+    { name: 'Historias', icon: <ImageIcon size={20} />, path: '/admin/historias' },
+    { name: 'Configuración', icon: <Settings size={20} />, path: '/admin/config' },
+  ];
 
-    return (
-        <div className="admin-layout">
-            {/* Sidebar */}
-            <aside className="admin-sidebar glass">
-                <div className="sidebar-header">
-                    <Link href="/" className="admin-logo">
-                        Naia<span>Admin</span>
-                    </Link>
-                </div>
+  return (
+    <div className="admin-layout">
+      {/* Sidebar */}
+      <aside className="admin-sidebar glass">
+        <div className="sidebar-header">
+          <Link href="/" className="admin-logo">
+            Naia<span>Admin</span>
+          </Link>
+        </div>
 
-                <nav className="sidebar-nav">
-                    {menuItems.map((item) => (
-                        <Link
-                            key={item.path}
-                            href={item.path}
-                            className={`nav-item ${pathname === item.path ? 'active' : ''}`}
-                        >
-                            {item.icon}
-                            <span>{item.name}</span>
-                            <ChevronRight className="arrow" size={14} />
-                        </Link>
-                    ))}
-                </nav>
+        <nav className="sidebar-nav">
+          {menuItems.map((item) => (
+            <Link
+              key={item.path}
+              href={item.path}
+              className={`nav-item ${pathname === item.path ? 'active' : ''}`}
+            >
+              {item.icon}
+              <span>{item.name}</span>
+              <ChevronRight className="arrow" size={14} />
+            </Link>
+          ))}
+        </nav>
 
-                <div className="sidebar-footer">
-                    <button className="logout-btn">
-                        <LogOut size={20} />
-                        <span>Cerrar Sesión</span>
-                    </button>
-                </div>
-            </aside>
+        <div className="sidebar-footer">
+          <button className="logout-btn">
+            <LogOut size={20} />
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </aside>
 
-            {/* Main Content */}
-            <main className="admin-main">
-                <header className="admin-header glass">
-                    <div className="header-left">
-                        <h1>{menuItems.find(i => i.path === pathname)?.name || 'Panel Admin'}</h1>
-                    </div>
-                    <div className="header-right">
-                        <div className="admin-profile">
-                            <div className="avatar">AD</div>
-                            <span>Administrador</span>
-                        </div>
-                    </div>
-                </header>
-                <section className="admin-content">
-                    {children}
-                </section>
-            </main>
+      {/* Main Content */}
+      <main className="admin-main">
+        <header className="admin-header glass">
+          <div className="header-left">
+            <h1>{menuItems.find(i => i.path === pathname)?.name || 'Panel Admin'}</h1>
+          </div>
+          <div className="header-right">
+            <div className="admin-profile">
+              <div className="avatar">AD</div>
+              <span>Administrador</span>
+            </div>
+          </div>
+        </header>
+        <section className="admin-content">
+          {children}
+        </section>
+      </main>
 
-            <style jsx>{`
+      <style jsx>{`
         .admin-layout {
           display: flex;
           min-height: 100vh;
@@ -97,7 +97,7 @@ export default function AdminLayout({
           text-decoration: none;
         }
         .admin-logo span {
-          color: #333;
+          color: var(--fg-muted);
           font-weight: 400;
           margin-left: 5px;
         }
@@ -114,7 +114,7 @@ export default function AdminLayout({
           padding: 12px 16px;
           border-radius: 12px;
           text-decoration: none;
-          color: #555;
+          color: var(--fg-muted);
           font-weight: 500;
           transition: all 0.3s;
         }
@@ -195,6 +195,6 @@ export default function AdminLayout({
           animation: fadeIn 0.4s ease-out;
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 }

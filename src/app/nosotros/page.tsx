@@ -72,13 +72,14 @@ export default function NosotrosPage() {
         .badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: 700; display: inline-block; margin-bottom: 20px; }
         .about-hero h1 { font-size: 64px; font-weight: 900; margin-bottom: 20px; letter-spacing: -2px; }
         .text-gradient { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .lead { font-size: 20px; color: #666; max-width: 700px; margin: 0 auto; }
+        .lead { font-size: 20px; color: var(--slate-500); max-width: 700px; margin: 0 auto; }
 
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 80px; align-items: center; }
-        .about-text { padding: 40px; border-radius: 32px; font-size: 18px; line-height: 1.8; color: #444; }
+        .about-text { padding: 40px; border-radius: 32px; font-size: 18px; line-height: 1.8; color: var(--slate-500); }
         .section-title { font-size: 36px; font-weight: 800; margin-bottom: 25px; color: var(--fg); }
-        .about-image-card { height: 400px; border-radius: 32px; display: flex; align-items: center; justify-content: center; background: white; }
-        .about-image-placeholder { width: 100%; height: 100%; background: linear-gradient(45deg, #fce4ec, #f3e5f5); border-radius: 20px; display: flex; align-items: center; justify-content: center; }
+        .about-image-card { height: 400px; border-radius: 32px; display: flex; align-items: center; justify-content: center; background: var(--glass); }
+        .about-image-placeholder { width: 100%; height: 100%; background: var(--slate-100); border-radius: 20px; display: flex; align-items: center; justify-content: center; }
+        .men-theme .about-image-placeholder { background: rgba(0,0,0,0.4); }
         .floating-icon { color: var(--primary); animation: float 3s ease-in-out infinite; }
         
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }

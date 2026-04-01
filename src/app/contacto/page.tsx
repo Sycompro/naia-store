@@ -97,7 +97,7 @@ export default function ContactoPage() {
         .info-card { padding: 30px; border-radius: 24px; display: flex; align-items: center; gap: 20px; }
         .icon-box { width: 50px; height: 50px; background: var(--primary-light); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .info-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
-        .info-card p { color: #666; font-weight: 500; }
+        .info-card p { color: var(--slate-500); font-weight: 500; }
         
         .social-connect { padding: 30px; border-radius: 24px; text-align: center; }
         .social-btns { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }

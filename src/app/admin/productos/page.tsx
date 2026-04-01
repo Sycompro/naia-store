@@ -233,32 +233,32 @@ export default function AdminProductos() {
             <style jsx>{`
         .product-admin { display: flex; flex-direction: column; gap: 24px; }
         .admin-toolbar { padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
-        .search-bar { display: flex; align-items: center; gap: 10px; background: #fff; padding: 8px 16px; border-radius: 10px; width: 300px; border: 1px solid #eee; }
+        .search-bar { display: flex; align-items: center; gap: 10px; background: #fff; padding: 8px 16px; border-radius: 10px; width: 300px; border: 1px solid var(--slate-200); }
         .search-bar input { border: none; outline: none; width: 100%; font-size: 14px; }
         .toolbar-actions { display: flex; gap: 12px; }
         .product-table-container { border-radius: 16px; overflow-x: auto; background: white; }
-        .admin-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 800px; }
-        .admin-table th { text-align: left; padding: 16px; background: rgba(0,0,0,0.02); color: #666; font-weight: 600; border-bottom: 1px solid #eee; }
-        .admin-table td { padding: 16px; border-bottom: 1px solid #eee; }
+        .admin-table { width: 100%; border-collapse: collapse; }
+        .admin-table th { text-align: left; padding: 16px; background: rgba(0,0,0,0.02); color: var(--slate-500); font-weight: 600; border-bottom: 1px solid var(--slate-200); }
+        .admin-table td { padding: 16px; border-bottom: 1px solid var(--slate-100); vertical-align: middle; }
         .table-img { width: 48px; height: 48px; border-radius: 8px; background-size: cover; background-position: center; }
         .table-name { display: flex; flex-direction: column; }
-        .table-name span { font-size: 10px; color: #888; }
+        .table-name span { font-size: 10px; color: var(--slate-400); }
         .badge-tag { background: var(--secondary); color: var(--primary-dark); padding: 4px 10px; border-radius: 30px; font-size: 11px; font-weight: 700; }
         .table-actions { display: flex; gap: 8px; }
-        .action-icon { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #eee; background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
+        .action-icon { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--slate-200); background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
         .action-icon.edit:hover { background: #EBF5FF; color: #007bff; }
         .action-icon.delete:hover { background: #FFF5F5; color: #ff4d4d; }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal-content { width: 100%; max-width: 500px; padding: 30px; border-radius: 24px; background: white; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .modal-header h3 { font-size: 20px; font-weight: 700; color: #333; }
-        .modal-header button { background: none; border: none; cursor: pointer; color: #888; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .modal-header h3 { font-size: 20px; font-weight: 700; color: var(--fg); }
+        .modal-header button { background: none; border: none; cursor: pointer; color: var(--slate-400); }
         
         .admin-form { display: flex; flex-direction: column; gap: 16px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group label { font-size: 13px; font-weight: 600; color: #555; }
-        .form-group input, .form-group select { padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd; outline: none; transition: border 0.3s; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .form-group label { font-size: 13px; font-weight: 600; color: var(--slate-500); }
+        .form-group input, .form-group select { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--slate-300); outline: none; transition: border 0.3s; }
         .form-group input:focus { border-color: var(--primary); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .form-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }

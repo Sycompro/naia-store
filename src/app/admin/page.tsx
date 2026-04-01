@@ -35,7 +35,7 @@ export default function AdminPage() {
                     <h3>Accesos Rápidos</h3>
                     <div className="quick-actions">
                         <button className="btn btn-primary">Añadir Producto</button>
-                        <button className="btn btn-outline" style={{ borderColor: '#333', color: '#333' }}>Subir Historia</button>
+                        <button className="btn btn-outline" style={{ borderColor: 'var(--fg)', color: 'var(--fg)' }}>Subir Historia</button>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@ export default function AdminPage() {
             gap: 12px;
         }
         .btn-outline {
-            border: 2px solid #333;
+            border: 2px solid var(--fg);
             background: transparent;
         }
       `}</style>

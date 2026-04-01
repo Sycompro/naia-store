@@ -123,23 +123,25 @@ export default function AdminHistorias() {
             <style jsx>{`
         .stories-admin { display: flex; flex-direction: column; gap: 24px; }
         .admin-toolbar { padding: 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
-        .toolbar-info p { color: #666; font-size: 14px; }
+        .toolbar-info h2 { font-size: 24px; font-weight: 800; margin-bottom: 5px; color: var(--fg); }
+        .toolbar-info p { color: var(--slate-500); font-size: 14px; }
         
         .stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
         .story-card { border-radius: 20px; overflow: hidden; padding: 10px; text-align: center; }
         .story-preview { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 10px; background-size: cover; background-position: center; border: 3px solid var(--primary); position: relative; }
         .delete-story { position: absolute; top: -5px; right: -5px; background: #ff4d4d; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .story-info strong { font-size: 14px; color: #333; }
-
+        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal-content { width: 100%; max-width: 400px; padding: 30px; border-radius: 24px; background: white; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .modal-header h3 { font-size: 20px; font-weight: 700; }
-        .modal-header button { background: none; border: none; cursor: pointer; color: #888; }
+        .modal-header button { background: none; border: none; cursor: pointer; color: var(--slate-400); }
         
         .admin-form { display: flex; flex-direction: column; gap: 16px; }
+        .story-info { padding: 15px; display: flex; flex-direction: column; gap: 5px; }
+        .story-info strong { font-size: 14px; color: var(--fg); }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group label { font-size: 13px; font-weight: 600; color: #555; }
+        .form-group label { font-size: 13px; font-weight: 600; color: var(--slate-600); }
         .form-group input { padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
         .form-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
       `}</style>
