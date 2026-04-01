@@ -178,16 +178,21 @@ export default function Navbar() {
         .p-theme-toggle {
           display: flex;
           align-items: center;
-          gap: 10px;
+          justify-content: space-between;
+          width: 74px;
           background: var(--slate-100);
           border: none;
-          padding: 5px 15px 5px 6px;
+          padding: 5px 6px;
           border-radius: 30px;
           cursor: pointer;
           font-weight: 800;
           font-size: 13px;
           transition: all 0.4s;
           color: var(--slate-500);
+        }
+        .p-theme-toggle span {
+          flex: 1;
+          text-align: center;
         }
         .toggle-sphere {
           width: 26px;
@@ -197,13 +202,11 @@ export default function Navbar() {
           box-shadow: 0 3px 8px rgba(0,0,0,0.1);
           transition: transform 0.4s;
         }
-        .p-theme-toggle.man .toggle-sphere {
-          transform: translateX(33px);
-          background: #0f172a;
-        }
         .p-theme-toggle.man {
-          padding: 5px 6px 5px 15px;
           flex-direction: row-reverse;
+        }
+        .p-theme-toggle.man .toggle-sphere {
+          background: var(--primary);
         }
 
         .p-actions {

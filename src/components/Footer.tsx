@@ -74,7 +74,7 @@ export default function Footer() {
       <style jsx>{`
         .p-footer {
           padding: 100px 0 50px;
-          border-top: 1px solid var(--slate-100);
+          border-top: 1px solid var(--glass-border);
           position: relative;
           z-index: 10;
         }
@@ -160,7 +160,7 @@ export default function Footer() {
 
         .p-footer-bottom {
           padding-top: 40px;
-          border-top: 1px solid var(--slate-100);
+          border-top: 1px solid var(--glass-border);
           display: flex;
           justify-content: space-between;
           align-items: center;

@@ -46,19 +46,25 @@
 }
 
 .men-theme {
-  --p-h: 210;
-  --p-s: 30%;
-  --p-l: 25%;
-  --primary: hsl(var(--p-h), var(--p-s), var(--p-l));
-  --primary-dark: #0f172a;
-  --primary-light: #f1f5f9;
-  --secondary: #f8fafc;
-  --accent: #e2e8f0;
-  --mesh-1: #334155;
-  --mesh-2: #1e293b;
-  --mesh-3: #94a3b8;
-  --glass: rgba(15, 23, 42, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --p-h: 200;
+  --p-s: 90%;
+  --p-l: 45%;
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+  --primary-light: #e0f2fe;
+  --secondary: #0f172a;
+  --accent: #38bdf8;
+  --bg: #0f172a;
+  --fg: #f8fafc;
+  --slate-500: #94a3b8;
+  --slate-400: #64748b;
+  --slate-100: rgba(255, 255, 255, 0.05);
+  --slate-200: rgba(255, 255, 255, 0.1);
+  --mesh-1: #1e293b;
+  --mesh-2: #0f172a;
+  --mesh-3: #0284c7;
+  --glass: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -142,6 +148,7 @@ h4 {
 .text-gradient {
   background: linear-gradient(135deg, var(--fg) 50%, var(--primary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -165,7 +172,7 @@ h4 {
 
 .btn-primary-v3 {
   background: var(--fg);
-  color: white;
+  color: var(--bg);
 }
 
 .btn-primary-v3:hover {
