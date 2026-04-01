@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Link from 'next/link';
 import { ShoppingBag, Heart, Share2, Shield, Truck, RotateCcw, Star, ChevronRight, Sparkles } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import ShareModal from '@/components/ShareModal';
