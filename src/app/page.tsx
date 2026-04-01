@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Stories from '@/components/Stories';
 import ProductSection from '@/components/ProductSection';
+import Footer from '@/components/Footer';
 import { MessageCircle } from 'lucide-react';
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <Stories />
       <Hero />
       <ProductSection />
+      <Footer />
 
       {/* Floating WhatsApp Button */}
       <a
