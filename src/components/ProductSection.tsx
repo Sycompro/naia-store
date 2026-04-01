@@ -80,12 +80,12 @@ export default function ProductSection() {
               <div className="p-price-v3 glass-premium">
                 <div className="price-item">
                   <span className="l">Unitario</span>
-                  <span className="v">${product.unitPrice.toFixed(2)}</span>
+                  <span className="v">S/ {product.unitPrice.toFixed(2)}</span>
                 </div>
                 <div className="price-divider"></div>
                 <div className="price-item wholesale">
                   <span className="l">Mayorista</span>
-                  <span className="v">${product.wholesalePrice.toFixed(2)}</span>
+                  <span className="v">S/ {product.wholesalePrice.toFixed(2)}</span>
                 </div>
               </div>
 

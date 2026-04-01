@@ -80,12 +80,12 @@ export default function ProductDetailPage() {
                     <div className="p-detail-prices-v3 glass-premium">
                         <div className="price-main">
                             <span className="p-label-v3">Precio Unitario</span>
-                            <span className="p-val-v3">${product.unitPrice.toFixed(2)}</span>
+                            <span className="p-val-v3">S/ {product.unitPrice.toFixed(2)}</span>
                         </div>
                         <div className="price-v-divider"></div>
                         <div className="price-secondary">
                             <span className="p-label-v3">Mayorista <span className="p-extra">(Desde 3 unid.)</span></span>
-                            <span className="p-val-v3 wholesale">${product.wholesalePrice.toFixed(2)}</span>
+                            <span className="p-val-v3 wholesale">S/ {product.wholesalePrice.toFixed(2)}</span>
                         </div>
                     </div>
 

@@ -157,11 +157,11 @@ function CatalogContent() {
                                     <div className="p-prices-v3 glass-premium">
                                         <div className="p-price-item">
                                             <span className="label">Unidad</span>
-                                            <span className="val">${product.unitPrice.toFixed(2)}</span>
+                                            <span className="val">S/ {product.unitPrice.toFixed(2)}</span>
                                         </div>
                                         <div className="p-price-item wholesale">
                                             <span className="label">Mayorista</span>
-                                            <span className="val">${product.wholesalePrice.toFixed(2)}</span>
+                                            <span className="val">S/ {product.wholesalePrice.toFixed(2)}</span>
                                         </div>
                                     </div>
 

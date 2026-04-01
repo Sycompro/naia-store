@@ -126,8 +126,8 @@ export default function AdminProductos() {
                                 </td>
                                 <td><span className="badge-tag">{product.category}</span></td>
                                 <td>{product.gender === 'FEMALE' ? 'Ella' : 'Él'}</td>
-                                <td>${product.unitPrice.toFixed(2)}</td>
-                                <td>${product.wholesalePrice.toFixed(2)}</td>
+                                <td>S/ {product.unitPrice.toFixed(2)}</td>
+                                <td>S/ {product.wholesalePrice.toFixed(2)}</td>
                                 <td>{product.presentation}</td>
                                 <td>
                                     <div className="table-actions">

@@ -11,7 +11,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
     const handleWhatsAppCheckout = () => {
         const message = `*Nuevo Pedido Naia*%0A%0A` +
             cart.map(item => `- ${item.name} x${item.quantity} (${isWholesaleActive ? 'May.' : 'Unit.'})`).join('%0A') +
-            `%0A%0A*Total: $${totalAmount.toFixed(2)}*`;
+            `%0A%0A*Total: S/ ${totalAmount.toFixed(2)}*`;
         window.open(`https://wa.me/51944399377?text=${message}`, '_blank');
     };
 
@@ -54,7 +54,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                                         <h4>{item.name}</h4>
                                         <div className="p-item-bottom">
                                             <span className="p-item-price">
-                                                ${(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}
+                                                S/ {(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}
                                                 {isWholesaleActive && <span className="p-tag-may">Mayorista</span>}
                                             </span>
                                             <div className="p-item-qty glass-premium">
@@ -77,7 +77,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                                 <span>Total Estimado</span>
                                 {isWholesaleActive && <span className="wholesale-hint">¡Ahorro mayorista aplicado!</span>}
                             </div>
-                            <span className="p-total-price">${totalAmount.toFixed(2)}</span>
+                            <span className="p-total-price">S/ {totalAmount.toFixed(2)}</span>
                         </div>
                         <button className="btn-premium btn-primary-v3 w-full checkout-btn" onClick={handleWhatsAppCheckout}>
                             Finalizar Pedido <Send size={18} />

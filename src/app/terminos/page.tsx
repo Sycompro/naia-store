@@ -32,7 +32,7 @@ export default function TerminosPage() {
                             <CreditCard size={20} />
                             <h2>Pagos y Transacciones</h2>
                         </div>
-                        <p>Todas las transacciones se procesan de manera segura. Los precios mostrados están en dólares americanos ($) e incluyen el detalle de precio unitario y mayorista cuando aplica.</p>
+                        <p>Todas las transacciones se procesan de manera segura. Los precios mostrados están en Soles Peruanos (S/) e incluyen el detalle de precio unitario y mayorista cuando aplica.</p>
                     </section>
 
                     <section className="legal-section">
