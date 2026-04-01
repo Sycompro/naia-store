@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Search, Filter, ChevronDown, SlidersHorizontal } from 'lucide-react';
+import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import ShareModal from '@/components/ShareModal';
 
@@ -138,14 +139,18 @@ export default function ProductosPage() {
                                     {product.presentation}
                                 </div>
                                 <div className="product-image-container">
-                                    <img src={product.imageUrl} alt={product.name} className="product-image" />
+                                    <Link href={`/productos/${product.id}`}>
+                                        <img src={product.imageUrl} alt={product.name} className="product-image" />
+                                    </Link>
                                     <div className="product-overlay">
                                         <button className="btn-quick-view" onClick={() => addToCart(product as any)}>Añadir</button>
                                     </div>
                                 </div>
                                 <div className="product-info">
                                     <span className="product-category">{product.category}</span>
-                                    <h3 className="product-name">{product.name}</h3>
+                                    <Link href={`/productos/${product.id}`} className="product-name-link">
+                                        <h3 className="product-name">{product.name}</h3>
+                                    </Link>
                                     <div className="product-prices">
                                         <span className="price-unit">${product.unitPrice.toFixed(2)}</span>
                                         <span className="price-wholesale">Mayorista: ${product.wholesalePrice.toFixed(2)}</span>
@@ -163,17 +168,17 @@ export default function ProductosPage() {
                 </div>
             </div>
 
-            {selectedProduct && isShareModalOpen && (
+            {isShareModalOpen && selectedProduct && (
                 <ShareModal
                     isOpen={isShareModalOpen}
                     onClose={() => setIsShareModalOpen(false)}
-                    productName={selectedProduct.name}
-                    productPrice={selectedProduct.unitPrice}
-                    productUrl={`${window.location.origin}/productos/${selectedProduct.id}`}
+                    product={selectedProduct}
                 />
             )}
 
             <style jsx>{`
+        .product-name-link { text-decoration: none; color: inherit; }
+        .product-name-link:hover .product-name { color: var(--primary); }
         .catalog-page { padding-top: 100px; min-height: 100vh; background: var(--bg); }
         .catalog-hero {
           background: linear-gradient(135deg, var(--primary-light), var(--bg));

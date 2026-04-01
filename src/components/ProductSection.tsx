@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Heart, Share2, Info } from 'lucide-react';
+import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import ShareModal from './ShareModal';
 
@@ -52,16 +53,20 @@ export default function ProductSection() {
           </div>
         ) : filteredProducts.map((product) => (
           <div key={product.id} className="product-card glass animate-fade">
-            <div className="product-image" style={{ backgroundImage: `url(${product.imageUrl})` }}>
-              <div className="product-badges">
-                {product.isBestSeller && <span className="badge-mini">Top</span>}
+            <Link href={`/productos/${product.id}`} className="product-image-link">
+              <div className="product-image" style={{ backgroundImage: `url(${product.imageUrl})` }}>
+                <div className="product-badges">
+                  {product.isBestSeller && <span className="badge-mini">Top</span>}
+                </div>
               </div>
-              <button className="wishlist-btn"><Heart size={18} /></button>
-            </div>
+            </Link>
+            <button className="wishlist-btn"><Heart size={18} /></button>
 
             <div className="product-info">
               <span className="product-category">{product.category}</span>
-              <h3>{product.name}</h3>
+              <Link href={`/productos/${product.id}`} className="product-name-link">
+                <h3>{product.name}</h3>
+              </Link>
               <p className="presentation">{product.presentation}</p>
 
               <div className="price-container">
@@ -84,7 +89,7 @@ export default function ProductSection() {
                 </button>
                 <div className="icon-btns">
                   <button className="icon-btn" onClick={() => setSharingProduct(product)}><Share2 size={18} /></button>
-                  <button className="icon-btn"><Info size={18} /></button>
+                  <Link href={`/productos/${product.id}`} className="icon-btn"><Info size={18} /></Link>
                 </div>
               </div>
             </div>
@@ -135,6 +140,9 @@ export default function ProductSection() {
           transform: translateY(-10px);
           box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
+        .product-image-link { display: block; text-decoration: none; }
+        .product-name-link { text-decoration: none; color: inherit; }
+        .product-name-link:hover h3 { color: var(--primary); }
         .product-image {
           height: 250px;
           background-size: cover;

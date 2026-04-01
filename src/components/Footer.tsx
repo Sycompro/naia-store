@@ -1,65 +1,65 @@
 'use client';
 import React from 'react';
-import { Instagram, Facebook, Twitter, Mail, MapPin, Phone, Heart } from 'lucide-react';
+import { Mail, MapPin, Phone, Heart, Globe, Share2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
-    return (
-        <footer className="main-footer">
-            <div className="container">
-                <div className="footer-grid">
-                    <div className="footer-brand">
-                        <Link href="/" className="footer-logo">
-                            Naia<span className="logo-heart">❤</span>
-                        </Link>
-                        <p className="footer-tagline">Elevando tu belleza natural con ciencia y pasión.</p>
-                        <div className="social-links">
-                            <a href="#" className="social-icon"><Instagram size={20} /></a>
-                            <a href="#" className="social-icon"><Facebook size={20} /></a>
-                            <a href="#" className="social-icon"><Twitter size={20} /></a>
-                        </div>
-                    </div>
-
-                    <div className="footer-links">
-                        <h4>Navegación</h4>
-                        <ul>
-                            <li><Link href="/productos">Catálogo</Link></li>
-                            <li><Link href="/novedades">Novedades</Link></li>
-                            <li><Link href="/nosotros">Nuestra Historia</Link></li>
-                            <li><Link href="/contacto">Contacto</Link></li>
-                        </ul>
-                    </div>
-
-                    <div className="footer-links">
-                        <h4>Categorías</h4>
-                        <ul>
-                            <li><Link href="/productos?cat=Facial">Cuidado Facial</Link></li>
-                            <li><Link href="/productos?cat=Capilar">Cuidado Capilar</Link></li>
-                            <li><Link href="/productos?cat=Corporal">Corporal</Link></li>
-                            <li><Link href="/productos?cat=Hombres">Para Él</Link></li>
-                        </ul>
-                    </div>
-
-                    <div className="footer-contact">
-                        <h4>Suscríbete</h4>
-                        <p>Recibe ofertas exclusivas y novedades.</p>
-                        <div className="newsletter-box">
-                            <input type="email" placeholder="tu-correo@ejemplo.com" />
-                            <button>Unirse</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="footer-bottom">
-                    <p>&copy; 2026 Naia Beauty Store. Hecho con <Heart size={14} className="heart-icon" /> para ti.</p>
-                    <div className="footer-legal">
-                        <a href="#">Privacidad</a>
-                        <a href="#">Términos</a>
-                    </div>
-                </div>
+  return (
+    <footer className="main-footer">
+      <div className="container">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <Link href="/" className="footer-logo">
+              Naia<span className="logo-heart">❤</span>
+            </Link>
+            <p className="footer-tagline">Elevando tu belleza natural con ciencia y pasión.</p>
+            <div className="social-links">
+              <a href="#" className="social-icon"><Globe size={20} /></a>
+              <a href="#" className="social-icon"><Share2 size={20} /></a>
+              <a href="#" className="social-icon"><Mail size={20} /></a>
             </div>
+          </div>
 
-            <style jsx>{`
+          <div className="footer-links">
+            <h4>Navegación</h4>
+            <ul>
+              <li><Link href="/productos">Catálogo</Link></li>
+              <li><Link href="/novedades">Novedades</Link></li>
+              <li><Link href="/nosotros">Nuestra Historia</Link></li>
+              <li><Link href="/contacto">Contacto</Link></li>
+            </ul>
+          </div>
+
+          <div className="footer-links">
+            <h4>Categorías</h4>
+            <ul>
+              <li><Link href="/productos?cat=Facial">Cuidado Facial</Link></li>
+              <li><Link href="/productos?cat=Capilar">Cuidado Capilar</Link></li>
+              <li><Link href="/productos?cat=Corporal">Corporal</Link></li>
+              <li><Link href="/productos?cat=Hombres">Para Él</Link></li>
+            </ul>
+          </div>
+
+          <div className="footer-contact">
+            <h4>Suscríbete</h4>
+            <p>Recibe ofertas exclusivas y novedades.</p>
+            <div className="newsletter-box">
+              <input type="email" placeholder="tu-correo@ejemplo.com" />
+              <button>Unirse</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p>&copy; 2026 Naia Beauty Store. Hecho con <Heart size={14} className="heart-icon" /> para ti.</p>
+          <div className="footer-legal">
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
         .main-footer {
           background: white;
           padding: 80px 0 40px;
@@ -143,6 +143,6 @@ export default function Footer() {
           .footer-bottom { text-align: center; justify-content: center; }
         }
       `}</style>
-        </footer>
-    );
+    </footer>
+  );
 }

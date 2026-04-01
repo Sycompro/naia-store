@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ShoppingBag, Menu, User, Sparkles, Moon, Sun, Search, Heart, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import CartDrawer from './CartDrawer';
 
 export default function Navbar() {
@@ -10,6 +11,7 @@ export default function Navbar() {
   const [theme, setTheme] = useState<'woman' | 'man'>('woman');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { totalItems } = useCart();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,13 +48,29 @@ export default function Navbar() {
           <button onClick={toggleTheme} className={`theme-toggle ${theme}`}>
             {theme === 'woman' ? 'Ella' : 'Él'}
           </button>
-          <Search className="nav-icon" />
-          <button className="nav-icon-btn cart-btn" onClick={() => setIsCartOpen(true)}>
-            <ShoppingBag size={22} />
-            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
-          </button>
+
+          <div className="nav-actions">
+            <button className="nav-icon-btn cart-btn" onClick={() => setIsCartOpen(true)}>
+              <ShoppingBag size={22} />
+              {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+            </button>
+
+            {user ? (
+              <div className="user-nav">
+                <span className="user-name desktop-only">{user.name || 'Usuario'}</span>
+                <button onClick={logout} className="logout-btn">
+                  <User className="nav-icon" />
+                  <span className="logout-tooltip">Cerrar Sesión</span>
+                </button>
+              </div>
+            ) : (
+              <Link href="/auth/login" className="login-link">
+                <User className="nav-icon" />
+              </Link>
+            )}
+          </div>
+
           <button className="nav-icon-btn mobile-only"><Menu size={22} /></button>
-          <User className="nav-icon desktop-only" />
         </div>
       </div>
 

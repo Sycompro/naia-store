@@ -2,7 +2,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Mail, Phone, MapPin, Send, Instagram, Facebook } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Globe, Share2 } from 'lucide-react';
 
 export default function ContactoPage() {
     return (
@@ -46,8 +46,8 @@ export default function ContactoPage() {
                         <div className="social-connect glass">
                             <h3>Síguenos</h3>
                             <div className="social-btns">
-                                <a href="#"><Instagram /></a>
-                                <a href="#"><Facebook /></a>
+                                <a href="#"><Globe /></a>
+                                <a href="#"><Share2 /></a>
                             </div>
                         </div>
                     </div>

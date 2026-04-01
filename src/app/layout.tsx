@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import { CartProvider } from '../context/CartContext';
+import { AuthProvider } from '../context/AuthContext';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
@@ -21,9 +22,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={outfit.variable}>
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            {children}
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
