@@ -246,13 +246,15 @@ function CatalogContent() {
 
                 .p-chips { 
                     display: flex; 
+                    flex-wrap: nowrap !important;
                     gap: 12px; 
                     overflow-x: auto; 
-                    padding: 4px 2px;
+                    padding: 8px 10px;
                     scrollbar-width: none; /* Firefox */
                     -ms-overflow-style: none;  /* IE and Edge */
                     scroll-behavior: smooth;
                     -webkit-overflow-scrolling: touch;
+                    width: 100%;
                 }
                 .p-chips::-webkit-scrollbar { display: none; } /* Chrome, Safari, Opera */
                 
