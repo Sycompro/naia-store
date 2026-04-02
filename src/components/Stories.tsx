@@ -1,10 +1,13 @@
 'use client';
 import React from 'react';
+import StoryViewer from './StoryViewer';
 
 export default function Stories() {
   const [stories, setStories] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [currentGender, setCurrentGender] = React.useState('FEMALE');
+  const [viewerOpen, setViewerOpen] = React.useState(false);
+  const [initialIndex, setInitialIndex] = React.useState(0);
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -31,11 +34,14 @@ export default function Stories() {
       <div className="stories-container animate-fade">
         {loading ? (
           [1, 2, 3, 4, 5].map(i => (
-            <div key={i} className="story-skeleton"></div>
+            <div key={i} className="story-skeleton" style={{ flexShrink: 0 }}></div>
           ))
         ) : Array.isArray(stories) && stories.length > 0 ? (
-          stories.map((story) => (
-            <div key={story.id} className="story-item">
+          stories.map((story, index) => (
+            <div key={story.id} className="story-item" onClick={() => {
+              setInitialIndex(index);
+              setViewerOpen(true);
+            }}>
               <div className="story-ring-premium">
                 <div className="story-image-premium" style={{ backgroundImage: `url(${story.imageUrl})` }}></div>
               </div>
@@ -44,6 +50,14 @@ export default function Stories() {
           ))
         ) : null}
       </div>
+
+      {viewerOpen && (
+        <StoryViewer
+          stories={stories}
+          initialIndex={initialIndex}
+          onClose={() => setViewerOpen(false)}
+        />
+      )}
 
       <style jsx>{`
         .stories-section {

@@ -113,6 +113,7 @@ export default function Navbar() {
           padding: 12px 0;
           z-index: 1000;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+          pointer-events: none;
         }
         .nav-v3.scrolled {
           padding: 8px 0;
@@ -128,6 +129,7 @@ export default function Navbar() {
           padding: 0 40px;
           width: 94%;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+          pointer-events: auto;
         }
         .nav-v3.scrolled .nav-container {
           width: 96%;
