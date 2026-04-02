@@ -35,14 +35,41 @@ model Story {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String?
-  phone     String?
-  role      String   @default("USER") // USER, ADMIN
-  createdAt DateTime @default(now())
-  orders    Order[]
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  password      String
+  name          String?
+  phone         String?
+  role          String         @default("USER") // USER, ADMIN
+  whatsappOptIn Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  orders        Order[]
+  conversations Conversation[]
+}
+
+model Conversation {
+  id          String    @id @default(uuid())
+  phone       String    @unique
+  name        String?
+  status      String    @default("OPEN") // OPEN, CLOSED, ARCHIVED
+  unreadCount Int       @default(0)
+  lastMessage String?
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+  updatedAt   DateTime  @updatedAt
+  messages    Message[]
+  createdAt   DateTime  @default(now())
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         String       // USER, ADMIN, SYSTEM
+  content        String
+  type           String       @default("TEXT") // TEXT, IMAGE, DOCUMENT
+  status         String       @default("SENT") // SENT, DELIVERED, READ, FAILED
+  createdAt      DateTime     @default(now())
 }
 
 model Order {

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { LayoutDashboard, Package, Image as ImageIcon, Settings, LogOut, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Package, Image as ImageIcon, Settings, LogOut, ChevronRight, MessageSquare } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export default function AdminLayout({
@@ -15,6 +15,7 @@ export default function AdminLayout({
     { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin' },
     { name: 'Productos', icon: <Package size={20} />, path: '/admin/productos' },
     { name: 'Historias', icon: <ImageIcon size={20} />, path: '/admin/historias' },
+    { name: 'Chat', icon: <MessageSquare size={20} />, path: '/admin/chat' },
     { name: 'Configuración', icon: <Settings size={20} />, path: '/admin/config' },
   ];
 

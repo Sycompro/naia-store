@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import Stories from '@/components/Stories';
 import ProductSection from '@/components/ProductSection';
 import Footer from '@/components/Footer';
+import FloatingChat from '@/components/FloatingChat';
 import { MessageCircle } from 'lucide-react';
 
 export default function Home() {
@@ -58,6 +59,7 @@ export default function Home() {
             .whatsapp-float { padding: 12px; }
         }
       `}</style>
+      <FloatingChat />
     </main>
   );
 }
