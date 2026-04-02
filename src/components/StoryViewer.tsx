@@ -24,7 +24,11 @@ export default function StoryViewer({ stories, initialIndex, onClose }: StoryVie
 
   useEffect(() => {
     setMounted(true);
-    return () => setMounted(false);
+    document.body.classList.add('stories-open');
+    return () => {
+      setMounted(false);
+      document.body.classList.remove('stories-open');
+    };
   }, []);
 
   useEffect(() => {
@@ -118,16 +122,16 @@ export default function StoryViewer({ stories, initialIndex, onClose }: StoryVie
       <style jsx>{`
         .story-viewer-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
+          inset: 0;
           width: 100vw;
           height: 100vh;
-          background: rgba(0, 0, 0, 0.98);
-          z-index: 9999;
+          background: rgba(0, 0, 0, 0.99) !important;
+          z-index: 99999 !important;
           display: flex;
           align-items: center;
           justify-content: center;
-          backdrop-filter: blur(20px);
+          backdrop-filter: blur(25px);
+          pointer-events: auto;
         }
         .story-viewer-container {
           position: relative;

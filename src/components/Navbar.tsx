@@ -115,6 +115,9 @@ export default function Navbar() {
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           pointer-events: none;
         }
+        :global(body.stories-open) .nav-v3 {
+          display: none !important;
+        }
         .nav-v3.scrolled {
           padding: 8px 0;
         }
