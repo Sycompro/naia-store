@@ -222,12 +222,12 @@ function CatalogContent() {
                     background: var(--glass);
                 }
                 
-                .p-search-wrapper { position: relative; flex: 1; }
-                .search-icon-p { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--slate-400); }
+                .p-search-wrapper { position: relative; width: 100%; display: block; }
+                .search-icon-p { position: absolute; left: 18px; top: 52%; transform: translateY(-50%); color: var(--slate-400); pointer-events: none; z-index: 5; }
                 .p-search-input {
                     width: 100%;
-                    padding: 14px 16px 14px 45px;
-                    border-radius: 14px;
+                    padding: 16px 20px 16px 50px;
+                    border-radius: 18px;
                     border: 1px solid var(--slate-200);
                     background: transparent;
                     color: var(--fg);
