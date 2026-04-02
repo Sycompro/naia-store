@@ -244,21 +244,45 @@ function CatalogContent() {
                 }
                 .p-search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 
-                .p-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+                .p-chips { 
+                    display: flex; 
+                    gap: 12px; 
+                    overflow-x: auto; 
+                    padding: 4px 2px;
+                    scrollbar-width: none; /* Firefox */
+                    -ms-overflow-style: none;  /* IE and Edge */
+                    scroll-behavior: smooth;
+                    -webkit-overflow-scrolling: touch;
+                }
+                .p-chips::-webkit-scrollbar { display: none; } /* Chrome, Safari, Opera */
+                
                 .p-chip {
-                    padding: 8px 18px;
-                    border-radius: 30px;
+                    padding: 10px 22px;
+                    border-radius: 50px;
                     border: 1px solid var(--slate-200);
-                    background: transparent;
+                    background: var(--bg);
                     color: var(--slate-500);
                     font-weight: 700;
-                    font-size: 13px;
+                    font-size: 14px;
+                    white-space: nowrap;
                     cursor: pointer;
-                    transition: all 0.3s;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    flex-shrink: 0;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
                 }
-                :global(.men-theme) .p-chip { border-color: rgba(255,255,255,0.1); color: var(--slate-300); }
-                .p-chip:hover { border-color: var(--primary); color: var(--primary); }
-                .p-chip.active { background: var(--fg); color: var(--bg); border-color: var(--fg); box-shadow: var(--shadow-md); }
+                :global(.men-theme) .p-chip { 
+                    border-color: rgba(255,255,255,0.08); 
+                    background: rgba(255,255,255,0.03);
+                    color: var(--slate-300); 
+                }
+                .p-chip:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 12px var(--primary-light); }
+                .p-chip.active { 
+                    background: var(--fg); 
+                    color: var(--bg); 
+                    border-color: var(--fg); 
+                    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+                    transform: scale(1.05);
+                }
 
                 .p-grid-v3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
                 .p-skeleton { height: 420px; border-radius: var(--radius-xl); animation: pulse 1.5s infinite; background: var(--slate-100); }
