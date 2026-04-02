@@ -11,10 +11,15 @@ export async function GET(request: Request) {
     }
 
     try {
-        const whereClause = conversationId ? { conversationId } : { conversation: { phone } };
+        const query: any = {};
+        if (conversationId) {
+            query.conversationId = conversationId;
+        } else if (phone) {
+            query.conversation = { phone: phone as string };
+        }
 
         const messages = await prisma.message.findMany({
-            where: whereClause,
+            where: query,
             orderBy: { createdAt: 'asc' },
         });
 
