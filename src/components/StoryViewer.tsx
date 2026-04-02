@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Story {
@@ -17,13 +18,20 @@ interface StoryViewerProps {
 export default function StoryViewer({ stories, initialIndex, onClose }: StoryViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [progress, setProgress] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const progressTimer = useRef<NodeJS.Timeout | null>(null);
   const STORY_DURATION = 5000; // 5 seconds per story
 
   useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     startProgress();
     return () => stopProgress();
-  }, [currentIndex]);
+  }, [currentIndex, mounted]);
 
   const startProgress = () => {
     stopProgress();
@@ -62,9 +70,9 @@ export default function StoryViewer({ stories, initialIndex, onClose }: StoryVie
 
   const currentStory = stories[currentIndex];
 
-  if (!currentStory) return null;
+  if (!currentStory || !mounted) return null;
 
-  return (
+  const viewerContent = (
     <div className="story-viewer-overlay">
       <div className="story-viewer-container glass">
         {/* Progress Bars */}
@@ -244,4 +252,6 @@ export default function StoryViewer({ stories, initialIndex, onClose }: StoryVie
       `}</style>
     </div>
   );
+
+  return createPortal(viewerContent, document.body);
 }
