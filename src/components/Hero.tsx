@@ -16,7 +16,7 @@ export default function Hero() {
   }, []);
 
   const content = isMen ? {
-    emoji: '🕴️',
+    emoji: '',
     title: 'Cuidado Facial para el ',
     highlight: 'Hombre Moderno',
     subtitle: 'Rutinas simplificadas, resultados potentes. Tecnología avanzada en skincare masculino de alta gama.',
@@ -25,7 +25,7 @@ export default function Hero() {
     image: '/men-hero.png',
     gradient: 'linear-gradient(135deg, #334155 0%, #1e293b 100%)'
   } : {
-    emoji: '✨',
+    emoji: '',
     title: 'Descubre tu Brillo ',
     highlight: 'Natural',
     subtitle: 'Productos premium diseñados para resaltar tu belleza única. Ingredientes naturales con ciencia avanzada.',
@@ -134,6 +134,14 @@ export default function Hero() {
           font-size: 13px;
           margin-bottom: 30px;
           box-shadow: var(--shadow-md);
+          transition: all 0.3s ease;
+        }
+        :global(.men-theme) .badge-premium {
+          background: rgba(255, 255, 255, 0.1) !important;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-color: rgba(255, 255, 255, 0.2);
+          color: white;
         }
         .hero-title {
           font-size: clamp(48px, 6vw, 84px);
