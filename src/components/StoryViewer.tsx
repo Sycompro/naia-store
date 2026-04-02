@@ -3,119 +3,119 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Story {
-    id: number;
-    title: string;
-    imageUrl: string;
+  id: number;
+  title: string;
+  imageUrl: string;
 }
 
 interface StoryViewerProps {
-    stories: Story[];
-    initialIndex: number;
-    onClose: () => void;
+  stories: Story[];
+  initialIndex: number;
+  onClose: () => void;
 }
 
 export default function StoryViewer({ stories, initialIndex, onClose }: StoryViewerProps) {
-    const [currentIndex, setCurrentIndex] = useState(initialIndex);
-    const [progress, setProgress] = useState(0);
-    const progressTimer = useRef<NodeJS.Timeout | null>(null);
-    const STORY_DURATION = 5000; // 5 seconds per story
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [progress, setProgress] = useState(0);
+  const progressTimer = useRef<NodeJS.Timeout | null>(null);
+  const STORY_DURATION = 5000; // 5 seconds per story
 
-    useEffect(() => {
-        startProgress();
-        return () => stopProgress();
-    }, [currentIndex]);
+  useEffect(() => {
+    startProgress();
+    return () => stopProgress();
+  }, [currentIndex]);
 
-    const startProgress = () => {
-        stopProgress();
-        setProgress(0);
-        const startTime = Date.now();
+  const startProgress = () => {
+    stopProgress();
+    setProgress(0);
+    const startTime = Date.now();
 
-        progressTimer.current = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const newProgress = (elapsed / STORY_DURATION) * 100;
+    progressTimer.current = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const newProgress = (elapsed / STORY_DURATION) * 100;
 
-            if (newProgress >= 100) {
-                handleNext();
-            } else {
-                setProgress(newProgress);
-            }
-        }, 50);
-    };
+      if (newProgress >= 100) {
+        handleNext();
+      } else {
+        setProgress(newProgress);
+      }
+    }, 50);
+  };
 
-    const stopProgress = () => {
-        if (progressTimer.current) clearInterval(progressTimer.current);
-    };
+  const stopProgress = () => {
+    if (progressTimer.current) clearInterval(progressTimer.current);
+  };
 
-    const handleNext = () => {
-        if (currentIndex < stories.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-        } else {
-            onClose();
-        }
-    };
+  const handleNext = () => {
+    if (currentIndex < stories.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      onClose();
+    }
+  };
 
-    const handlePrev = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
-        }
-    };
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
 
-    const currentStory = stories[currentIndex];
+  const currentStory = stories[currentIndex];
 
-    if (!currentStory) return null;
+  if (!currentStory) return null;
 
-    return (
-        <div className="story-viewer-overlay">
-            <div className="story-viewer-container glass">
-                {/* Progress Bars */}
-                <div className="progress-container">
-                    {stories.map((_, index) => (
-                        <div key={index} className="progress-bar-bg">
-                            <div
-                                className="progress-bar-fill"
-                                style={{
-                                    width: index < currentIndex ? '100%' : index === currentIndex ? `${progress}%` : '0%',
-                                    transition: index === currentIndex ? 'none' : 'width 0.3s'
-                                }}
-                            ></div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Header */}
-                <div className="viewer-header">
-                    <div className="viewer-info">
-                        <div className="viewer-avatar" style={{ backgroundImage: `url(${currentStory.imageUrl})` }}></div>
-                        <span className="viewer-name">{currentStory.title}</span>
-                    </div>
-                    <button className="close-btn" onClick={onClose}><X size={24} /></button>
-                </div>
-
-                {/* Story Content */}
-                <div className="story-content" style={{ backgroundImage: `url(${currentStory.imageUrl})` }}>
-                    {/* Navigation Tap Zones */}
-                    <div className="tap-zone left" onClick={handlePrev}></div>
-                    <div className="tap-zone right" onClick={handleNext}></div>
-                </div>
-
-                {/* Navigation Buttons (Desktop) */}
-                <button className="nav-btn prev" onClick={handlePrev} disabled={currentIndex === 0}>
-                    <ChevronLeft size={32} />
-                </button>
-                <button className="nav-btn next" onClick={handleNext}>
-                    <ChevronRight size={32} />
-                </button>
+  return (
+    <div className="story-viewer-overlay">
+      <div className="story-viewer-container glass">
+        {/* Progress Bars */}
+        <div className="progress-container">
+          {stories.map((_, index) => (
+            <div key={index} className="progress-bar-bg">
+              <div
+                className="progress-bar-fill"
+                style={{
+                  width: index < currentIndex ? '100%' : index === currentIndex ? `${progress}%` : '0%',
+                  transition: index === currentIndex ? 'none' : 'width 0.3s'
+                }}
+              ></div>
             </div>
+          ))}
+        </div>
 
-            <style jsx>{`
+        {/* Header */}
+        <div className="viewer-header">
+          <div className="viewer-info">
+            <div className="viewer-avatar" style={{ backgroundImage: `url(${currentStory.imageUrl})` }}></div>
+            <span className="viewer-name">{currentStory.title}</span>
+          </div>
+          <button className="close-btn" onClick={onClose}><X size={24} /></button>
+        </div>
+
+        {/* Story Content */}
+        <div className="story-content" style={{ backgroundImage: `url(${currentStory.imageUrl})` }}>
+          {/* Navigation Tap Zones */}
+          <div className="tap-zone left" onClick={handlePrev}></div>
+          <div className="tap-zone right" onClick={handleNext}></div>
+        </div>
+
+        {/* Navigation Buttons (Desktop) */}
+        <button className="nav-btn prev" onClick={handlePrev} disabled={currentIndex === 0}>
+          <ChevronLeft size={32} />
+        </button>
+        <button className="nav-btn next" onClick={handleNext}>
+          <ChevronRight size={32} />
+        </button>
+      </div>
+
+      <style jsx>{`
         .story-viewer-overlay {
           position: fixed;
           top: 0;
           left: 0;
           width: 100vw;
           height: 100vh;
-          background: rgba(0, 0, 0, 0.95);
-          z-index: 2000;
+          background: rgba(0, 0, 0, 0.98);
+          z-index: 9999;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -242,6 +242,6 @@ export default function StoryViewer({ stories, initialIndex, onClose }: StoryVie
           .nav-btn { display: none; }
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 }
