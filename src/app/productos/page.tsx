@@ -102,14 +102,15 @@ function CatalogContent() {
 
             <div className="container catalog-body">
                 <div className="catalog-controls-v3 glass-premium animate-fade">
-                    <div className="p-search-wrapper">
-                        <Search className="search-icon-p" size={20} />
+                    <div className="p-search-wrapper" style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
+                        <Search className="search-icon-p" size={20} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--slate-400)', pointerEvents: 'none', zIndex: 10 }} />
                         <input
                             type="text"
                             placeholder="¿Qué buscas hoy?"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="p-search-input"
+                            style={{ paddingLeft: '48px' }}
                         />
                     </div>
 
