@@ -33,13 +33,13 @@ export default function Navbar() {
       <nav className={`nav-v3 ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-container glass-premium">
           <div className="nav-left">
-            <Link href="/" id="main-naia-logo" className="premium-logo" style={{ fontSize: '56px', fontWeight: '800', letterSpacing: '2px', display: 'flex', alignItems: 'baseline', gap: '2px' }}>
+            <Link href="/" id="main-naia-logo" className="premium-logo" style={{ fontSize: '44px', fontWeight: '800', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '2px' }}>
               {theme === 'woman' ? (
-                <span className="logo-text" style={{ fontSize: '56px' }}>N<span className="logo-highlight">ai</span>a</span>
+                <span className="logo-text" style={{ fontSize: '44px' }}>N<span className="logo-highlight">ai</span>a</span>
               ) : (
-                <span className="logo-text" style={{ fontSize: '56px' }}>N<span className="logo-highlight">oi</span>r</span>
+                <span className="logo-text" style={{ fontSize: '44px' }}>N<span className="logo-highlight">oi</span>r</span>
               )}
-              <span className="logo-dot" style={{ width: '12px', height: '12px', marginBottom: '8px' }}></span>
+              <span className="logo-dot" style={{ width: '10px', height: '10px', marginBottom: '4px' }}></span>
             </Link>
           </div>
 
@@ -136,7 +136,7 @@ export default function Navbar() {
         }
         
         .premium-logo {
-          font-size: 56px !important;
+          font-size: 44px !important;
           font-weight: 800 !important;
           color: var(--fg) !important;
           text-decoration: none !important;
@@ -157,6 +157,7 @@ export default function Navbar() {
         }
         .logo-text {
           display: inline-block;
+          font-size: 44px;
           filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
         }
         .logo-highlight {
@@ -166,8 +167,8 @@ export default function Navbar() {
           -webkit-text-fill-color: transparent;
         }
         .logo-dot {
-          width: 12px;
-          height: 12px;
+          width: 10px;
+          height: 10px;
           border-radius: 50%;
           background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
           display: inline-block;
