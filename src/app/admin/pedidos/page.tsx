@@ -1,33 +1,18 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BarChart3, Boxes, ShoppingBag, Settings as SettingsIcon } from 'lucide-react';
-import AdminDashboard from '@/components/admin/AdminDashboard';
-import AdminInventory from '@/components/admin/AdminInventory';
 import AdminOrders from '@/components/admin/AdminOrders';
-import AdminSettings from '@/components/admin/AdminSettings';
 
-interface StatsData {
-    totalProducts: number;
-    totalUsers: number;
-    totalOrders: number;
-    totalRevenue: number;
-    monthlySales: { month: string; total: number; count: number }[];
-    lowStock: { id: number; name: string; stock: number; category: string }[];
-    recentOrders: { id: number; total: number; status: string; createdAt: string; user: { name: string; email: string }; items: { name: string; quantity: number }[] }[];
-    products: { id: string; name: string; stock: number; category: string; price: number; image: string }[];
-}
-
-export default function AdminPage() {
-    const [stats, setStats] = useState<any>(null);
+export default function PedidosPage() {
+    const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
-        fetchStats();
+        fetchOrders();
     }, []);
 
-    const fetchStats = async () => {
+    const fetchOrders = async () => {
         try {
             const res = await fetch('/api/admin/stats');
             if (res.status === 403) {
@@ -36,7 +21,7 @@ export default function AdminPage() {
             }
             if (res.ok) {
                 const data = await res.json();
-                setStats(data);
+                setOrders(data.recentOrders || []);
             }
         } catch (e) {
             console.error(e);
@@ -56,7 +41,6 @@ export default function AdminPage() {
     };
 
     const statusLabel = (s: string) => s.replace('_', ' ').replace(/^\w/, c => c.toUpperCase());
-    const maxSale = stats?.monthlySales ? Math.max(...stats.monthlySales.map((m: any) => m.total), 1) : 1;
 
     if (loading) {
         return (
@@ -72,10 +56,9 @@ export default function AdminPage() {
     }
 
     return (
-        <div className="admin-dashboard-page">
-            <AdminDashboard
-                stats={stats}
-                maxSale={maxSale}
+        <div className="admin-pedidos-page">
+            <AdminOrders
+                orders={orders}
                 statusColor={statusColor}
                 statusLabel={statusLabel}
             />

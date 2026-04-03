@@ -129,7 +129,7 @@ export default function ProductSection() {
 
         .p-card {
           border-radius: var(--radius-xl);
-          padding: 12px;
+          padding: 12px 12px 16px;
           transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           position: relative;
           will-change: transform, box-shadow;

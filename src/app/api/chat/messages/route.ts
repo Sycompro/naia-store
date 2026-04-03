@@ -1,7 +1,25 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { verifyToken } from '@/lib/auth';
+import { cookies } from 'next/headers';
+
+async function checkAdmin() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth_token')?.value;
+    if (!token) return null;
+    try {
+        const payload = await verifyToken(token);
+        if (!payload || payload.role !== 'ADMIN') return null;
+        return payload;
+    } catch (e) {
+        return null;
+    }
+}
 
 export async function GET(request: Request) {
+    const admin = await checkAdmin();
+    if (!admin) return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
+
     const { searchParams } = new URL(request.url);
     const conversationId = searchParams.get('conversationId');
     const phone = searchParams.get('phone');
@@ -23,7 +41,7 @@ export async function GET(request: Request) {
             orderBy: { createdAt: 'asc' },
         });
 
-        // If it was by phone and we need to clear unread count (simplified logic)
+        // If it was by phone and we need to clear unread count
         if (phone) {
             await prisma.conversation.updateMany({
                 where: { phone },
@@ -39,6 +57,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+    const admin = await checkAdmin();
+    if (!admin) return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
+
     try {
         const body = await request.json();
         const { conversationId, content, sender, type, phone } = body;
@@ -97,7 +118,7 @@ export async function POST(request: Request) {
                         },
                         body: JSON.stringify({
                             messaging_product: 'whatsapp',
-                            to: phone.startsWith('51') ? phone : `51${phone}`, // Added Peru prefix if missing
+                            to: phone.startsWith('51') ? phone : `51${phone}`,
                             type: 'text',
                             text: { body: content }
                         })
@@ -105,7 +126,6 @@ export async function POST(request: Request) {
                     const waData = await waResponse.json();
                     if (!waResponse.ok) {
                         console.error('WhatsApp API Error:', waData);
-                        // Update message status to FAILED in DB if needed
                     }
                 } catch (waErr) {
                     console.error('WhatsApp Fetch Error:', waErr);

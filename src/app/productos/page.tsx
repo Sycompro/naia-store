@@ -249,7 +249,7 @@ function CatalogContent() {
                     flex-wrap: nowrap !important;
                     gap: 12px; 
                     overflow-x: auto; 
-                    padding: 8px 10px;
+                    padding: 12px 10px 22px;
                     scrollbar-width: none; /* Firefox */
                     -ms-overflow-style: none;  /* IE and Edge */
                     scroll-behavior: smooth;
@@ -291,7 +291,7 @@ function CatalogContent() {
                 :global(.men-theme) .p-skeleton { background: rgba(255,255,255,0.05); }
                 
                 .p-card { 
-                    padding: 10px; 
+                    padding: 12px 12px 16px; 
                     border-radius: var(--radius-xl); 
                     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
                     background: var(--bg);
