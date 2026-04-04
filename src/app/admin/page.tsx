@@ -31,7 +31,7 @@ export default function AdminPage() {
         try {
             const res = await fetch('/api/admin/stats');
             if (res.status === 403) {
-                router.push('/auth/login');
+                router.push('/admin/login');
                 return;
             }
             if (res.ok) {

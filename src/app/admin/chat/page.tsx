@@ -14,7 +14,8 @@ import {
     Paperclip,
     Filter
 } from 'lucide-react';
-import AdminLayout from '../layout'; // Assuming we want it inside admin layout
+import AdminLayout from '../layout';
+import { useRouter } from 'next/navigation';
 
 interface Conversation {
     id: string;
@@ -42,12 +43,24 @@ export default function AdminChatPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const scrollRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     useEffect(() => {
+        checkAuth();
         fetchConversations();
         const interval = setInterval(fetchConversations, 10000); // Poll every 10s
         return () => clearInterval(interval);
     }, []);
+
+    const checkAuth = async () => {
+        try {
+            const res = await fetch('/api/admin/stats');
+            if (res.status === 403) {
+                router.push('/admin/login');
+                return;
+            }
+        } catch (e) { }
+    };
 
     useEffect(() => {
         if (selectedId) {

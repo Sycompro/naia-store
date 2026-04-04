@@ -29,15 +29,15 @@ function LoginForm() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Error en login');
 
-            localStorage.setItem('user', JSON.stringify(data.user));
-
-            // Redirección inteligente basada en el rol
+            // Restricción de rol en el login público
             if (data.user.role === 'ADMIN') {
-                router.push('/admin');
-            } else {
-                router.push('/');
+                setError('Esta es una cuenta administrativa. Por favor, use el portal de gestión oficial.');
+                setLoading(false);
+                return;
             }
 
+            localStorage.setItem('user', JSON.stringify(data.user));
+            router.push('/');
             setTimeout(() => window.location.reload(), 100);
         } catch (err: any) {
             setError(err.message);

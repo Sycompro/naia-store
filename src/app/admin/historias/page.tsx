@@ -1,11 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Image as ImageIcon, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function AdminHistorias() {
     const [stories, setStories] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const router = useRouter();
 
     // Form State
     const [formData, setFormData] = useState({

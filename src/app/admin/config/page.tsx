@@ -15,7 +15,7 @@ export default function ConfigPage() {
         try {
             const res = await fetch('/api/admin/stats');
             if (res.status === 403) {
-                router.push('/auth/login');
+                router.push('/admin/login');
                 return;
             }
         } finally {
