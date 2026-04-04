@@ -409,11 +409,13 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .desktop-only { display: none; }
           .mobile-only { display: flex; }
-          .nav-container { padding: 0 15px 0 25px; }
+          .nav-container { padding: 0 20px; height: 70px; border-radius: 35px; width: 92%; }
+          .premium-logo { font-size: 24px !important; }
+          .logo-text { font-size: 24px; }
           .p-theme-toggle { padding: 4px; width: 44px; height: 44px; justify-content: center; }
           .p-theme-toggle span { display: none; }
           .p-theme-toggle.man .toggle-sphere { transform: none; }
-          .p-actions { gap: 10px; }
+          .p-actions { gap: 12px; }
         }
       `}</style>
     </>

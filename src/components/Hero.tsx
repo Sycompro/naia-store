@@ -300,13 +300,15 @@ export default function Hero() {
         }
 
         @media (max-width: 768px) {
-          .hero { padding-top: 100px; text-align: center; }
-          .hero-content { grid-template-columns: 1fr; }
-          .hero-subtitle { margin: 0 auto 40px; }
-          .hero-actions { justify-content: center; }
-          .hero-visual { margin-top: 40px; }
-          .card-image { height: 400px; }
-          .hero-trust { justify-content: center; }
+          .hero { padding: 90px 0 40px; text-align: center; }
+          .hero-content { grid-template-columns: 1fr; gap: 30px; }
+          .hero-title { font-size: clamp(38px, 10vw, 48px); }
+          .hero-subtitle { margin: 0 auto 30px; font-size: 16px; }
+          .hero-actions { justify-content: center; flex-direction: column; gap: 12px; }
+          .btn-premium, .btn-outline-premium { width: 100%; justify-content: center; }
+          .hero-visual { margin-top: 30px; }
+          .card-image { height: 350px; }
+          .hero-trust { justify-content: center; flex-wrap: wrap; gap: 15px; }
         }
       `}</style>
     </section>

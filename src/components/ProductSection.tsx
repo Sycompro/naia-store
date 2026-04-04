@@ -214,9 +214,21 @@ export default function ProductSection() {
         }
         .p-mini-btn:hover { color: var(--primary); transform: translateY(-3px); }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+          .p-section { padding: 40px 0; }
           .p-title { font-size: 32px; }
-          .p-grid { gap: 20px; }
+          .p-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+          .p-card { padding: 8px 8px 12px; border-radius: 16px; }
+          .p-img { height: 160px; border-radius: 12px; }
+          .p-body { padding: 12px 5px 5px; }
+          .p-name-v3 h3 { font-size: 14px; margin-bottom: 4px; height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+          .p-price-v3 { padding: 8px; flex-direction: column; align-items: stretch; gap: 8px; margin-bottom: 12px; }
+          .price-divider { display: none; }
+          .price-item .v { font-size: 14px; }
+          .p-desc, .p-rating, .p-wishlist { display: none; }
+          .p-mini-btn { width: 36px; height: 36px; border-radius: 10px; }
+          .p-add { padding: 10px; font-size: 13px; border-radius: 12px; }
+          .p-badge-v3 { font-size: 8px; padding: 4px 8px; }
         }
       `}</style>
     </section>

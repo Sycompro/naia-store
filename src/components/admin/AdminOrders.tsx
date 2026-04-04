@@ -68,33 +68,37 @@ export default function AdminOrders({ orders, statusColor, statusLabel }: AdminO
             <style jsx>{`
                 .orders-section { display: flex; flex-direction: column; gap: 28px; animation: slideUp 0.6s; }
                 .section-header { display: flex; justify-content: space-between; align-items: center; }
-                .section-header h2 { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; }
+                .section-header h2 { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; color: #f8fafc; }
                 
-                .header-filters { display: flex; gap: 10px; background: rgba(0,0,0,0.03); padding: 5px; border-radius: 14px; }
+                .header-filters { display: flex; gap: 10px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
                 .pill-btn {
                     padding: 8px 16px; border: none; border-radius: 10px; background: transparent;
-                    color: #64748b; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
+                    color: #94a3b8; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
                 }
-                .pill-btn.active { background: white; color: #0f172a; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+                .pill-btn.active { background: white; color: #0f172a; }
 
-                .orders-table-wrapper { background: white; border-radius: 24px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); }
+                .orders-table-wrapper { 
+                    background: rgba(255,255,255,0.03); border-radius: 24px; 
+                    overflow-x: auto; border: 1px solid rgba(255,255,255,0.05); 
+                }
+                .orders-table-content { min-width: 900px; }
+                
                 .orders-table-header {
                     display: grid; grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1.5fr; padding: 20px 28px;
-                    background: #f8fafc; border-bottom: 2px solid rgba(0,0,0,0.02);
-                    font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase;
+                    background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
+                    font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase;
                 }
                 .order-row-mod {
                     display: grid; grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1.5fr; padding: 20px 28px;
-                    align-items: center; border-bottom: 1px solid rgba(0,0,0,0.02); transition: 0.3s;
+                    align-items: center; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.3s;
                 }
-                .order-row-mod:hover { background: #f8fafc; }
+                .order-row-mod:hover { background: rgba(255,255,255,0.05); }
                 
-                .order-id-mod { font-family: monospace; font-weight: 800; color: #64748b; }
-                .order-customer-mod { display: flex; flex-direction: column; }
-                .cust-name { font-weight: 800; font-size: 15px; color: #0f172a; }
-                .cust-email { font-size: 12px; color: #94a3b8; font-weight: 600; }
-                .order-date-mod { font-weight: 700; color: #64748b; font-size: 14px; }
-                .order-total-mod { font-weight: 900; color: #0f172a; font-size: 15px; }
+                .order-id-mod { font-family: monospace; font-weight: 800; color: #94a3b8; }
+                .cust-name { font-weight: 800; font-size: 15px; color: #f1f5f9; }
+                .cust-email { font-size: 12px; color: #64748b; font-weight: 600; }
+                .order-date-mod { font-weight: 700; color: #94a3b8; font-size: 14px; }
+                .order-total-mod { font-weight: 900; color: #f1f5f9; font-size: 15px; }
 
                 .status-badge { 
                     padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 800; 
@@ -103,15 +107,15 @@ export default function AdminOrders({ orders, statusColor, statusLabel }: AdminO
 
                 .order-actions-mod { display: flex; gap: 8px; }
                 .action-btn-circle {
-                    width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e2e8f0;
-                    display: flex; align-items: center; justify-content: center; background: white;
-                    color: #64748b; cursor: pointer; transition: 0.3s;
+                    width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
+                    display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05);
+                    color: #94a3b8; cursor: pointer; transition: 0.3s;
                 }
-                .action-btn-circle:hover { border-color: #0f172a; color: #0f172a; transform: scale(1.1); }
+                .action-btn-circle:hover { border-color: white; color: white; transform: scale(1.1); }
 
-                .empty-orders { padding: 80px; text-align: center; color: #94a3b8; font-weight: 700; }
-
-                @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @media (max-width: 768px) {
+                    .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+                }
             `}</style>
         </div>
     );

@@ -16,8 +16,13 @@ export default function AdminLayout({
   const [storeName, setStoreName] = React.useState('NaiaAdmin');
   const [unreadCount, setUnreadCount] = React.useState(0);
   const [isVerifying, setIsVerifying] = React.useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
   const isLoginPage = pathname?.startsWith('/admin/login');
+
+  React.useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [pathname]);
 
   React.useEffect(() => {
     if (!authLoading) {
@@ -86,8 +91,8 @@ export default function AdminLayout({
       <div className="admin-loading">
         <div className="spinner"></div>
         <style jsx>{`
-          .admin-loading { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f8fafc; }
-          .spinner { width: 40px; height: 40px; border: 4px solid rgba(0,0,0,0.1); border-top-color: #0f172a; border-radius: 50%; animation: spin 1s linear infinite; }
+          .admin-loading { height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f172a; }
+          .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
           @keyframes spin { to { transform: rotate(360deg); } }
         `}</style>
       </div>
@@ -95,13 +100,19 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="admin-layout">
+    <div className={`admin-layout ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+      {/* Overlay para móviles */}
+      <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>
+
       {/* Sidebar */}
-      <aside className="admin-sidebar glass">
+      <aside className="admin-sidebar glass-dark">
         <div className="sidebar-header">
           <Link href="/" className="admin-logo">
             {storeName.split(' ')[0]}<span>{storeName.split(' ')[1] || 'Admin'}</span>
           </Link>
+          <button className="mobile-close mobile-only" onClick={() => setIsSidebarOpen(false)}>
+            <ChevronRight size={24} style={{ transform: 'rotate(180deg)' }} />
+          </button>
         </div>
 
         <nav className="sidebar-nav">
@@ -131,14 +142,19 @@ export default function AdminLayout({
 
       {/* Main Content */}
       <main className="admin-main">
-        <header className="admin-header glass">
+        <header className="admin-header glass-dark">
           <div className="header-left">
+            <button className="mobile-menu-btn mobile-only" onClick={() => setIsSidebarOpen(true)}>
+              <div className="menu-icon-line"></div>
+              <div className="menu-icon-line"></div>
+              <div className="menu-icon-line"></div>
+            </button>
             <h1 className="animate-fade-in">{menuItems.find(i => i.path === pathname)?.name || 'Panel Admin'}</h1>
           </div>
           <div className="header-right">
-            <div className="admin-profile glass-premium">
+            <div className="admin-profile glass-premium-dark">
               <div className="avatar shadow-premium">AD</div>
-              <span>Administrador</span>
+              <span className="desktop-only text-white">Administrador</span>
             </div>
           </div>
         </header>
@@ -151,10 +167,24 @@ export default function AdminLayout({
         .admin-layout {
           display: flex;
           min-height: 100vh;
-          background: #f8fafc;
-          color: #0f172a;
+          background: #0f172a;
+          color: #f8fafc;
           font-family: var(--font-main);
+          overflow-x: hidden;
         }
+        
+        .sidebar-overlay {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(4px);
+          z-index: 95;
+          opacity: 0;
+          transition: 0.3s;
+          pointer-events: none;
+        }
+
         .admin-sidebar {
           width: 280px;
           height: 100vh;
@@ -164,20 +194,29 @@ export default function AdminLayout({
           display: flex;
           flex-direction: column;
           padding: 30px 20px;
-          background: rgba(255, 255, 255, 0.7);
+          background: #0a0e17;
+          border-right: 1px solid rgba(255, 255, 255, 0.05);
+          z-index: 100;
+          transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .glass-dark {
+          background: rgba(10, 14, 23, 0.8) !important;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border-right: 1px solid rgba(255, 255, 255, 0.5);
-          z-index: 100;
-          box-shadow: 10px 0 30px rgba(0, 0, 0, 0.02);
         }
+
         .sidebar-header {
           padding: 0 10px 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
+        
         .admin-logo {
           font-size: 28px;
           font-weight: 900;
-          color: #0f172a;
+          color: #f8fafc;
           text-decoration: none;
           letter-spacing: -0.5px;
         }
@@ -187,12 +226,14 @@ export default function AdminLayout({
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
+
         .sidebar-nav {
           flex: 1;
           display: flex;
           flex-direction: column;
           gap: 12px;
         }
+
         .nav-item {
           display: flex;
           align-items: center;
@@ -200,28 +241,22 @@ export default function AdminLayout({
           padding: 14px 20px;
           border-radius: 16px;
           text-decoration: none;
-          color: #64748b;
+          color: #94a3b8;
           font-weight: 600;
           font-size: 15px;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           border: 1px solid transparent;
         }
         .nav-item:hover {
-          background: rgba(255, 255, 255, 0.8);
-          color: #0f172a;
+          background: rgba(255, 255, 255, 0.05);
+          color: #f8fafc;
           transform: translateX(5px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
         .nav-item.active {
-          background: #0f172a;
+          background: linear-gradient(135deg, #334155 0%, #0f172a 100%);
           color: white;
-          box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
           border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .nav-item .arrow {
-          margin-left: auto;
-          opacity: 0;
-          transition: 0.3s;
         }
         .nav-item.active .arrow {
           opacity: 1;
@@ -229,12 +264,13 @@ export default function AdminLayout({
         }
         .item-icon-wrap { position: relative; display: flex; align-items: center; }
         .unread-dot {
-          position: absolute; -top: 8px; -right: 8px;
+          position: absolute; top: -8px; right: -8px;
           background: #ef4444; color: white; border-radius: 50%;
           width: 18px; height: 18px; font-size: 10px; font-weight: 900;
           display: flex; align-items: center; justify-content: center;
-          border: 2px solid white; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+          border: 2px solid #0a0e17;
         }
+        
         .sidebar-footer {
           margin-top: auto;
           padding-top: 20px;
@@ -246,7 +282,7 @@ export default function AdminLayout({
           gap: 12px;
           padding: 14px 20px;
           border: none;
-          background: rgba(239, 68, 68, 0.05);
+          background: rgba(239, 68, 68, 0.1);
           color: #ef4444;
           font-weight: 700;
           cursor: pointer;
@@ -256,75 +292,107 @@ export default function AdminLayout({
         .logout-btn:hover {
           background: #ef4444;
           color: white;
-          transform: translateY(-2px);
           box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
         }
+
         .admin-main {
           flex: 1;
           margin-left: 280px;
           padding: 40px;
-          background: #f8fafc;
+          background: #0f172a;
+          min-height: 100vh;
+          transition: padding 0.3s;
         }
+
         .admin-header {
           height: 80px;
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: blur(15px);
           border-radius: 20px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding: 0 30px;
           margin-bottom: 40px;
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
-        .admin-header h1 {
-          font-size: 24px;
-          font-weight: 900;
-          letter-spacing: -0.5px;
+        
+        .mobile-menu-btn {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 12px;
+          padding: 10px;
+          margin-right: 15px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          cursor: pointer;
         }
+        .menu-icon-line {
+          width: 22px;
+          height: 2px;
+          background: white;
+          border-radius: 2px;
+        }
+
         .admin-profile {
           display: flex;
           align-items: center;
-          gap: 15px;
+          gap: 12px;
           padding: 8px 16px;
-          background: white;
           border-radius: 14px;
-          border: 1px solid rgba(0,0,0,0.05);
         }
-        .glass-premium {
-          background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
-          box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        .glass-premium-dark {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, var(--primary) 0%, #ff4d94 100%);
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 800;
-          font-size: 14px;
+          font-size: 13px;
         }
-        .shadow-premium { box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15); }
-        .admin-profile span {
-          font-weight: 700;
-          font-size: 14px;
-          color: #334155;
+        
+        .mobile-only { display: none; }
+        .desktop-only { display: flex; }
+
+        @media (max-width: 1024px) {
+          .admin-sidebar {
+            transform: translateX(-100%);
+          }
+          .sidebar-open .admin-sidebar {
+            transform: translateX(0);
+          }
+          .sidebar-open .sidebar-overlay {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+          }
+          .admin-main {
+            margin-left: 0;
+            padding: 24px 16px;
+          }
+          .mobile-only { display: flex; }
+          .desktop-only { display: none; }
+          .admin-header {
+            padding: 0 16px;
+            margin-bottom: 24px;
+          }
+          .admin-header h1 { font-size: 20px; }
         }
-        .admin-content {
-          animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .animate-fade-in { animation: fadeIn 0.8s; }
-        .animate-pulse-fast { animation: pulseFast 1.5s infinite; }
+        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pulseFast { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         @keyframes slideUp {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        .animate-fade-in { animation: fadeIn 0.8s; }
+        .admin-content { animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
       `}</style>
     </div>
   );

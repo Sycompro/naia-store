@@ -188,10 +188,18 @@ export default function NosotrosPage() {
           .values-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-          .about-hero h1 { font-size: 36px; }
-          .about-grid, .mv-grid { grid-template-columns: 1fr; }
-          .stats-bar { grid-template-columns: repeat(2, 1fr); }
-          .values-grid { grid-template-columns: 1fr; }
+          .nosotros-page { padding-top: 80px; }
+          .about-hero { padding: 60px 20px 40px; }
+          .about-hero h1 { font-size: 32px; }
+          .about-grid, .mv-grid { grid-template-columns: 1fr; gap: 20px; }
+          .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 20px; gap: 15px; }
+          .stat-number { font-size: 22px; }
+          .stat-label { font-size: 10px; }
+          .values-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+          .value-item { padding: 20px 15px; }
+          .value-item h3 { font-size: 15px; }
+          .value-item p { font-size: 12px; }
+          .mv-card { padding: 30px 20px; }
         }
       `}</style>
         </main>

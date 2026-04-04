@@ -107,78 +107,75 @@ export default function AdminInventory({
             <style jsx>{`
                 .inventory-section { display: flex; flex-direction: column; gap: 24px; animation: slideUp 0.6s; }
                 .inventory-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+                
                 .search-box {
                     display: flex; align-items: center; gap: 12px; padding: 12px 20px;
-                    border-radius: 18px; background: white; border: 1px solid rgba(0,0,0,0.05);
-                    flex: 1; max-width: 600px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+                    border-radius: 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+                    flex: 1; max-width: 600px;
                 }
-                .search-box input { border: none; outline: none; flex: 1; font-weight: 600; color: #0f172a; font-family: inherit; }
+                .search-box input { border: none; outline: none; flex: 1; font-weight: 600; color: #f8fafc; background: transparent; font-family: inherit; }
                 
                 .header-actions { display: flex; gap: 12px; }
                 .filter-btn-inv, .add-btn-inv {
                     display: flex; align-items: center; gap: 8px; padding: 12px 20px;
                     border-radius: 16px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s;
                 }
-                .filter-btn-inv { background: white; border: 1px solid #e2e8f0; color: #64748b; }
-                .add-btn-inv { background: #0f172a; border: none; color: white; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2); }
-                .add-btn-inv:hover { transform: translateY(-2px); filter: brightness(1.1); }
+                .filter-btn-inv { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; }
+                .add-btn-inv { background: white; border: none; color: #0f172a; font-weight: 900; }
+                .add-btn-inv:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.1); }
 
-                .inventory-table { background: white; border-radius: 24px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); }
+                .inventory-table { 
+                    background: rgba(255,255,255,0.03); border-radius: 24px; 
+                    overflow-x: auto; border: 1px solid rgba(255,255,255,0.05); 
+                }
+                .table-content { min-width: 800px; }
+                
                 .table-header { 
-                    background: #f8fafc; border-bottom: 2px solid rgba(0,0,0,0.02);
+                    background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
                     display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1.5fr 1.5fr; padding: 18px 28px;
-                    font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;
+                    font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
                 }
                 .table-row {
                     display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1.5fr 1.5fr; padding: 18px 28px;
-                    align-items: center; border-bottom: 1px solid rgba(0,0,0,0.02); transition: 0.3s;
+                    align-items: center; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.3s;
                 }
-                .table-row:hover { background: #f8fafc; }
+                .table-row:hover { background: rgba(255,255,255,0.05); }
                 .product-cell { display: flex; align-items: center; gap: 16px; }
-                .product-thumb { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-                .product-info { display: flex; flex-direction: column; }
-                .p-name { font-weight: 800; font-size: 15px; color: #0f172a; }
-                .p-id { font-size: 11px; color: #94a3b8; font-weight: 600; }
+                .product-thumb { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+                .p-name { font-weight: 800; font-size: 15px; color: #f1f5f9; }
+                .p-id { font-size: 11px; color: #64748b; font-weight: 600; }
 
                 .cat-badge { 
-                    padding: 4px 10px; border-radius: 8px; background: rgba(15,23,42,0.05); 
-                    color: #0f172a; font-size: 11px; font-weight: 800; text-transform: uppercase;
+                    padding: 4px 10px; border-radius: 8px; background: rgba(255,255,255,0.1); 
+                    color: #e2e8f0; font-size: 11px; font-weight: 800; text-transform: uppercase;
                 }
-                .price-cell { font-weight: 900; color: #0f172a; font-size: 15px; }
+                .price-cell { font-weight: 900; color: #f1f5f9; font-size: 15px; }
 
                 .stock-controls { display: flex; align-items: center; gap: 8px; }
                 .adj-btn { 
-                    width: 32px; height: 32px; border-radius: 10px; border: 1px solid #e2e8f0;
-                    display: flex; align-items: center; justify-content: center; background: white; 
-                    cursor: pointer; font-weight: 900; transition: 0.2s;
+                    width: 32px; height: 32px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+                    display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); 
+                    color: white; cursor: pointer; font-weight: 900;
                 }
-                .adj-btn:hover { border-color: #0f172a; background: #f8fafc; }
+                .adj-btn:hover { background: rgba(255,255,255,0.2); }
                 .stock-input {
-                    padding: 8px; border-radius: 10px; border: 1px solid #e2e8f0; width: 50px;
-                    text-align: center; font-weight: 900; font-family: inherit; background: #f8fafc;
+                    padding: 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); width: 45px;
+                    text-align: center; font-weight: 900; font-family: inherit; background: rgba(255,255,255,0.05); color: white;
                 }
-                .low-stock-warning { 
-                    display: flex; align-items: center; gap: 4px; font-size: 10px; 
-                    color: #ef4444; font-weight: 800; margin-top: 6px;
-                }
+                .low-stock-warning { color: #f87171; }
 
-                .action-cell { display: flex; items-center: center; gap: 8px; }
-                .save-btn { 
-                    background: #10b981; color: white; border: none; padding: 8px 14px; 
-                    border-radius: 12px; font-weight: 800; font-size: 12px; cursor: pointer; transition: 0.3s;
-                }
-                .save-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+                .save-btn { background: #059669; }
                 .icon-btn { 
-                    width: 36px; height: 36px; border-radius: 12px; border: 1px solid #e2e8f0;
-                    display: flex; align-items: center; justify-content: center; background: white; 
-                    color: #64748b; cursor: pointer; transition: 0.3s;
+                    width: 36px; height: 36px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+                    display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); 
+                    color: #94a3b8; cursor: pointer;
                 }
-                .icon-btn:hover { border-color: #0f172a; color: #0f172a; }
-                .icon-btn.delete:hover { border-color: #ef4444; color: #ef4444; }
+                .icon-btn.delete { color: #ef4444; }
 
-                .loading-row, .empty-row { padding: 60px; text-align: center; color: #94a3b8; font-weight: 700; }
-
-                @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @media (max-width: 768px) {
+                    .inventory-header { flex-direction: column; align-items: stretch; }
+                    .search-box { max-width: none; }
+                }
             `}</style>
         </div>
     );

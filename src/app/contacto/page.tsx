@@ -143,8 +143,13 @@ export default function ContactoPage() {
         .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px var(--primary-light); }
 
         @media (max-width: 768px) {
-          .contact-grid { grid-template-columns: 1fr; }
-          .contact-hero h1 { font-size: 36px; }
+          .contacto-page { padding-top: 80px; }
+          .contact-hero { padding: 60px 20px 30px; }
+          .contact-hero h1 { font-size: 32px; }
+          .contact-hero p { font-size: 14px; }
+          .contact-grid { grid-template-columns: 1fr; gap: 30px; padding-bottom: 50px; }
+          .contact-form-container { padding: 25px 20px; }
+          .info-card { padding: 18px; }
         }
       `}</style>
         </main>
