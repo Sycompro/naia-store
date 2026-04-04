@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
+import { sendWhatsAppMessage } from '@/lib/whatsapp';
 
 async function checkAdmin() {
     const cookieStore = await cookies();
@@ -103,35 +104,17 @@ export async function POST(request: Request) {
             }
         });
 
-        // REAL WhatsApp API Integration
+        // WhatsApp Integration (only for Admin replies)
         if (sender === 'ADMIN') {
-            const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
-            const PHONE_ID = process.env.WHATSAPP_PHONE_ID;
-
-            if (ACCESS_TOKEN && PHONE_ID && phone) {
-                try {
-                    const waResponse = await fetch(`https://graph.facebook.com/v21.0/${PHONE_ID}/messages`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${ACCESS_TOKEN}`,
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            messaging_product: 'whatsapp',
-                            to: phone.startsWith('51') ? phone : `51${phone}`,
-                            type: 'text',
-                            text: { body: content }
-                        })
-                    });
-                    const waData = await waResponse.json();
-                    if (!waResponse.ok) {
-                        console.error('WhatsApp API Error:', waData);
-                    }
-                } catch (waErr) {
-                    console.error('WhatsApp Fetch Error:', waErr);
-                }
-            } else {
-                console.warn('MISSING WHATSAPP CREDENTIALS - Message saved only in local DB');
+            const waResult = await sendWhatsAppMessage(phone || '', content);
+            if (waResult.messageId) {
+                // Link our message with WhatsApp's external ID
+                await prisma.message.update({
+                    where: { id: message.id },
+                    data: { externalId: waResult.messageId }
+                });
+            } else if (waResult.error) {
+                console.error('WhatsApp sending failed:', waResult);
             }
         }
 

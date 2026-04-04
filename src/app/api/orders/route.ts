@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
+import { sendWhatsAppMessage } from '@/lib/whatsapp';
 
 async function getUser() {
     const cookieStore = await cookies();
@@ -56,6 +57,30 @@ export async function POST(request: Request) {
                 status: 'PENDIENTE'
             }
         });
+
+        // WhatsApp Notification
+        try {
+            const settings = await prisma.setting.findFirst({ where: { id: 1 } });
+            if (settings?.notifyOrderWS) {
+                const admin = await prisma.user.findFirst({
+                    where: { role: 'ADMIN' },
+                    select: { phone: true }
+                });
+
+                if (admin?.phone) {
+                    const message = `🛍️ *Nuevo Pedido Naia*\n\n` +
+                        `ID: #${order.id}\n` +
+                        `Cliente: ${user.name || user.email}\n` +
+                        `Total: S/ ${total}\n` +
+                        `Nota: ${note || 'Ninguna'}\n\n` +
+                        `Revisa los detalles en el panel de administración.`;
+
+                    await sendWhatsAppMessage(admin.phone, message);
+                }
+            }
+        } catch (waError) {
+            console.error('Error sending order notification:', waError);
+        }
 
         return NextResponse.json({ message: 'Pedido creado', order });
     } catch (error) {

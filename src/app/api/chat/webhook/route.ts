@@ -7,8 +7,9 @@ export async function GET(request: Request) {
     const token = searchParams.get('hub.verify_token');
     const challenge = searchParams.get('hub.challenge');
 
-    // VERIFY_TOKEN should be in .env
-    const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN || 'naia_secret_token';
+    // Fetch settings for dynamic Verify Token
+    const settings = await prisma.setting.findFirst({ where: { id: 1 } });
+    const VERIFY_TOKEN = settings?.whatsappVerifyToken || process.env.WHATSAPP_VERIFY_TOKEN || 'naia_secret_token';
 
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
         return new Response(challenge, { status: 200 });
@@ -21,53 +22,75 @@ export async function POST(request: Request) {
         const body = await request.json();
 
         // WhatsApp Webhook structure check
-        if (!body.object || !body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
-            return NextResponse.json({ ok: true }); // Acknowledge even if empty
+        if (!body.object || !body.entry?.[0]?.changes?.[0]?.value) {
+            return NextResponse.json({ ok: true });
         }
 
-        const entry = body.entry[0].changes[0].value;
-        const messageData = entry.messages[0];
-        const contactData = entry.contacts?.[0];
-        const phone = messageData.from;
+        const value = body.entry[0].changes[0].value;
 
-        // Extract content
-        let content = '';
-        if (messageData.type === 'text') {
-            content = messageData.text.body;
-        } else {
-            content = `[Media: ${messageData.type}]`;
+        // Handle Status Updates (sent, delivered, read)
+        if (value.statuses?.[0]) {
+            const statusData = value.statuses[0];
+            const externalId = statusData.id;
+            const status = statusData.status.toUpperCase(); // DELIVERED, READ, etc.
+
+            await prisma.message.updateMany({
+                where: { externalId },
+                data: { status }
+            });
+            return NextResponse.json({ ok: true });
         }
 
-        // Upsert conversation
-        const conversation = await prisma.conversation.upsert({
-            where: { phone },
-            update: {
-                lastMessage: content,
-                updatedAt: new Date(),
-                unreadCount: { increment: 1 },
-                name: contactData?.profile?.name || undefined
-            },
-            create: {
-                phone,
-                lastMessage: content,
-                name: contactData?.profile?.name || 'Cliente WhatsApp',
-                status: 'OPEN'
-            }
-        });
+        // Handle Incoming Messages
+        if (value.messages?.[0]) {
+            const messageData = value.messages[0];
+            const contactData = value.contacts?.[0];
+            const phone = messageData.from;
+            const externalId = messageData.id;
 
-        // Save message
-        await prisma.message.create({
-            data: {
-                conversationId: conversation.id,
-                content,
-                sender: 'USER',
-                createdAt: new Date()
+            // Extract content
+            let content = '';
+            if (messageData.type === 'text') {
+                content = messageData.text.body;
+            } else if (messageData.type === 'image') {
+                content = '[Imagen recibida]';
+            } else {
+                content = `[Mensaje tipo: ${messageData.type}]`;
             }
-        });
+
+            // Upsert conversation
+            const conversation = await prisma.conversation.upsert({
+                where: { phone },
+                update: {
+                    lastMessage: content,
+                    updatedAt: new Date(),
+                    unreadCount: { increment: 1 },
+                    name: contactData?.profile?.name || undefined
+                },
+                create: {
+                    phone,
+                    lastMessage: content,
+                    name: contactData?.profile?.name || 'Cliente WhatsApp',
+                    status: 'OPEN'
+                }
+            });
+
+            // Save message with externalId
+            await prisma.message.create({
+                data: {
+                    externalId,
+                    conversationId: conversation.id,
+                    content,
+                    sender: 'USER',
+                    type: messageData.type.toUpperCase(),
+                    createdAt: new Date()
+                }
+            });
+        }
 
         return NextResponse.json({ ok: true });
     } catch (error) {
         console.error('Webhook processing error:', error);
-        return NextResponse.json({ error: 'Processing failed' }, { status: 200 }); // Always 200 to WhatsApp unless critical
+        return NextResponse.json({ error: 'Processing failed' }, { status: 200 });
     }
 }

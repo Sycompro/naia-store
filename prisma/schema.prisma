@@ -63,6 +63,7 @@ model Conversation {
 
 model Message {
   id             String       @id @default(uuid())
+  externalId     String?      @unique  // ID de la plataforma externa (WhatsApp)
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   sender         String       // USER, ADMIN, SYSTEM
