@@ -13,10 +13,19 @@ export default function Navbar() {
   const { totalItems } = useCart();
   const { user, logout } = useAuth();
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('naia-theme') as 'woman' | 'man';
+    if (savedTheme === 'man') {
+      setTheme('man');
+      document.body.classList.add('men-theme');
+    }
+  }, []);
+
   const toggleTheme = () => {
     const newTheme = theme === 'woman' ? 'man' : 'woman';
     setTheme(newTheme);
     document.body.classList.toggle('men-theme');
+    localStorage.setItem('naia-theme', newTheme);
   };
 
   return (
@@ -112,7 +121,7 @@ export default function Navbar() {
         .nav-container {
           max-width: 1300px;
           margin: 0 auto;
-          height: 64px;
+          height: 72px;
           border-radius: 50px;
           display: flex;
           align-items: center;
@@ -121,28 +130,27 @@ export default function Navbar() {
           width: 96%;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           pointer-events: auto;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+          box-shadow: var(--glass-shadow);
         }
         
         .premium-logo {
           font-size: 32px !important;
-          font-weight: 800 !important;
+          font-weight: 900 !important;
           color: var(--fg) !important;
           text-decoration: none !important;
-          letter-spacing: 2px !important;
+          letter-spacing: -1px !important;
           display: flex !important;
           align-items: center !important;
           gap: 2px;
           text-transform: uppercase;
-          font-style: italic;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           z-index: 10;
           line-height: 1;
         }
         .premium-logo:hover {
-          letter-spacing: 5px !important;
-          transform: scale(1.02);
+          letter-spacing: 1px !important;
+          transform: scale(1.05);
         }
         .logo-text {
           display: inline-block;

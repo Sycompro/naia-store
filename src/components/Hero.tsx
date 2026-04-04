@@ -144,17 +144,19 @@ export default function Hero() {
           color: white;
         }
         .hero-title {
-          font-size: clamp(48px, 6vw, 84px);
+          font-size: clamp(54px, 7vw, 92px);
           margin-bottom: 25px;
-          line-height: 0.95;
+          line-height: 0.9;
+          font-weight: 900;
         }
         .block { display: block; }
         .hero-subtitle {
-          font-size: 20px;
+          font-size: 22px;
           color: var(--slate-500);
-          max-width: 550px;
+          max-width: 580px;
           margin-bottom: 45px;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-weight: 500;
         }
         .hero-actions {
           display: flex;
@@ -202,19 +204,26 @@ export default function Hero() {
           position: relative;
           display: flex;
           justify-content: center;
+          perspective: 1000px;
         }
         .visual-stack {
           position: relative;
           width: 100%;
           max-width: 500px;
+          transform-style: preserve-3d;
         }
         .main-card {
-          padding: 15px;
+          padding: 12px;
           border-radius: var(--radius-xl);
-          transform: rotate(-2deg);
-          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transform: rotate(-1deg) translateZ(20px);
+          transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+          background: var(--glass);
+          backdrop-filter: blur(var(--glass-blur));
+          -webkit-backdrop-filter: blur(var(--glass-blur));
+          border: 1px solid var(--glass-border);
+          box-shadow: var(--shadow-xl);
         }
-        .main-card:hover { transform: rotate(0deg) scale(1.02); }
+        .main-card:hover { transform: rotate(0deg) scale(1.03) translateZ(40px); }
         .card-image {
           height: 550px;
           border-radius: var(--radius-lg);
@@ -242,16 +251,17 @@ export default function Hero() {
 
         .floating-element {
           position: absolute;
-          padding: 15px 25px;
+          padding: 18px 28px;
           border-radius: 50px;
           display: flex;
           align-items: center;
           gap: 15px;
           z-index: 10;
-          background: rgba(255,255,255,0.08);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--glass-deep);
+          backdrop-filter: blur(var(--glass-blur));
+          -webkit-backdrop-filter: blur(var(--glass-blur));
+          border: 1px solid var(--glass-border);
+          box-shadow: var(--shadow-lg);
         }
         .element-1 {
           top: -20px;

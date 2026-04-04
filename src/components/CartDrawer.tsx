@@ -8,11 +8,58 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
 
     if (!isOpen) return null;
 
-    const handleWhatsAppCheckout = () => {
-        const message = `*Nuevo Pedido Naia*%0A%0A` +
-            cart.map(item => `- ${item.name} x${item.quantity} (${isWholesaleActive ? 'May.' : 'Unit.'})`).join('%0A') +
-            `%0A%0A*Total: S/ ${totalAmount.toFixed(2)}*`;
-        window.open(`https://wa.me/51944399377?text=${message}`, '_blank');
+    const [isGuestFormOpen, setIsGuestFormOpen] = React.useState(false);
+    const [guestInfo, setGuestInfo] = React.useState({ name: '', phone: '' });
+    const [loading, setLoading] = React.useState(false);
+    const { user } = { user: null }; // Mock or useAuth if available
+
+    if (!isOpen) return null;
+
+    const handleWhatsAppCheckout = async () => {
+        if (!user && !isGuestFormOpen) {
+            setIsGuestFormOpen(true);
+            return;
+        }
+
+        if (isGuestFormOpen && (!guestInfo.name || !guestInfo.phone)) {
+            alert('Por favor completa tu nombre y teléfono');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            // 1. Create Order in DB
+            const orderRes = await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: cart,
+                    total: totalAmount,
+                    customerName: user ? undefined : guestInfo.name,
+                    customerPhone: user ? undefined : guestInfo.phone
+                })
+            });
+
+            const orderData = await orderRes.json();
+
+            if (orderRes.ok) {
+                // 2. Open WhatsApp
+                const orderId = orderData.order.id;
+                const message = `*Nuevo Pedido Naia #${orderId}*%0A%0A` +
+                    cart.map(item => `- ${item.name} x${item.quantity} (${isWholesaleActive ? 'May.' : 'Unit.'})`).join('%0A') +
+                    `%0A%0A*Total: S/ ${totalAmount.toFixed(2)}*%0A%0A_ID de Seguimiento: ${orderId}_`;
+
+                window.open(`https://wa.me/51944399377?text=${message}`, '_blank');
+                onClose();
+            } else {
+                alert('Error al procesar el pedido. Intenta nuevamente.');
+            }
+        } catch (e) {
+            console.error(e);
+            alert('Error de conexión');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -72,6 +119,27 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
 
                 {cart.length > 0 && (
                     <div className="p-drawer-footer glass-premium">
+                        {isGuestFormOpen && !user && (
+                            <div className="guest-form animate-entrance">
+                                <h4>Datos de Entrega</h4>
+                                <div className="form-group">
+                                    <input
+                                        type="text"
+                                        placeholder="Nombre Completo"
+                                        value={guestInfo.name}
+                                        onChange={e => setGuestInfo({ ...guestInfo, name: e.target.value })}
+                                        className="glass-input"
+                                    />
+                                    <input
+                                        type="tel"
+                                        placeholder="Teléfono / WhatsApp"
+                                        value={guestInfo.phone}
+                                        onChange={e => setGuestInfo({ ...guestInfo, phone: e.target.value })}
+                                        className="glass-input"
+                                    />
+                                </div>
+                            </div>
+                        )}
                         <div className="p-total-row">
                             <div className="total-l">
                                 <span>Total Estimado</span>
@@ -79,8 +147,13 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                             </div>
                             <span className="p-total-price">S/ {totalAmount.toFixed(2)}</span>
                         </div>
-                        <button className="btn-premium btn-primary-v3 w-full checkout-btn" onClick={handleWhatsAppCheckout}>
-                            Finalizar Pedido <Send size={18} />
+                        <button
+                            className="btn-premium btn-primary-v3 w-full checkout-btn"
+                            onClick={handleWhatsAppCheckout}
+                            disabled={loading}
+                        >
+                            {loading ? 'Procesando...' : (isGuestFormOpen && !user ? 'Confirmar y Enviar' : 'Finalizar Pedido')}
+                            {!loading && <Send size={18} />}
                         </button>
                         <p className="p-footer-note">Serás redirigido a WhatsApp para concretar tu pedido.</p>
                     </div>
@@ -155,6 +228,21 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                     padding: 25px 20px calc(20px + var(--safe-bottom)); 
                     margin: 0 15px 15px; border-radius: 24px; 
                 }
+                .guest-form { margin-bottom: 20px; padding: 15px; border-radius: 16px; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); }
+                .guest-form h4 { font-size: 14px; font-weight: 800; margin-bottom: 12px; opacity: 0.8; }
+                .form-group { display: flex; flex-direction: column; gap: 10px; }
+                .glass-input {
+                    background: rgba(255, 255, 255, 0.5);
+                    border: 1px solid rgba(0,0,0,0.1);
+                    padding: 12px 16px;
+                    border-radius: 12px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    outline: none;
+                    transition: all 0.3s;
+                }
+                .glass-input:focus { border-color: var(--primary); background: white; }
+
                 .p-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
                 .total-l { display: flex; flex-direction: column; }
                 .total-l span:first-child { font-size: 13px; font-weight: 700; color: var(--slate-500); }

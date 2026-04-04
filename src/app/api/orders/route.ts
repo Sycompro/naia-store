@@ -39,18 +39,20 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         const user = await getUser();
-        if (!user) {
-            return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
-        }
+        const body = await request.json();
+        const { items, total, note, customerName, customerPhone } = body;
 
-        const { items, total, note } = await request.json();
         if (!items || !total) {
             return NextResponse.json({ error: 'Items y total son requeridos' }, { status: 400 });
         }
 
         const order = await prisma.order.create({
             data: {
-                userId: user.userId as number,
+                userId: user?.userId ? (user.userId as number) : undefined,
+                // @ts-ignore
+                customerName: customerName || (user?.name as string) || null,
+                // @ts-ignore
+                customerPhone: customerPhone || (user?.phone as string) || null,
                 items: JSON.stringify(items),
                 total: parseFloat(total),
                 note: note || null,
@@ -68,9 +70,10 @@ export async function POST(request: Request) {
                 });
 
                 if (admin?.phone) {
+                    const clientName = customerName || user?.name || 'Cliente Invitado';
                     const message = `🛍️ *Nuevo Pedido Naia*\n\n` +
                         `ID: #${order.id}\n` +
-                        `Cliente: ${user.name || user.email}\n` +
+                        `Cliente: ${clientName}\n` +
                         `Total: S/ ${total}\n` +
                         `Nota: ${note || 'Ninguna'}\n\n` +
                         `Revisa los detalles en el panel de administración.`;

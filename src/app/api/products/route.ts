@@ -14,17 +14,24 @@ async function checkAdmin() {
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
+        const gender = searchParams.get('gender')?.toUpperCase();
         const page = parseInt(searchParams.get('page') || '1');
         const pageSize = parseInt(searchParams.get('pageSize') || '20');
         const skip = (page - 1) * pageSize;
 
+        const where: any = {};
+        if (gender && (gender === 'MALE' || gender === 'FEMALE' || gender === 'UNISEX')) {
+            where.gender = gender;
+        }
+
         const [products, total] = await Promise.all([
             prisma.product.findMany({
+                where,
                 skip,
                 take: pageSize,
                 orderBy: { createdAt: 'desc' }
             }),
-            prisma.product.count()
+            prisma.product.count({ where })
         ]);
 
         return NextResponse.json({

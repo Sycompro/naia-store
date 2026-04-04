@@ -11,29 +11,55 @@ export default function ProductSection() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentGender, setCurrentGender] = useState('FEMALE');
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data);
-        setLoading(false);
-      });
-  }, []);
+  const fetchProducts = async (pageNum: number, gender: string, append = false) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/products?page=${pageNum}&pageSize=8&gender=${gender}`);
+      const data = await res.json();
+
+      if (append) {
+        setProducts(prev => [...prev, ...data.products]);
+      } else {
+        setProducts(data.products);
+      }
+
+      setHasMore(data.pagination.page < data.pagination.totalPages);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const checkTheme = () => {
       const isMen = document.body.classList.contains('men-theme');
-      setCurrentGender(isMen ? 'MALE' : 'FEMALE');
+      const newGender = isMen ? 'MALE' : 'FEMALE';
+      if (newGender !== currentGender) {
+        setCurrentGender(newGender);
+        setPage(1);
+        fetchProducts(1, newGender, false);
+      }
     };
 
     checkTheme();
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
-  }, []);
 
-  const filteredProducts = products.filter(p => p.gender === currentGender);
+    // Initial fetch if empty
+    if (products.length === 0) fetchProducts(1, currentGender, false);
+
+    return () => observer.disconnect();
+  }, [currentGender]);
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchProducts(nextPage, currentGender, true);
+  };
 
   return (
     <section id="productos" className="p-section container">
@@ -45,15 +71,15 @@ export default function ProductSection() {
       </div>
 
       <div className="p-grid">
-        {loading ? (
-          [1, 2, 3, 4, 5, 6].map(i => (
+        {loading && products.length === 0 ? (
+          [1, 2, 3, 4, 5, 6, 7, 8].map(i => (
             <div key={i} className="p-skeleton glass-premium"></div>
           ))
-        ) : filteredProducts.length === 0 ? (
-          <div className="p-empty glass-premium">
+        ) : products.length === 0 ? (
+          <div className="p-empty glass-premium" style={{ gridColumn: '1 / -1' }}>
             <p>Próximamente más productos para {currentGender === 'FEMALE' ? 'ella' : 'él'}.</p>
           </div>
-        ) : filteredProducts.map((product) => (
+        ) : products.map((product) => (
           <div key={product.id} className="p-card glass-premium animate-fade">
             <Link href={`/productos/${product.id}`} className="p-img-wrapper">
               <div className="p-img" style={{ backgroundImage: `url(${product.imageUrl})` }}>
@@ -80,12 +106,12 @@ export default function ProductSection() {
               <div className="p-price-v3 glass-premium">
                 <div className="price-item">
                   <span className="l">Unitario</span>
-                  <span className="v">S/ {product.unitPrice.toFixed(2)}</span>
+                  <span className="v">S/ {Number(product.unitPrice).toFixed(2)}</span>
                 </div>
                 <div className="price-divider"></div>
                 <div className="price-item wholesale">
                   <span className="l">Mayorista</span>
-                  <span className="v">S/ {product.wholesalePrice.toFixed(2)}</span>
+                  <span className="v">S/ {Number(product.wholesalePrice).toFixed(2)}</span>
                 </div>
               </div>
 
@@ -105,6 +131,18 @@ export default function ProductSection() {
           </div>
         ))}
       </div>
+
+      {hasMore && (
+        <div className="p-load-more animate-fade">
+          <button
+            className="btn-outline-premium glass-premium"
+            onClick={loadMore}
+            disabled={loading}
+          >
+            {loading ? 'Cargando...' : 'Descubrir más productos'}
+          </button>
+        </div>
+      )}
 
       <ShareModal
         isOpen={!!sharingProduct}
@@ -130,13 +168,19 @@ export default function ProductSection() {
         .p-card {
           border-radius: var(--radius-xl);
           padding: 12px 12px 16px;
-          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
           position: relative;
-          will-change: transform, box-shadow;
-          transform: translateZ(0);
-          backface-visibility: hidden;
+          background: var(--glass);
+          backdrop-filter: blur(var(--glass-blur));
+          -webkit-backdrop-filter: blur(var(--glass-blur));
+          border: 1px solid var(--glass-border);
+          box-shadow: var(--shadow-md);
         }
-        .p-card:hover { transform: translateY(-12px) translateZ(0); box-shadow: var(--shadow-xl); }
+        .p-card:hover { 
+          transform: translateY(-10px); 
+          box-shadow: var(--shadow-xl);
+          border-color: rgba(255,255,255,0.4);
+        }
         
         .p-img-wrapper { display: block; border-radius: 20px; overflow: hidden; }
         .p-img {
