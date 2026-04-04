@@ -107,7 +107,7 @@ export default function AdminLayout({
       {/* Sidebar */}
       <aside className="admin-sidebar glass-dark">
         <div className="sidebar-header">
-          <Link href="/" className="admin-logo">
+          <Link href="/admin" className="admin-logo">
             {storeName.split(' ')[0]}<span>{storeName.split(' ')[1] || 'Admin'}</span>
           </Link>
           <button className="mobile-close mobile-only" onClick={() => setIsSidebarOpen(false)}>

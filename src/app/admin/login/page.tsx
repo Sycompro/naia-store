@@ -82,10 +82,7 @@ function AdminLoginForm() {
             </form>
 
             <div className="admin-login-footer">
-                <Link href="/" className="back-to-site">
-                    <ChevronLeft size={16} /> Volver al Sitio Público
-                </Link>
-                <div className="version-info">v2.4.0 Build 2026</div>
+                <div className="version-info" style={{ margin: '0 auto' }}>v2.4.0 Build 2026</div>
             </div>
 
             <style jsx>{`
