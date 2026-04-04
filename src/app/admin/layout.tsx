@@ -75,7 +75,7 @@ export default function AdminLayout({
         <style jsx>{`
           .admin-login-layout {
             min-height: 100vh;
-            background: #0f172a;
+            background: #0a0e17;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,7 +91,7 @@ export default function AdminLayout({
       <div className="admin-loading">
         <div className="spinner"></div>
         <style jsx>{`
-          .admin-loading { height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f172a; }
+          .admin-loading { height: 100vh; display: flex; align-items: center; justify-content: center; background: #0a0e17; }
           .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
           @keyframes spin { to { transform: rotate(360deg); } }
         `}</style>
@@ -167,7 +167,7 @@ export default function AdminLayout({
         .admin-layout {
           display: flex;
           min-height: 100vh;
-          background: #0f172a;
+          background: #0a0e17;
           color: #f8fafc;
           font-family: var(--font-main);
           overflow-x: hidden;
@@ -299,7 +299,7 @@ export default function AdminLayout({
           flex: 1;
           margin-left: 280px;
           padding: 40px;
-          background: #0f172a;
+          background: #0a0e17;
           min-height: 100vh;
           transition: padding 0.3s;
         }

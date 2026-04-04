@@ -93,7 +93,7 @@ function AdminLoginForm() {
                     width: 100%;
                     max-width: 480px;
                     padding: 60px 50px;
-                    background: rgba(15, 23, 42, 0.8);
+                    background: rgba(13, 17, 23, 0.9);
                     backdrop-filter: blur(25px);
                     -webkit-backdrop-filter: blur(25px);
                     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -261,11 +261,10 @@ export default function AdminLoginPage() {
 
             <style jsx global>{`
                 .dark-mesh-bg {
-                    background-color: #020617;
+                    background-color: #0a0e17;
                     background-image: 
-                        radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.15) 0px, transparent 50%),
-                        radial-gradient(at 100% 100%, rgba(131, 24, 67, 0.1) 0px, transparent 50%),
-                        radial-gradient(at 100% 0%, rgba(15, 23, 42, 1) 0px, transparent 50%);
+                        radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(131, 24, 67, 0.05) 0px, transparent 50%);
                 }
                 .admin-auth-wrapper {
                     min-height: 100vh;
