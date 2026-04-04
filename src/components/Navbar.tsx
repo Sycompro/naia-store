@@ -396,8 +396,9 @@ export default function Navbar() {
           .nav-container { padding: 0 20px; height: 70px; border-radius: 35px; width: 92%; }
           .premium-logo { font-size: 24px !important; }
           .logo-text { font-size: 24px; }
-          .p-theme-toggle { padding: 5px 6px; width: 74px; }
+          .p-theme-toggle { padding: 4px 5px; width: 62px; font-size: 11px; }
           .p-theme-toggle span { display: block; }
+          .p-theme-toggle .toggle-sphere { width: 22px; height: 22px; }
           .p-theme-toggle.man .toggle-sphere { transform: none; }
           .p-actions { gap: 12px; }
         }
