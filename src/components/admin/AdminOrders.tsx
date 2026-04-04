@@ -6,9 +6,11 @@ interface AdminOrdersProps {
     orders: any[];
     statusColor: (status: string) => string;
     statusLabel: (status: string) => string;
+    onUpdateStatus: (id: number, status: string) => void;
+    onViewDetail: (order: any) => void;
 }
 
-export default function AdminOrders({ orders, statusColor, statusLabel }: AdminOrdersProps) {
+export default function AdminOrders({ orders, statusColor, statusLabel, onUpdateStatus, onViewDetail }: AdminOrdersProps) {
     return (
         <div className="orders-section">
             <div className="section-header">
@@ -37,7 +39,7 @@ export default function AdminOrders({ orders, statusColor, statusLabel }: AdminO
                         ) : (
                             orders.map(order => (
                                 <div key={order.id} className="order-row-mod">
-                                    <span className="order-id-mod">#{order.id.substring(0, 8)}</span>
+                                    <span className="order-id-mod">#{String(order.id).padStart(5, '0')}</span>
                                     <div className="order-customer-mod">
                                         <span className="cust-name">{order.user?.name || 'Invitado'}</span>
                                         <span className="cust-email">{order.user?.email}</span>
@@ -53,10 +55,10 @@ export default function AdminOrders({ orders, statusColor, statusLabel }: AdminO
                                         </span>
                                     </div>
                                     <div className="order-actions-mod">
-                                        <button title="Ver Detalle" className="action-btn-circle"><Eye size={16} /></button>
-                                        <button title="Generar Ticket" className="action-btn-circle"><Download size={16} /></button>
-                                        <button title="Marcar como Enviado" className="action-btn-circle"><Truck size={16} /></button>
-                                        <button className="action-btn-circle"><MoreVertical size={16} /></button>
+                                        <button title="Ver Detalle" className="action-btn-circle" onClick={() => onViewDetail(order)}><Eye size={16} /></button>
+                                        <button title="Marcar como Enviado" className="action-btn-circle" onClick={() => onUpdateStatus(order.id, 'EN_PROCESO')}><Truck size={16} /></button>
+                                        <button title="Marcar como Entregado" className="action-btn-circle" onClick={() => onUpdateStatus(order.id, 'ENTREGADO')}><Clock size={16} /></button>
+                                        <button title="Cancelar Pedido" className="action-btn-circle delete" onClick={() => onUpdateStatus(order.id, 'CANCELADO')}><MoreVertical size={16} /></button>
                                     </div>
                                 </div>
                             ))

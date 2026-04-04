@@ -7,10 +7,11 @@ interface AdminInventoryProps {
     loading: boolean;
     searchTerm: string;
     setSearchTerm: (val: string) => void;
-    onAdjustStock: (id: string, amount: number) => void;
-    onUpdateStock: (id: string) => void;
+    onAdjustStock: (id: number, amount: number) => void;
+    onUpdateStock: (id: number) => void;
     onEditProduct: (product: any) => void;
-    onDeleteProduct: (id: string) => void;
+    onDeleteProduct: (id: number) => void;
+    onAddProduct: () => void;
 }
 
 export default function AdminInventory({
@@ -21,7 +22,8 @@ export default function AdminInventory({
     onAdjustStock,
     onUpdateStock,
     onEditProduct,
-    onDeleteProduct
+    onDeleteProduct,
+    onAddProduct
 }: AdminInventoryProps) {
 
     const filteredProducts = products.filter(p =>
@@ -43,7 +45,7 @@ export default function AdminInventory({
                 </div>
                 <div className="header-actions">
                     <button className="filter-btn-inv"><Filter size={18} /> Filtros</button>
-                    <button className="add-btn-inv"><Plus size={18} /> Nuevo Producto</button>
+                    <button className="add-btn-inv" onClick={onAddProduct}><Plus size={18} /> Nuevo Producto</button>
                 </div>
             </div>
 

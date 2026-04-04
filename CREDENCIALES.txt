@@ -6,4 +6,10 @@ CLIENTE: https://naia-store-production.up.railway.app/
 
 
 
-ADMIN: https://naia-store-production.up.railway.app/admin/chat
+ADMIN: https://naia-store-production.up.railway.app/admin/login
+
+
+Las credenciales de acceso para el panel de administración de Naia son:
+
+Usuario: admin@naia.com
+Contraseña: admin123

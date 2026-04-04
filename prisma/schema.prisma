@@ -10,16 +10,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  FEMALE
+  MALE
+  UNISEX
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDIENTE
+  EN_PROCESO
+  ENTREGADO
+  CANCELADO
+}
+
+enum ChatStatus {
+  OPEN
+  CLOSED
+  ARCHIVED
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  DOCUMENT
+  AUDIO
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
 model Product {
   id             Int      @id @default(autoincrement())
   name           String
   description    String?
   imageUrl       String?
-  unitPrice      Float
-  wholesalePrice Float
+  unitPrice      Decimal  @db.Decimal(10, 2)
+  wholesalePrice Decimal  @db.Decimal(10, 2)
   presentation   String   @default("Unidad")
   category       String   @default("General")
-  gender         String   @default("FEMALE") // FEMALE, MALE
+  gender         Gender   @default(FEMALE)
   isBestSeller   Boolean  @default(false)
   stock          Int      @default(0)
   createdAt      DateTime @default(now())
@@ -29,7 +67,7 @@ model Story {
   id        Int      @id @default(autoincrement())
   title     String
   imageUrl  String
-  gender    String   @default("FEMALE") // FEMALE, MALE
+  gender    Gender   @default(FEMALE)
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 }
@@ -40,7 +78,7 @@ model User {
   password      String
   name          String?
   phone         String?
-  role          String         @default("USER") // USER, ADMIN
+  role          Role           @default(USER)
   whatsappOptIn Boolean        @default(false)
   createdAt     DateTime       @default(now())
   orders        Order[]
@@ -51,7 +89,7 @@ model Conversation {
   id          String    @id @default(uuid())
   phone       String    @unique
   name        String?
-  status      String    @default("OPEN") // OPEN, CLOSED, ARCHIVED
+  status      ChatStatus @default(OPEN)
   unreadCount Int       @default(0)
   lastMessage String?
   userId      Int?
@@ -63,26 +101,26 @@ model Conversation {
 
 model Message {
   id             String       @id @default(uuid())
-  externalId     String?      @unique  // ID de la plataforma externa (WhatsApp)
+  externalId     String?      @unique
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   sender         String       // USER, ADMIN, SYSTEM
   content        String
-  type           String       @default("TEXT") // TEXT, IMAGE, DOCUMENT
-  status         String       @default("SENT") // SENT, DELIVERED, READ, FAILED
+  type           MessageType  @default(TEXT)
+  status         MessageStatus @default(SENT)
   createdAt      DateTime     @default(now())
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   userId     Int
-  user       User     @relation(fields: [userId], references: [id])
-  items      String   // JSON string of cart items
-  total      Float
-  status     String   @default("PENDIENTE") // PENDIENTE, EN_PROCESO, ENTREGADO, CANCELADO
+  user       User        @relation(fields: [userId], references: [id])
+  items      String      // JSON string of cart items
+  total      Decimal     @db.Decimal(10, 2)
+  status     OrderStatus @default(PENDIENTE)
   note       String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
 
 model Setting {

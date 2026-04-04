@@ -37,25 +37,51 @@ export async function GET() {
             })
         ]);
 
-        // Calculate revenue
-        const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
+        // Calculate revenue (excluding CANCELADO)
+        const activeOrders = orders.filter(o => o.status !== 'CANCELADO');
+        const totalRevenue = activeOrders.reduce((sum, o) => sum + Number(o.total || 0), 0);
 
         // Monthly sales (last 6 months)
         const monthlySales: { month: string; total: number; count: number }[] = [];
         const now = new Date();
+
+        // Month comparison for real trends
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+        const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+        const prevMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+
+        let currentMonthRevenue = 0;
+        let prevMonthRevenue = 0;
+
         for (let i = 5; i >= 0; i--) {
             const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
             const nextDate = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
-            const monthOrders = orders.filter(o => {
+
+            const monthOrders = activeOrders.filter(o => {
                 const d = new Date(o.createdAt);
                 return d >= date && d < nextDate;
             });
+
             const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const rev = monthOrders.reduce((s, o) => s + Number(o.total || 0), 0);
+
+            if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) currentMonthRevenue = rev;
+            if (date.getMonth() === prevMonth && date.getFullYear() === prevMonthYear) prevMonthRevenue = rev;
+
             monthlySales.push({
                 month: monthNames[date.getMonth()],
-                total: monthOrders.reduce((s, o) => s + o.total, 0),
+                total: rev,
                 count: monthOrders.length
             });
+        }
+
+        // Calculate Revenue Trend
+        let revenueTrend = 0;
+        if (prevMonthRevenue > 0) {
+            revenueTrend = ((currentMonthRevenue - prevMonthRevenue) / prevMonthRevenue) * 100;
+        } else if (currentMonthRevenue > 0) {
+            revenueTrend = 100;
         }
 
         // Low stock products
@@ -72,6 +98,7 @@ export async function GET() {
             totalUsers,
             totalOrders,
             totalRevenue,
+            revenueTrend, // New field for real percentages
             monthlySales,
             lowStock,
             recentOrders: parsedRecentOrders,

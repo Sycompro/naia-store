@@ -11,12 +11,31 @@ async function checkAdmin() {
     return payload && payload.role === 'ADMIN';
 }
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
-        const products = await prisma.product.findMany({
-            orderBy: { createdAt: 'desc' }
+        const { searchParams } = new URL(request.url);
+        const page = parseInt(searchParams.get('page') || '1');
+        const pageSize = parseInt(searchParams.get('pageSize') || '20');
+        const skip = (page - 1) * pageSize;
+
+        const [products, total] = await Promise.all([
+            prisma.product.findMany({
+                skip,
+                take: pageSize,
+                orderBy: { createdAt: 'desc' }
+            }),
+            prisma.product.count()
+        ]);
+
+        return NextResponse.json({
+            products,
+            pagination: {
+                page,
+                pageSize,
+                total,
+                totalPages: Math.ceil(total / pageSize)
+            }
         });
-        return NextResponse.json(products);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
     }
@@ -32,12 +51,13 @@ export async function POST(request: Request) {
             data: {
                 name: body.name,
                 description: body.description || '',
-                unitPrice: parseFloat(body.unitPrice),
-                wholesalePrice: parseFloat(body.wholesalePrice),
-                presentation: body.presentation,
+                unitPrice: parseFloat(body.unitPrice) || 0,
+                wholesalePrice: parseFloat(body.wholesalePrice) || 0,
+                presentation: body.presentation || 'Unidad',
                 category: body.category || 'General',
-                gender: body.gender || 'FEMALE',
+                gender: (body.gender?.toUpperCase() || 'FEMALE') as any,
                 imageUrl: body.imageUrl || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571',
+                stock: parseInt(body.stock) || 0
             }
         });
         return NextResponse.json(product);
@@ -51,17 +71,44 @@ export async function PATCH(request: Request) {
         return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
     }
     try {
-        const { id, stock } = await request.json();
-        if (!id || stock === undefined) {
-            return NextResponse.json({ error: 'ID y stock requeridos' }, { status: 400 });
-        }
+        const body = await request.json();
+        const { id, ...data } = body;
+
+        if (!id) return NextResponse.json({ error: 'ID requerido' }, { status: 400 });
+
+        // Handle price conversions if they exist in the body
+        const updateData: any = { ...data };
+        if (data.unitPrice !== undefined) updateData.unitPrice = parseFloat(data.unitPrice) || 0;
+        if (data.wholesalePrice !== undefined) updateData.wholesalePrice = parseFloat(data.wholesalePrice) || 0;
+        if (data.stock !== undefined) updateData.stock = parseInt(data.stock) || 0;
+        if (data.gender !== undefined) updateData.gender = (data.gender.toUpperCase()) as any;
+
         const product = await prisma.product.update({
             where: { id: parseInt(id) },
-            data: { stock: parseInt(stock) }
+            data: updateData
         });
         return NextResponse.json(product);
     } catch (error) {
-        return NextResponse.json({ error: 'Error al actualizar stock' }, { status: 500 });
+        console.error('Update product error:', error);
+        return NextResponse.json({ error: 'Error al actualizar producto' }, { status: 500 });
+    }
+}
+
+export async function DELETE(request: Request) {
+    if (!await checkAdmin()) {
+        return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
+    }
+    try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+        if (!id) return NextResponse.json({ error: 'ID requerido' }, { status: 400 });
+
+        await prisma.product.delete({
+            where: { id: parseInt(id) }
+        });
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        return NextResponse.json({ error: 'Error al eliminar producto' }, { status: 500 });
     }
 }
 

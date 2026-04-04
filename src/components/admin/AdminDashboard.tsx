@@ -70,7 +70,9 @@ export default function AdminDashboard({
                         </div>
                     </div>
                     <div className="stat-footer">
-                        <span className="trend positive">+12.5% vs mes anterior</span>
+                        <span className={`trend ${stats?.revenueTrend >= 0 ? 'positive' : 'negative'}`}>
+                            {stats?.revenueTrend >= 0 ? '+' : ''}{stats?.revenueTrend?.toFixed(1)}% vs mes anterior
+                        </span>
                     </div>
                 </div>
 

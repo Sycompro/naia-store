@@ -1,6 +1,31 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+export async function PATCH(
+    request: Request,
+    { params }: { params: { id: string } }
+) {
+    try {
+        const id = parseInt(params.id);
+        const body = await request.json();
+
+        const story = await prisma.story.update({
+            where: { id },
+            data: {
+                title: body.title,
+                imageUrl: body.imageUrl,
+                gender: body.gender,
+                isActive: body.isActive ?? true
+            }
+        });
+
+        return NextResponse.json(story);
+    } catch (error) {
+        console.error('Update story error:', error);
+        return NextResponse.json({ error: 'Failed to update story' }, { status: 500 });
+    }
+}
+
 export async function DELETE(
     request: Request,
     { params }: { params: Promise<{ id: string }> }

@@ -1,9 +1,12 @@
 import { SignJWT, jwtVerify } from 'jose';
 import bcrypt from 'bcryptjs';
 
-const SECRET_KEY = new TextEncoder().encode(
-    process.env.JWT_SECRET || 'naia-ultra-secret-key-2026'
-);
+const secret = process.env.JWT_SECRET;
+if (!secret && process.env.NODE_ENV === 'production') {
+    throw new Error('JWT_SECRET is not defined in environment variables');
+}
+
+const SECRET_KEY = new TextEncoder().encode(secret || 'dev-secret-only-for-local');
 
 export async function hashPassword(password: string) {
     return await bcrypt.hash(password, 10);

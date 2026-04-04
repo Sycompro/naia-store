@@ -15,30 +15,56 @@ export default function AdminHistorias() {
         imageUrl: '',
         gender: 'FEMALE',
     });
+    const [editingStory, setEditingStory] = useState<any>(null);
 
     useEffect(() => {
         fetchStories();
     }, []);
 
+    useEffect(() => {
+        if (editingStory) {
+            setFormData({
+                title: editingStory.title.replace('[MALE] ', ''),
+                imageUrl: editingStory.imageUrl,
+                gender: editingStory.gender
+            });
+        } else {
+            setFormData({ title: '', imageUrl: '', gender: 'FEMALE' });
+        }
+    }, [editingStory]);
+
     const fetchStories = async () => {
-        const res = await fetch('/api/stories');
-        const data = await res.json();
-        setStories(data);
-        setLoading(false);
+        setLoading(true);
+        try {
+            const res = await fetch('/api/stories');
+            const data = await res.json();
+            setStories(data);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const res = await fetch('/api/stories', {
-            method: 'POST',
+        const method = editingStory ? 'PATCH' : 'POST';
+        const url = editingStory ? `/api/stories/${editingStory.id}` : '/api/stories';
+
+        // Ensure manual gender logic if needed for title (legacy support)
+        let finalTitle = formData.title;
+        if (formData.gender === 'MALE' && !finalTitle.includes('[MALE]')) {
+            finalTitle = `[MALE] ${finalTitle}`;
+        }
+
+        const res = await fetch(url, {
+            method,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({ ...formData, title: finalTitle }),
         });
 
         if (res.ok) {
             setShowModal(false);
+            setEditingStory(null);
             fetchStories();
-            setFormData({ title: '', imageUrl: '', gender: 'FEMALE' });
         }
     };
 
@@ -49,32 +75,47 @@ export default function AdminHistorias() {
         }
     };
 
+    const openEditModal = (story: any) => {
+        setEditingStory(story);
+        setShowModal(true);
+    };
+
+    const openAddModal = () => {
+        setEditingStory(null);
+        setShowModal(true);
+    };
+
     return (
         <div className="stories-admin">
-            <div className="admin-toolbar glass">
+            <div className="admin-toolbar glass-premium">
                 <div className="toolbar-info">
                     <p>Muestra ofertas y novedades en el carrusel superior de la tienda.</p>
                 </div>
-                <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+                <button className="add-history-btn" onClick={openAddModal}>
                     <Plus size={18} /> Nueva Historia
                 </button>
             </div>
 
             <div className="stories-grid">
                 {loading ? (
-                    <p>Cargando historias...</p>
+                    <div className="loading-grid">Cargando historias...</div>
                 ) : stories.length === 0 ? (
-                    <div className="empty-state glass">
+                    <div className="empty-state glass-premium">
                         <ImageIcon size={48} />
                         <p>No hay historias publicadas aún.</p>
                     </div>
                 ) : stories.map((story) => (
-                    <div key={story.id} className="story-card glass transition-all">
+                    <div key={story.id} className="story-card-premium transition-all">
                         <div className="story-preview-container">
                             <div className="story-preview-img" style={{ backgroundImage: `url(${story.imageUrl})` }}></div>
                             <div className="story-overlay">
-                                <button className="btn-icon delete" onClick={() => handleDelete(story.id)} title="Eliminar"><Trash2 size={16} /></button>
-                                <div className="gender-tag">{story.gender === 'MALE' ? 'Él' : 'Ella'}</div>
+                                <div className="overlay-top">
+                                    <button className="icon-btn-s edit" onClick={() => openEditModal(story)}><Plus size={16} style={{ transform: 'rotate(45deg)' }} /></button>
+                                </div>
+                                <div className="overlay-bottom">
+                                    <div className="gender-tag">{story.gender === 'MALE' ? 'Él' : 'Ella'}</div>
+                                    <button className="icon-btn-s delete" onClick={() => handleDelete(story.id)}><Trash2 size={16} /></button>
+                                </div>
                             </div>
                         </div>
                         <div className="story-item-info">
@@ -87,13 +128,13 @@ export default function AdminHistorias() {
 
             {showModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content glass animate-fade">
+                    <div className="modal-content glass-premium animate-fade-in">
                         <div className="modal-header">
                             <div>
-                                <h3>Nueva Historia</h3>
-                                <p>Publica una nueva novedad</p>
+                                <h3>{editingStory ? 'Editar Historia' : 'Nueva Historia'}</h3>
+                                <p>Publica una nueva novedad en el carrusel</p>
                             </div>
-                            <button className="close-modal" onClick={() => setShowModal(false)}><X size={20} /></button>
+                            <button className="close-modal" onClick={() => { setShowModal(false); setEditingStory(null); }}><X size={20} /></button>
                         </div>
                         <form onSubmit={handleSubmit} className="admin-form">
                             <div className="form-group">
@@ -137,8 +178,8 @@ export default function AdminHistorias() {
                             )}
 
                             <div className="form-actions">
-                                <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Cancelar</button>
-                                <button type="submit" className="btn btn-primary">Publicar Ahora</button>
+                                <button type="button" className="btn-cancel" onClick={() => { setShowModal(false); setEditingStory(null); }}>Cancelar</button>
+                                <button type="submit" className="btn-save-story">{editingStory ? 'Actualizar' : 'Publicar Ahora'}</button>
                             </div>
                         </form>
                     </div>
@@ -146,90 +187,79 @@ export default function AdminHistorias() {
             )}
 
             <style jsx>{`
-        .stories-admin { display: flex; flex-direction: column; gap: 30px; padding-bottom: 50px; }
+        .stories-admin { display: flex; flex-direction: column; gap: 32px; animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .admin-toolbar { 
-            padding: 24px; 
-            border-radius: 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            background: rgba(255,255,255,0.7);
-            border: 1px solid rgba(255,255,255,0.3);
+            padding: 28px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
         }
-        .toolbar-info p { color: var(--slate-500); font-size: 15px; font-weight: 500; }
+        .toolbar-info p { color: #94a3b8; font-size: 15px; font-weight: 600; }
         
-        .stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; }
-        .story-card { 
-            border-radius: 24px; 
-            overflow: hidden; 
-            padding: 12px; 
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        .add-history-btn {
+            background: white; color: #0f172a; border: none; padding: 12px 24px; border-radius: 16px;
+            font-weight: 900; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s;
         }
-        .story-preview-container {
-            width: 100%;
-            height: 250px;
-            border-radius: 18px;
-            overflow: hidden;
-            position: relative;
-        }
-        .story-preview-img {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.5s;
-        }
-        .story-card:hover .story-preview-img { transform: scale(1.1); }
-        .story-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            opacity: 0;
-            transition: 0.3s;
-        }
-        .story-card:hover .story-overlay { opacity: 1; }
-        .btn-icon.delete { background: #ff4d4d; color: white; border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; align-self: flex-end; }
-        .gender-tag { background: white; color: black; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; align-self: flex-start; }
-        
-        .story-item-info { padding: 12px 4px; display: flex; flex-direction: column; gap: 4px; }
-        .story-item-info strong { font-size: 15px; color: var(--fg); font-weight: 700; }
-        .story-item-info .date { font-size: 12px; color: var(--slate-400); }
+        .add-history-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,255,255,0.1); }
 
-        .empty-state { grid-column: 1 / -1; padding: 80px; display: flex; flex-direction: column; align-items: center; gap: 15px; color: var(--slate-400); text-align: center; border-style: dashed; }
+        .stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 28px; }
+        .story-card-premium { 
+            background: rgba(255,255,255,0.03); border-radius: 28px; padding: 12px;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+        }
+        .story-card-premium:hover { background: rgba(255,255,255,0.06); transform: translateY(-5px); }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-content { width: 100%; max-width: 450px; padding: 32px; border-radius: 30px; background: white; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .modal-header h3 { font-size: 22px; font-weight: 800; color: var(--fg); }
-        .modal-header p { font-size: 14px; color: var(--slate-400); }
-        .close-modal { background: var(--slate-100); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; color: var(--slate-500); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .close-modal:hover { background: var(--slate-200); color: black; }
+        .story-preview-container {
+            width: 100%; height: 320px; border-radius: 20px; overflow: hidden; position: relative;
+        }
+        .story-preview-img { width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .story-card-premium:hover .story-preview-img { transform: scale(1.1); }
         
-        .admin-form { display: flex; flex-direction: column; gap: 18px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group label { font-size: 12px; font-weight: 700; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.05em; }
-        .form-group input, .form-group select { padding: 12px 16px; border-radius: 12px; border: 1px solid var(--slate-200); outline: none; transition: 0.3s; background: var(--slate-50); }
-        .form-group input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px var(--primary-light); }
-        .form-row { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        .story-overlay {
+            position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.8), transparent);
+            padding: 16px; display: flex; flex-direction: column; justify-content: space-between;
+            opacity: 0; transition: 0.3s;
+        }
+        .story-card-premium:hover .story-overlay { opacity: 1; }
         
-        .image-preview { display: flex; flex-direction: column; gap: 8px; }
-        .image-preview span { font-size: 12px; font-weight: 700; color: var(--slate-500); }
-        .preview-img { width: 100%; height: 180px; border-radius: 15px; background-size: cover; background-position: center; border: 2px solid var(--primary-light); }
+        .overlay-top, .overlay-bottom { display: flex; justify-content: space-between; align-items: center; }
+        .icon-btn-s {
+            width: 36px; height: 36px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+            color: white; cursor: pointer; transition: 0.3s;
+        }
+        .icon-btn-s.edit { background: rgba(255,255,255,0.1); }
+        .icon-btn-s.delete { background: rgba(239,68,68,0.2); color: #ef4444; border-color: rgba(239,68,68,0.3); }
+        .icon-btn-s:hover { transform: scale(1.1); background: white; color: #0f172a; }
+        .icon-btn-s.delete:hover { background: #ef4444; color: white; }
+
+        .gender-tag { background: white; color: #0f172a; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
+        .story-item-info { padding: 16px 8px; display: flex; flex-direction: column; gap: 4px; }
+        .story-item-info strong { font-size: 16px; color: #f1f5f9; font-weight: 800; }
+        .story-item-info .date { font-size: 12px; color: #64748b; font-weight: 600; }
+
+        .empty-state { grid-column: 1 / -1; padding: 80px; display: flex; flex-direction: column; align-items: center; gap: 16px; color: #475569; }
+        .loading-grid { grid-column: 1 / -1; padding: 40px; text-align: center; color: #94a3b8; font-weight: 700; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .modal-content { width: 100%; max-width: 480px; padding: 32px; border-radius: 32px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); }
+        .modal-header h3 { font-size: 24px; font-weight: 900; color: white; margin-bottom: 4px; }
+        .modal-header p { font-size: 14px; color: #64748b; font-weight: 600; }
+        .close-modal { background: rgba(255,255,255,0.05); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; color: #94a3b8; display: flex; align-items: center; justify-content: center; }
+
+        .admin-form { display: flex; flex-direction: column; gap: 20px; margin-top: 24px; }
+        .form-group label { font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: white; font-weight: 600; outline: none; }
+        .form-group input:focus { border-color: white; }
         
-        .form-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 15px; }
-        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; border: none; }
-        .btn-primary { background: var(--fg); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-        .btn-outline { background: white; border: 1px solid var(--slate-200); color: var(--slate-600); }
-        .btn-outline:hover { background: var(--slate-50); }
+        .preview-img { width: 100%; height: 200px; border-radius: 20px; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px; }
+        
+        .form-actions { display: flex; justify-content: flex-end; gap: 16px; margin-top: 10px; }
+        .btn-cancel { background: none; border: none; color: #94a3b8; font-weight: 700; cursor: pointer; }
+        .btn-save-story { background: white; color: #0f172a; border: none; padding: 12px 24px; border-radius: 14px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .btn-save-story:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
+
+        .animate-fade-in { animation: fadeIn 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
         </div>
     );
