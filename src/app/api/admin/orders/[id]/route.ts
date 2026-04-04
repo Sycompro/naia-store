@@ -13,15 +13,16 @@ async function checkAdmin() {
 
 export async function PATCH(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     if (!await checkAdmin()) {
         return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
     }
 
     try {
+        const { id: rawId } = await params;
         const { status } = await request.json();
-        const id = parseInt(params.id);
+        const id = parseInt(rawId);
 
         if (isNaN(id)) return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
 
@@ -39,14 +40,15 @@ export async function PATCH(
 
 export async function GET(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     if (!await checkAdmin()) {
         return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
     }
 
     try {
-        const id = parseInt(params.id);
+        const { id: rawId } = await params;
+        const id = parseInt(rawId);
         const order = await prisma.order.findUnique({
             where: { id },
             include: { user: true }

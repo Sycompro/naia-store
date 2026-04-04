@@ -3,10 +3,11 @@ import prisma from '@/lib/prisma';
 
 export async function PATCH(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const id = parseInt(params.id);
+        const { id: rawId } = await params;
+        const id = parseInt(rawId);
         const body = await request.json();
 
         const story = await prisma.story.update({
