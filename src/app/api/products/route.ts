@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
@@ -58,8 +59,8 @@ export async function POST(request: Request) {
             data: {
                 name: body.name,
                 description: body.description || '',
-                unitPrice: parseFloat(body.unitPrice) || 0,
-                wholesalePrice: parseFloat(body.wholesalePrice) || 0,
+                unitPrice: new Prisma.Decimal(body.unitPrice || 0) as any,
+                wholesalePrice: new Prisma.Decimal(body.wholesalePrice || 0) as any,
                 presentation: body.presentation || 'Unidad',
                 category: body.category || 'General',
                 gender: (body.gender?.toUpperCase() || 'FEMALE') as any,
@@ -85,8 +86,8 @@ export async function PATCH(request: Request) {
 
         // Handle price conversions if they exist in the body
         const updateData: any = { ...data };
-        if (data.unitPrice !== undefined) updateData.unitPrice = parseFloat(data.unitPrice) || 0;
-        if (data.wholesalePrice !== undefined) updateData.wholesalePrice = parseFloat(data.wholesalePrice) || 0;
+        if (data.unitPrice !== undefined) updateData.unitPrice = new Prisma.Decimal(data.unitPrice || 0) as any;
+        if (data.wholesalePrice !== undefined) updateData.wholesalePrice = new Prisma.Decimal(data.wholesalePrice || 0) as any;
         if (data.stock !== undefined) updateData.stock = parseInt(data.stock) || 0;
         if (data.gender !== undefined) updateData.gender = (data.gender.toUpperCase()) as any;
 

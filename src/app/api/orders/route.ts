@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
@@ -54,7 +55,7 @@ export async function POST(request: Request) {
                 // @ts-ignore
                 customerPhone: customerPhone || (user?.phone as string) || null,
                 items: JSON.stringify(items),
-                total: parseFloat(total),
+                total: new Prisma.Decimal(total) as any,
                 note: note || null,
                 status: 'PENDIENTE'
             }
