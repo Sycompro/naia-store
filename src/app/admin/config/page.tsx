@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import AdminSettings from '@/components/admin/AdminSettings';
 import { useRouter } from 'next/navigation';
