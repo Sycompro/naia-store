@@ -3,12 +3,14 @@ import React, { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { Lock, Mail, ArrowRight, ShieldCheck, Sparkles, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 
 function AdminLoginForm() {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { login } = useAuth(); // Obtener función login
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,9 +31,11 @@ function AdminLoginForm() {
                 throw new Error('Esta cuenta no tiene permisos de administrador.');
             }
 
-            localStorage.setItem('user', JSON.stringify(data.user));
+            // IMPORTANTE: Usar la función login del contexto para actualizar el estado global
+            login(data.user);
+
             router.push('/admin');
-            setTimeout(() => window.location.reload(), 100);
+            // Ya no es necesario el reload si el estado se actualiza correctamente
         } catch (err: any) {
             setError(err.message);
         } finally {
