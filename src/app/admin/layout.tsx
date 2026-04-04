@@ -381,9 +381,10 @@ export default function AdminLayout({
         }
 
         .sub-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 16px; /* Más espacio entre punto y texto */
             padding: 10px 14px;
             border-radius: 12px;
             color: #64748b;
@@ -392,6 +393,7 @@ export default function AdminLayout({
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+            width: 100%;
         }
 
         /* Pequeña línea horizontal conectora por ítem */
