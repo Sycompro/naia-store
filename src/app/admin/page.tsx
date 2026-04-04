@@ -21,6 +21,7 @@ interface StatsData {
 export default function AdminPage() {
     const [stats, setStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -28,6 +29,7 @@ export default function AdminPage() {
     }, []);
 
     const fetchStats = async () => {
+        setRefreshing(true);
         try {
             const res = await fetch('/api/admin/stats');
             if (res.status === 403) {
@@ -42,6 +44,7 @@ export default function AdminPage() {
             console.error(e);
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
     };
 
@@ -78,6 +81,8 @@ export default function AdminPage() {
                 maxSale={maxSale}
                 statusColor={statusColor}
                 statusLabel={statusLabel}
+                onRefresh={fetchStats}
+                refreshing={refreshing}
             />
         </div>
     );

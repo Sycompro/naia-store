@@ -29,3 +29,8 @@ export async function verifyToken(token: string) {
         return null;
     }
 }
+
+export async function getRoleFromToken(token: string) {
+    const payload = await verifyToken(token);
+    return payload ? (payload as any).role : null;
+}

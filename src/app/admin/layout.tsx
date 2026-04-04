@@ -12,7 +12,41 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { logout } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
+  const [storeName, setStoreName] = React.useState('NaiaAdmin');
+  const [unreadCount, setUnreadCount] = React.useState(0);
+  const [isVerifying, setIsVerifying] = React.useState(true);
+
+  const isLoginPage = pathname?.startsWith('/admin/login');
+
+  React.useEffect(() => {
+    if (!authLoading) {
+      if (!isLoginPage && (!user || user.role !== 'ADMIN')) {
+        router.push('/admin/login');
+      } else {
+        setIsVerifying(false);
+        if (!isLoginPage) fetchConfigs();
+      }
+    }
+  }, [user, authLoading, pathname]);
+
+  const fetchConfigs = async () => {
+    try {
+      // 1. Fetch Store Name
+      const sRes = await fetch('/api/admin/settings');
+      if (sRes.ok) {
+        const data = await sRes.json();
+        if (data.storeName) setStoreName(data.storeName.replace(' Beauty Store', ''));
+      }
+
+      // 2. Fetch Unread Chats
+      const cRes = await fetch('/api/chat/messages/unread'); // We'll need this API
+      if (cRes.ok) {
+        const data = await cRes.json();
+        setUnreadCount(data.count || 0);
+      }
+    } catch (e) { }
+  };
 
   const handleLogout = () => {
     logout();
@@ -24,9 +58,41 @@ export default function AdminLayout({
     { name: 'Productos', icon: <Package size={20} />, path: '/admin/productos' },
     { name: 'Pedidos', icon: <ShoppingBag size={20} />, path: '/admin/pedidos' },
     { name: 'Historias', icon: <ImageIcon size={20} />, path: '/admin/historias' },
-    { name: 'Chat', icon: <MessageSquare size={20} />, path: '/admin/chat' },
+    { name: 'Chat', icon: <MessageSquare size={20} />, path: '/admin/chat', badge: unreadCount },
     { name: 'Configuración', icon: <Settings size={20} />, path: '/admin/config' },
   ];
+
+  // Si es la página de login, renderizamos sin el marco administrativo
+  if (isLoginPage) {
+    return (
+      <div className="admin-login-layout">
+        {children}
+        <style jsx>{`
+          .admin-login-layout {
+            min-height: 100vh;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Mientras verifica o carga el auth
+  if (authLoading || (isVerifying && !isLoginPage)) {
+    return (
+      <div className="admin-loading">
+        <div className="spinner"></div>
+        <style jsx>{`
+          .admin-loading { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f8fafc; }
+          .spinner { width: 40px; height: 40px; border: 4px solid rgba(0,0,0,0.1); border-top-color: #0f172a; border-radius: 50%; animation: spin 1s linear infinite; }
+          @keyframes spin { to { transform: rotate(360deg); } }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-layout">
@@ -34,7 +100,7 @@ export default function AdminLayout({
       <aside className="admin-sidebar glass">
         <div className="sidebar-header">
           <Link href="/" className="admin-logo">
-            Naia<span>Admin</span>
+            {storeName.split(' ')[0]}<span>{storeName.split(' ')[1] || 'Admin'}</span>
           </Link>
         </div>
 
@@ -45,7 +111,10 @@ export default function AdminLayout({
               href={item.path}
               className={`nav-item ${pathname === item.path ? 'active' : ''}`}
             >
-              {item.icon}
+              <div className="item-icon-wrap">
+                {item.icon}
+                {item.badge ? <span className="unread-dot animate-pulse-fast">{item.badge}</span> : null}
+              </div>
               <span>{item.name}</span>
               <ChevronRight className="arrow" size={14} />
             </Link>
@@ -64,11 +133,11 @@ export default function AdminLayout({
       <main className="admin-main">
         <header className="admin-header glass">
           <div className="header-left">
-            <h1>{menuItems.find(i => i.path === pathname)?.name || 'Panel Admin'}</h1>
+            <h1 className="animate-fade-in">{menuItems.find(i => i.path === pathname)?.name || 'Panel Admin'}</h1>
           </div>
           <div className="header-right">
-            <div className="admin-profile">
-              <div className="avatar">AD</div>
+            <div className="admin-profile glass-premium">
+              <div className="avatar shadow-premium">AD</div>
               <span>Administrador</span>
             </div>
           </div>
@@ -158,6 +227,14 @@ export default function AdminLayout({
           opacity: 1;
           transform: rotate(90deg);
         }
+        .item-icon-wrap { position: relative; display: flex; align-items: center; }
+        .unread-dot {
+          position: absolute; -top: 8px; -right: 8px;
+          background: #ef4444; color: white; border-radius: 50%;
+          width: 18px; height: 18px; font-size: 10px; font-weight: 900;
+          display: flex; align-items: center; justify-content: center;
+          border: 2px solid white; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
         .sidebar-footer {
           margin-top: auto;
           padding-top: 20px;
@@ -199,7 +276,7 @@ export default function AdminLayout({
           padding: 0 30px;
           margin-bottom: 40px;
           border: 1px solid rgba(255, 255, 255, 0.8);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
         .admin-header h1 {
           font-size: 24px;
@@ -215,6 +292,10 @@ export default function AdminLayout({
           border-radius: 14px;
           border: 1px solid rgba(0,0,0,0.05);
         }
+        .glass-premium {
+          background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+          box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
         .avatar {
           width: 40px;
           height: 40px;
@@ -226,8 +307,8 @@ export default function AdminLayout({
           justify-content: center;
           font-weight: 800;
           font-size: 14px;
-          box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
+        .shadow-premium { box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15); }
         .admin-profile span {
           font-weight: 700;
           font-size: 14px;
@@ -236,6 +317,10 @@ export default function AdminLayout({
         .admin-content {
           animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .animate-fade-in { animation: fadeIn 0.8s; }
+        .animate-pulse-fast { animation: pulseFast 1.5s infinite; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulseFast { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         @keyframes slideUp {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }

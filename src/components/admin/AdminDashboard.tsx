@@ -6,7 +6,9 @@ import {
     Users,
     Package,
     TrendingUp,
-    Clock
+    Clock,
+    RefreshCw,
+    Circle
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -14,25 +16,50 @@ interface AdminDashboardProps {
     maxSale: number;
     statusColor: (status: string) => string;
     statusLabel: (status: string) => string;
+    onRefresh: () => void;
+    refreshing: boolean;
 }
 
-export default function AdminDashboard({ stats, maxSale, statusColor, statusLabel }: AdminDashboardProps) {
+export default function AdminDashboard({
+    stats,
+    maxSale,
+    statusColor,
+    statusLabel,
+    onRefresh,
+    refreshing
+}: AdminDashboardProps) {
     return (
         <div className="dashboard-view-container">
             {/* Welcome Header */}
-            <div className="welcome-banner">
+            <div className="welcome-banner animate-fade-in">
                 <div className="welcome-text">
-                    <h2>Vista General del Negocio</h2>
+                    <div className="flex items-center gap-3">
+                        <h2>Vista General del Negocio</h2>
+                        <div className="live-indicator">
+                            <Circle size={8} fill="#22c55e" className="text-green-500 animate-pulse" />
+                            <span>En Vivo</span>
+                        </div>
+                    </div>
                     <p>Monitorea tus ventas, clientes e inventario en tiempo real.</p>
                 </div>
-                <div className="last-sync">
-                    <Clock size={14} /> Actualizado: {new Date().toLocaleTimeString()}
+                <div className="flex items-center gap-4">
+                    <button
+                        className={`refresh-btn glass-premium ${refreshing ? 'spinning' : ''}`}
+                        onClick={onRefresh}
+                        disabled={refreshing}
+                    >
+                        <RefreshCw size={18} />
+                        <span>{refreshing ? 'Sincronizando...' : 'Refrescar'}</span>
+                    </button>
+                    <div className="last-sync">
+                        <Clock size={14} /> Actualizado: {new Date().toLocaleTimeString()}
+                    </div>
                 </div>
             </div>
 
             {/* Stats Cards */}
             <div className="stats-grid">
-                <div className="stat-card glass-premium p-violet">
+                <div className="stat-card glass-premium p-violet animate-slide-up" style={{ animationDelay: '0s' }}>
                     <div className="stat-content">
                         <div className="stat-main">
                             <span className="stat-label">Ingresos Totales</span>
@@ -47,7 +74,7 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
                     </div>
                 </div>
 
-                <div className="stat-card glass-premium p-pink">
+                <div className="stat-card glass-premium p-pink animate-slide-up" style={{ animationDelay: '0.1s' }}>
                     <div className="stat-content">
                         <div className="stat-main">
                             <span className="stat-label">Pedidos Realizados</span>
@@ -62,7 +89,7 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
                     </div>
                 </div>
 
-                <div className="stat-card glass-premium p-blue">
+                <div className="stat-card glass-premium p-blue animate-slide-up" style={{ animationDelay: '0.2s' }}>
                     <div className="stat-content">
                         <div className="stat-main">
                             <span className="stat-label">Clientes Registrados</span>
@@ -77,7 +104,7 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
                     </div>
                 </div>
 
-                <div className="stat-card glass-premium p-orange">
+                <div className="stat-card glass-premium p-orange animate-slide-up" style={{ animationDelay: '0.3s' }}>
                     <div className="stat-content">
                         <div className="stat-main">
                             <span className="stat-label">Stock de Productos</span>
@@ -95,7 +122,7 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
 
             <div className="dashboard-main-grid">
                 {/* Sales Chart */}
-                <div className="chart-card glass-premium">
+                <div className="chart-card glass-premium animate-fade-in" style={{ animationDelay: '0.4s' }}>
                     <div className="card-header">
                         <h3><TrendingUp size={18} /> Ventas Mensuales</h3>
                         <div className="card-actions">
@@ -122,7 +149,7 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
                 </div>
 
                 {/* Recent Orders */}
-                <div className="orders-card glass-premium">
+                <div className="orders-card glass-premium animate-fade-in" style={{ animationDelay: '0.5s' }}>
                     <div className="card-header">
                         <h3><Clock size={18} /> Historial Reciente</h3>
                         <button className="view-all-btn">Ver todo</button>
@@ -164,9 +191,27 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
             <style jsx>{`
                 .dashboard-view-container { display: flex; flex-direction: column; gap: 32px; }
 
-                .welcome-banner { display: flex; justify-content: space-between; align-items: flex-end; }
-                .welcome-text h2 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
-                .welcome-text p { color: #64748b; font-weight: 500; }
+                .welcome-banner { display: flex; justify-content: space-between; align-items: center; }
+                .welcome-text h2 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; margin: 0; }
+                .welcome-text p { color: #64748b; font-weight: 500; margin-top: 4px; }
+                
+                .live-indicator { 
+                    display: flex; align-items: center; gap: 6px; 
+                    background: #f0fdf4; color: #16a34a; 
+                    padding: 4px 10px; border-radius: 20px;
+                    font-size: 11px; font-weight: 800; text-transform: uppercase;
+                }
+
+                .refresh-btn { 
+                    display: flex; align-items: center; gap: 10px; 
+                    padding: 10px 20px; border-radius: 14px;
+                    font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s;
+                    border: 1px solid rgba(0,0,0,0.05);
+                }
+                .refresh-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+                .refresh-btn.spinning svg { animation: spin 1s linear infinite; }
+                .refresh-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
                 .last-sync { font-size: 12px; font-weight: 700; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
 
                 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -255,10 +300,19 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
                 .order-badge { padding: 4px 12px; border-radius: 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
 
                 .view-all-btn { 
-                    background: transparent; border: none; color: var(--primary); 
+                    background: transparent; border: none; color: #7c3aed; 
                     font-weight: 800; font-size: 13px; cursor: pointer;
                 }
                 .empty-state { text-align: center; padding: 40px; color: #94a3b8; }
+
+                @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                
+                .animate-slide-up { animation: slideUp 0.6s backwards; }
+                .animate-fade-in { animation: fadeIn 0.8s; }
+                .animate-pulse { animation: pulse 2s infinite; }
+                @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
 
                 @media (max-width: 1200px) {
                     .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -266,6 +320,7 @@ export default function AdminDashboard({ stats, maxSale, statusColor, statusLabe
                 }
                 @media (max-width: 600px) {
                     .stats-grid { grid-template-columns: 1fr; }
+                    .welcome-banner { flex-direction: column; align-items: flex-start; gap: 20px; }
                 }
             `}</style>
         </div>

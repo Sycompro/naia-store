@@ -2,4 +2,8 @@
 NAIA NOIR
 
 
-https://naia-store-production.up.railway.app/
+CLIENTE: https://naia-store-production.up.railway.app/
+
+
+
+ADMIN: https://naia-store-production.up.railway.app/admin/chat

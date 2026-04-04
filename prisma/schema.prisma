@@ -83,3 +83,18 @@ model Order {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+model Setting {
+  id                  Int      @id @default(1)
+  storeName           String   @default("Naia Beauty Store")
+  supportEmail        String   @default("soporte@naia.com")
+  mainAddress         String   @default("Av. Principal 123, Lima, Perú")
+  whatsappPhoneId     String?
+  whatsappVerifyToken String?
+  whatsappStatus      String   @default("Conectado")
+  notifyOrderWS       Boolean  @default(true)
+  notifyLowStockEmail Boolean  @default(true)
+  weeklySalesSummary  Boolean  @default(false)
+  twoFactorAuth       Boolean  @default(true)
+  updatedAt           DateTime @updatedAt
+}
