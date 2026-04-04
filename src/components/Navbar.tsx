@@ -7,20 +7,11 @@ import { useAuth } from '@/context/AuthContext';
 import CartDrawer from './CartDrawer';
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [theme, setTheme] = useState<'woman' | 'man'>('woman');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { totalItems } = useCart();
   const { user, logout } = useAuth();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'woman' ? 'man' : 'woman';
@@ -30,7 +21,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`nav-v3 ${isScrolled ? 'scrolled' : ''}`}>
+      <nav className="nav-v3">
         <div className="nav-container glass-premium">
           <div className="nav-left">
             <Link href="/" id="main-naia-logo" className="premium-logo" style={{ fontSize: '32px', fontWeight: '800', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '2px' }}>
@@ -110,7 +101,7 @@ export default function Navbar() {
           top: 0;
           left: 0;
           width: 100%;
-          padding: 12px 0;
+          padding: 8px 0;
           z-index: 1000;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           pointer-events: none;
@@ -118,25 +109,18 @@ export default function Navbar() {
         :global(body.stories-open) .nav-v3 {
           display: none !important;
         }
-        .nav-v3.scrolled {
-          padding: 8px 0;
-        }
         .nav-container {
           max-width: 1300px;
           margin: 0 auto;
-          height: 80px;
+          height: 64px;
           border-radius: 50px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding: 0 40px;
-          width: 94%;
+          width: 96%;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           pointer-events: auto;
-        }
-        .nav-v3.scrolled .nav-container {
-          width: 96%;
-          height: 64px;
           box-shadow: 0 10px 40px rgba(0,0,0,0.12);
         }
         
