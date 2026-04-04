@@ -56,7 +56,11 @@ export default function Home() {
         }
         @media (max-width: 600px) {
             .wa-text { display: none; }
-            .whatsapp-float { padding: 12px; }
+            .whatsapp-float { 
+              padding: 12px; 
+              bottom: calc(20px + var(--safe-bottom));
+              right: calc(20px + var(--safe-right));
+            }
         }
       `}</style>
       <FloatingChat />

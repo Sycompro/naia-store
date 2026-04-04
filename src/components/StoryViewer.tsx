@@ -166,7 +166,7 @@ export default function StoryViewer({ stories, initialIndex, onClose }: StoryVie
         }
         .viewer-header {
           position: absolute;
-          top: 35px;
+          top: calc(15px + var(--safe-top));
           left: 0;
           right: 0;
           padding: 0 20px;

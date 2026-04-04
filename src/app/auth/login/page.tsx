@@ -106,6 +106,13 @@ function LoginForm() {
                     border-radius: var(--radius-xl);
                     position: relative;
                 }
+                @media (max-width: 480px) {
+                    .auth-card-premium { padding: 35px 25px; border-radius: 24px; }
+                    .auth-header-v3 h1 { font-size: 28px; }
+                    .auth-header-v3 { margin-bottom: 25px; }
+                    .auth-form-v3 { gap: 18px; }
+                    .p-input-group input { padding: 14px; }
+                }
                 .auth-header-v3 { margin-bottom: 35px; text-align: center; }
                 .auth-icon-premium {
                     width: 60px;

@@ -141,23 +141,36 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 .p-item-price { font-weight: 900; font-size: 17px; display: flex; align-items: center; gap: 8px; color: var(--fg); }
                 .p-tag-may { font-size: 9px; padding: 3px 8px; background: var(--primary-light); color: var(--primary); border-radius: 4px; font-weight: 800; }
                 
-                .p-item-qty { display: flex; align-items: center; gap: 12px; padding: 5px 10px; border-radius: 12px; }
-                .p-item-qty button { background: none; border: none; cursor: pointer; color: var(--fg); display: flex; align-items: center; }
-                .p-item-qty span { font-size: 14px; font-weight: 800; min-width: 20px; text-align: center; }
+                .p-item-qty { display: flex; align-items: center; gap: 12px; padding: 5px; border-radius: 12px; }
+                .p-item-qty button { 
+                    width: 36px; height: 36px; border-radius: 10px;
+                    background: rgba(0,0,0,0.03); border: none; cursor: pointer; color: var(--fg); 
+                    display: flex; align-items: center; justify-content: center;
+                    transition: 0.2s;
+                }
+                .p-item-qty button:active { transform: scale(0.9); background: var(--slate-100); }
+                .p-item-qty span { font-size: 15px; font-weight: 800; min-width: 24px; text-align: center; }
 
-                .p-drawer-footer { padding: 30px; margin: 0 20px 20px; border-radius: 30px; }
-                .p-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+                .p-drawer-footer { 
+                    padding: 25px 20px calc(20px + var(--safe-bottom)); 
+                    margin: 0 15px 15px; border-radius: 24px; 
+                }
+                .p-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
                 .total-l { display: flex; flex-direction: column; }
-                .total-l span:first-child { font-size: 14px; font-weight: 700; color: var(--slate-500); }
+                .total-l span:first-child { font-size: 13px; font-weight: 700; color: var(--slate-500); }
                 .wholesale-hint { font-size: 11px; font-weight: 800; color: #10b981; }
-                .p-total-price { font-size: 28px; font-weight: 950; color: var(--fg); }
+                .p-total-price { font-size: 24px; font-weight: 950; color: var(--fg); }
                 
-                .checkout-btn { height: 60px; font-size: 17px; margin-bottom: 15px; }
-                .p-footer-note { font-size: 12px; text-align: center; color: var(--slate-400); font-weight: 600; }
+                .checkout-btn { height: 56px; font-size: 16px; margin-bottom: 12px; border-radius: 18px; }
+                .p-footer-note { font-size: 11px; text-align: center; color: var(--slate-400); font-weight: 600; opacity: 0.8; }
                 .w-full { width: 100%; justify-content: center; }
 
                 @media (max-width: 500px) {
                     .p-cart-drawer { max-width: 100%; border-radius: 0; }
+                    .p-drawer-header { padding: 20px; }
+                    .header-top h3 { font-size: 20px; }
+                    .p-drawer-content { padding: 20px; }
+                    .p-drawer-footer { margin: 0; border-radius: 30px 30px 0 0; padding: 25px 20px calc(25px + var(--safe-bottom)); box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
                 }
             `}</style>
         </div>

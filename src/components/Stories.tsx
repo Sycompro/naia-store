@@ -148,6 +148,14 @@ export default function Stories() {
         :global(.men-theme) .story-image-premium {
           border-color: #0f172a;
         }
+
+        @media (max-width: 600px) {
+          .stories-section { padding: 80px 0 20px; }
+          .stories-container { gap: 15px; padding: 5px 0; }
+          .story-ring-premium { width: 72px; height: 72px; padding: 3px; }
+          .story-skeleton { width: 72px; height: 72px; }
+          .story-name-premium { font-size: 11px; }
+        }
       `}</style>
     </section>
   );

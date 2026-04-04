@@ -161,8 +161,8 @@ export default function FloatingChat() {
             <style jsx>{`
                 .floating-chat-container {
                     position: fixed;
-                    bottom: 30px;
-                    right: 30px;
+                    bottom: calc(30px + var(--safe-bottom));
+                    right: calc(30px + var(--safe-right));
                     z-index: 10000;
                     font-family: var(--font-main);
                 }

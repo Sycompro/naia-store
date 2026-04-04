@@ -194,9 +194,38 @@ export default function ProductDetailPage() {
                 @keyframes spin { to { transform: rotate(360deg); } }
 
                 @media (max-width: 1100px) {
-                    .p-detail-container { grid-template-columns: 1fr; gap: 50px; max-width: 700px; }
-                    .p-detail-title { font-size: 42px; }
-                    .p-main-img-card { padding: 10px; }
+                    .p-detail-wrapper { padding-top: 100px; }
+                    .p-detail-container { grid-template-columns: 1fr; gap: 35px; padding-bottom: 60px; }
+                    .p-detail-title { font-size: clamp(32px, 8vw, 42px); }
+                    .p-main-img-card { padding: 12px; border-radius: 20px; }
+                    .p-img-badge { bottom: 20px; left: 20px; padding: 8px 16px; font-size: 11px; }
+                    
+                    .p-detail-prices-v3 { padding: 15px; gap: 15px; }
+                    .p-val-v3 { font-size: 24px; }
+                    .price-v-divider { margin: 0 15px; height: 30px; }
+                    .p-detail-desc { font-size: 16px; }
+
+                    .p-detail-actions { flex-direction: column; }
+                    .p-side-actions { order: 2; justify-content: center; }
+                    .flex-1 { order: 1; width: 100%; }
+
+                    .p-detail-benefits { 
+                        display: flex; 
+                        overflow-x: auto; 
+                        padding-bottom: 10px; 
+                        margin: 10px -20px 0;
+                        padding: 0 20px 15px;
+                        gap: 12px;
+                        scrollbar-width: none;
+                    }
+                    .p-detail-benefits::-webkit-scrollbar { display: none; }
+                    .b-item { flex: 0 0 130px; padding: 15px 10px; background: rgba(255,255,255,0.05); }
+                }
+
+                @media (max-width: 480px) {
+                    .p-detail-prices-v3 { flex-direction: column; align-items: stretch; }
+                    .price-v-divider { display: none; }
+                    .price-main, .price-secondary { text-align: center; }
                 }
             `}</style>
         </main>
