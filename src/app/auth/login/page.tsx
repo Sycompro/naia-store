@@ -30,7 +30,14 @@ function LoginForm() {
             if (!res.ok) throw new Error(data.error || 'Error en login');
 
             localStorage.setItem('user', JSON.stringify(data.user));
-            router.push('/');
+
+            // Redirección inteligente basada en el rol
+            if (data.user.role === 'ADMIN') {
+                router.push('/admin');
+            } else {
+                router.push('/');
+            }
+
             setTimeout(() => window.location.reload(), 100);
         } catch (err: any) {
             setError(err.message);

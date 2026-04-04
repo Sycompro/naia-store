@@ -1,5 +1,15 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { verifyToken } from '@/lib/auth';
+import { cookies } from 'next/headers';
+
+async function checkAdmin() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth_token')?.value;
+    if (!token) return false;
+    const payload = await verifyToken(token);
+    return payload && payload.role === 'ADMIN';
+}
 
 export async function GET() {
     try {
@@ -13,6 +23,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+    if (!await checkAdmin()) {
+        return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
+    }
     try {
         const body = await request.json();
         const product = await prisma.product.create({
@@ -34,6 +47,9 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+    if (!await checkAdmin()) {
+        return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
+    }
     try {
         const { id, stock } = await request.json();
         if (!id || stock === undefined) {
