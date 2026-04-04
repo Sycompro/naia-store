@@ -354,46 +354,91 @@ export default function AdminLayout({
         .sub-menu-container {
             overflow: hidden;
             max-height: 0;
-            transition: max-height 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            padding-left: 36px;
+            transition: max-height 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            padding-left: 48px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
+            position: relative;
         }
+        
+        /* Línea guía del submenú */
+        .sub-menu-container::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 0;
+            bottom: 15px;
+            width: 1.5px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            border-radius: 10px;
+        }
+
         .sub-menu-container.expanded {
             max-height: 500px;
-            margin-top: 4px;
-            margin-bottom: 12px;
+            margin-top: 5px;
+            margin-bottom: 15px;
         }
 
         .sub-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
-            color: #475569;
+            color: #64748b;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 600;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
+
+        /* Pequeña línea horizontal conectora por ítem */
+        .sub-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            width: 12px;
+            height: 1.5px;
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
         .sub-item:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.03);
-            transform: translateX(3px);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
         }
+        
+        .sub-item:hover::before {
+            background: rgba(255,255,255,0.2);
+            width: 15px;
+        }
+
         .sub-item.sub-active {
             color: #fff;
-            background: rgba(255, 255, 255, 0.05);
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .sub-item.sub-active::before {
+            background: #fff;
+            width: 18px;
         }
 
         .sub-dot {
-            width: 4px;
-            height: 4px;
+            width: 5px;
+            height: 5px;
             background: currentColor;
             border-radius: 50%;
-            opacity: 0.4;
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+        .sub-item.sub-active .sub-dot {
+            opacity: 1;
+            box-shadow: 0 0 10px currentColor;
         }
 
         .sidebar-footer {
