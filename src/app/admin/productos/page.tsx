@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import React, { useState, useEffect } from 'react';
 import AdminInventory from '@/components/admin/AdminInventory';
 import ProductModal from '@/components/admin/ProductModal';

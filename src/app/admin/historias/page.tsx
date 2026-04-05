@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Image as ImageIcon, X, Edit2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
