@@ -13,11 +13,12 @@ export default function ProductSection() {
   const [currentGender, setCurrentGender] = useState('FEMALE');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const fetchProducts = async (pageNum: number, gender: string, append = false) => {
+  const fetchProducts = async (pageNum: number, gender: string, append = false, search = '') => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/products?page=${pageNum}&pageSize=8&gender=${gender}`);
+      const res = await fetch(`/api/products?page=${pageNum}&pageSize=8&gender=${gender}&search=${encodeURIComponent(search)}`);
       const data = await res.json();
 
       if (append) {
@@ -50,15 +51,15 @@ export default function ProductSection() {
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     // Initial fetch if empty
-    if (products.length === 0) fetchProducts(1, currentGender, false);
+    if (products.length === 0) fetchProducts(1, currentGender, false, searchTerm);
 
     return () => observer.disconnect();
-  }, [currentGender]);
+  }, [currentGender, searchTerm]);
 
   const loadMore = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    fetchProducts(nextPage, currentGender, true);
+    fetchProducts(nextPage, currentGender, true, searchTerm);
   };
 
   return (
@@ -68,6 +69,16 @@ export default function ProductSection() {
           Catálogo <span className="text-gradient">{currentGender === 'FEMALE' ? 'Exclusivo' : 'Masculino'}</span>
         </h2>
         <p className="p-subtitle">Selección de productos con los más altos estándares de calidad y ciencia de vanguardia.</p>
+
+        <div className="search-bar-wrap animate-entrance">
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            className="search-input-premium glass-premium"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="p-grid">
@@ -105,13 +116,12 @@ export default function ProductSection() {
 
               <div className="p-price-v3 glass-premium">
                 <div className="price-item">
-                  <span className="l">Unitario</span>
-                  <span className="v">S/ {Number(product.unitPrice).toFixed(2)}</span>
+                  <span className="label">Unidad</span>
+                  <span className="val">S/ {Number(product.unitPrice || 0).toFixed(2)}</span>
                 </div>
-                <div className="price-divider"></div>
-                <div className="price-item wholesale">
-                  <span className="l">Mayorista</span>
-                  <span className="v">S/ {Number(product.wholesalePrice).toFixed(2)}</span>
+                <div className="p-price-item wholesale">
+                  <span className="label">Mayorista</span>
+                  <span className="val">S/ {Number(product.wholesalePrice || 0).toFixed(2)}</span>
                 </div>
               </div>
 
@@ -154,7 +164,27 @@ export default function ProductSection() {
         .p-section { padding: 80px 0; }
         .p-header { text-align: center; margin-bottom: 60px; }
         .p-title { font-size: 42px; margin-bottom: 15px; }
-        .p-subtitle { color: var(--slate-500); font-size: 16px; font-weight: 500; max-width: 600px; margin: 0 auto; }
+        .p-subtitle { color: var(--slate-500); font-size: 16px; font-weight: 500; max-width: 600px; margin: 0 auto 30px; }
+        
+        .search-bar-wrap { max-width: 500px; margin: 0 auto; }
+        .search-input-premium {
+          width: 100%;
+          padding: 16px 24px;
+          border-radius: 20px;
+          border: 1px solid var(--glass-border);
+          background: var(--glass);
+          color: var(--fg);
+          font-weight: 700;
+          outline: none;
+          transition: 0.3s;
+          box-shadow: var(--shadow-sm);
+        }
+        .search-input-premium:focus {
+          border-color: var(--primary);
+          box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.2);
+          transform: translateY(-2px);
+          background: var(--white);
+        }
         
         .p-grid {
           display: grid;

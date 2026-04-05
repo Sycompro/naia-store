@@ -43,7 +43,6 @@ export async function GET(request: Request) {
             orderBy: { createdAt: 'asc' },
         });
 
-        // If it was by phone and we need to clear unread count
         if (phone) {
             await prisma.conversation.updateMany({
                 where: { phone },
@@ -68,7 +67,6 @@ export async function POST(request: Request) {
 
         let targetConversationId = conversationId;
 
-        // If no conversationId but phone is provided, find or create it
         if (!targetConversationId && phone) {
             const conversation = await prisma.conversation.upsert({
                 where: { phone },
@@ -95,7 +93,6 @@ export async function POST(request: Request) {
             }
         });
 
-        // Update conversation summary
         await prisma.conversation.update({
             where: { id: targetConversationId },
             data: {
@@ -105,18 +102,27 @@ export async function POST(request: Request) {
             }
         });
 
-        // WhatsApp Integration (only for Admin replies)
         if (sender === 'ADMIN') {
-            const waResult = await sendWhatsAppMessage(phone || '', content);
-            if (waResult.messageId) {
-                // Link our message with WhatsApp's external ID
-                await prisma.message.update({
-                    where: { id: message.id },
-                    // @ts-ignore
-                    data: { externalId: waResult.messageId }
+            let finalPhone = phone;
+            if (!finalPhone) {
+                const conv = await prisma.conversation.findUnique({
+                    where: { id: targetConversationId },
+                    select: { phone: true }
                 });
-            } else if (waResult.error) {
-                console.error('WhatsApp sending failed:', waResult);
+                finalPhone = conv?.phone;
+            }
+
+            if (finalPhone) {
+                const waResult = await sendWhatsAppMessage(finalPhone, content);
+                if (waResult.messageId) {
+                    await prisma.message.update({
+                        where: { id: message.id },
+                        data: {
+                            // @ts-ignore
+                            externalId: waResult.messageId
+                        }
+                    });
+                }
             }
         }
 

@@ -9,14 +9,19 @@ async function checkAdmin() {
     const cookieStore = await cookies();
     const token = cookieStore.get('auth_token')?.value;
     if (!token) return false;
-    const payload = await verifyToken(token);
-    return payload && payload.role === 'ADMIN';
+    try {
+        const payload = await verifyToken(token);
+        return payload && payload.role === 'ADMIN';
+    } catch (e) {
+        return false;
+    }
 }
 
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const gender = searchParams.get('gender')?.toUpperCase();
+        const search = searchParams.get('search')?.toLowerCase();
         const page = parseInt(searchParams.get('page') || '1');
         const pageSize = parseInt(searchParams.get('pageSize') || '20');
         const skip = (page - 1) * pageSize;
@@ -24,6 +29,14 @@ export async function GET(request: Request) {
         const where: any = {};
         if (gender && (gender === 'MALE' || gender === 'FEMALE' || gender === 'UNISEX')) {
             where.gender = gender;
+        }
+
+        if (search) {
+            where.OR = [
+                { name: { contains: search, mode: 'insensitive' } },
+                { description: { contains: search, mode: 'insensitive' } },
+                { category: { contains: search, mode: 'insensitive' } }
+            ];
         }
 
         const [products, total] = await Promise.all([
@@ -46,6 +59,7 @@ export async function GET(request: Request) {
             }
         });
     } catch (error) {
+        console.error('API Products GET Error:', error);
         return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
     }
 }
@@ -85,7 +99,6 @@ export async function PATCH(request: Request) {
 
         if (!id) return NextResponse.json({ error: 'ID requerido' }, { status: 400 });
 
-        // Handle price conversions if they exist in the body
         const updateData: any = { ...data };
         if (data.unitPrice !== undefined) updateData.unitPrice = new Prisma.Decimal(data.unitPrice || 0) as any;
         if (data.wholesalePrice !== undefined) updateData.wholesalePrice = new Prisma.Decimal(data.wholesalePrice || 0) as any;
@@ -120,4 +133,3 @@ export async function DELETE(request: Request) {
         return NextResponse.json({ error: 'Error al eliminar producto' }, { status: 500 });
     }
 }
-

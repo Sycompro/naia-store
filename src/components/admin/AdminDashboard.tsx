@@ -42,8 +42,11 @@ export default function AdminDashboard({
                     </div>
                     <div className="stat-value">S/ {(stats?.totalRevenue || 0).toLocaleString()}</div>
                     <div className="stat-footer-alt">
-                        <span className="trend neg"><ArrowUpRight size={14} /> +12.5%</span>
-                        <span className="period">Este mes</span>
+                        <span className={`trend ${stats?.revenueTrend >= 0 ? 'pos' : 'neg'}`}>
+                            {stats?.revenueTrend >= 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                            {stats?.revenueTrend !== undefined ? `${stats.revenueTrend.toFixed(1)}%` : '0%'}
+                        </span>
+                        <span className="period">vs mes anterior</span>
                     </div>
                 </div>
 
@@ -54,8 +57,14 @@ export default function AdminDashboard({
                     </div>
                     <div className="stat-value">{stats?.totalOrders || 0}</div>
                     <div className="stat-footer-alt">
-                        <span className="trend pos"><ArrowUpRight size={14} /> 5 hoy</span>
-                        <span className="period">Tiempo real</span>
+                        <span className="trend pos">
+                            {stats?.recentOrders?.filter((o: any) => {
+                                const d = new Date(o.createdAt);
+                                const today = new Date();
+                                return d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+                            }).length || 0} hoy
+                        </span>
+                        <span className="period">Pedidos nuevos</span>
                     </div>
                 </div>
 
@@ -66,8 +75,10 @@ export default function AdminDashboard({
                     </div>
                     <div className="stat-value">{stats?.totalUsers || 0}</div>
                     <div className="stat-footer-alt">
-                        <span className="trend pos"><ArrowUpRight size={14} /> +3</span>
-                        <span className="period">Últimas 24h</span>
+                        <span className="trend pos">
+                            +{stats?.recentOrders?.length || 0}
+                        </span>
+                        <span className="period">Recientes</span>
                     </div>
                 </div>
 
@@ -89,7 +100,7 @@ export default function AdminDashboard({
                 <AdminCard
                     title="Ventas Mensuales"
                     description="Rendimiento comercial del periodo actual."
-                    actions={<button className="period-btn-alt">Año 2026</button>}
+                    actions={<button className="period-btn-alt">Año {new Date().getFullYear()}</button>}
                 >
                     <div className="chart-container-modern">
                         <div className="chart-bars">

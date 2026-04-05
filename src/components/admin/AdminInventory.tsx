@@ -78,7 +78,7 @@ export default function AdminInventory({
                                         <div className="col-cat">
                                             <span className="badge-modern">{p.category || 'NA'}</span>
                                         </div>
-                                        <div className="col-price text-right font-black text-white">S/ {p.price?.toFixed(2) || '0.00'}</div>
+                                        <div className="col-price text-right font-black text-white">S/ {Number(p.price || 0).toFixed(2)}</div>
                                         <div className="col-stock">
                                             <div className="stock-ui">
                                                 <button onClick={() => onAdjustStock(p.id, -1)} className="stock-bit">-</button>

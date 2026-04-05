@@ -2,16 +2,19 @@
 import React from 'react';
 import { ShoppingCart, X, Plus, Minus, Trash2, Send, Sparkles } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
-    const { cart, updateQuantity, removeFromCart, totalAmount, isWholesaleActive } = useCart();
+    const { cart, updateQuantity, removeFromCart, totalAmount, isWholesaleActive, clearCart } = useCart();
+    const router = useRouter();
 
     if (!isOpen) return null;
 
     const [isGuestFormOpen, setIsGuestFormOpen] = React.useState(false);
     const [guestInfo, setGuestInfo] = React.useState({ name: '', phone: '' });
     const [loading, setLoading] = React.useState(false);
-    const { user } = { user: null }; // Mock or useAuth if available
+    const { user } = useAuth();
 
     if (!isOpen) return null;
 
@@ -50,7 +53,9 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                     `%0A%0A*Total: S/ ${totalAmount.toFixed(2)}*%0A%0A_ID de Seguimiento: ${orderId}_`;
 
                 window.open(`https://wa.me/51944399377?text=${message}`, '_blank');
+                clearCart();
                 onClose();
+                router.push(`/checkout/success?orderId=${orderId}`);
             } else {
                 alert('Error al procesar el pedido. Intenta nuevamente.');
             }

@@ -56,7 +56,7 @@ function CatalogContent() {
         try {
             const response = await fetch('/api/products');
             const data = await response.json();
-            setProducts(data);
+            setProducts(data.products || []);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -158,11 +158,11 @@ function CatalogContent() {
                                     <div className="p-prices-v3 glass-premium">
                                         <div className="p-price-item">
                                             <span className="label">Unidad</span>
-                                            <span className="val">S/ {product.unitPrice.toFixed(2)}</span>
+                                            <span className="val">S/ {Number(product.unitPrice || 0).toFixed(2)}</span>
                                         </div>
                                         <div className="p-price-item wholesale">
                                             <span className="label">Mayorista</span>
-                                            <span className="val">S/ {product.wholesalePrice.toFixed(2)}</span>
+                                            <span className="val">S/ {Number(product.wholesalePrice || 0).toFixed(2)}</span>
                                         </div>
                                     </div>
 
