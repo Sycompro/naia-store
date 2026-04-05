@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
@@ -6,7 +7,7 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url);
         const gender = searchParams.get('gender');
 
-        // Fallback filtering since prisma generate is failing to add the 'gender' field to the client
+        // Fallback filtering
         const allStories = await prisma.story.findMany({
             where: { isActive: true },
             orderBy: { createdAt: 'desc' }
@@ -20,7 +21,7 @@ export async function GET(request: Request) {
         return NextResponse.json(filteredStories);
     } catch (error) {
         console.error('API Stories Error:', error);
-        return NextResponse.json([]); // Return empty to prevent crash
+        return NextResponse.json([]);
     }
 }
 
