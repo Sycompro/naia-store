@@ -258,14 +258,14 @@ export default function AdminLayout({
         }
 
         .admin-sidebar {
-          width: 270px;
+          width: 240px;
           height: 100vh;
           position: fixed;
           left: 0;
           top: 0;
           display: flex;
           flex-direction: column;
-          padding: 30px 20px;
+          padding: 20px 15px;
           z-index: 100;
           transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
@@ -278,18 +278,18 @@ export default function AdminLayout({
         }
 
         .sidebar-header {
-          padding: 0 10px 45px;
+          padding: 0 10px 30px;
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
         
         .admin-logo {
-          font-size: 30px;
+          font-size: 24px;
           font-weight: 950;
           color: #fff;
           text-decoration: none;
-          letter-spacing: -1.5px;
+          letter-spacing: -1px;
         }
 
         .sidebar-nav {
@@ -309,13 +309,13 @@ export default function AdminLayout({
         .nav-item {
           display: flex;
           align-items: center;
-          gap: 14px;
-          padding: 14px 18px;
-          border-radius: 18px;
+          gap: 12px;
+          padding: 10px 14px;
+          border-radius: 12px;
           text-decoration: none;
           color: #64748b;
           font-weight: 700;
-          font-size: 15px;
+          font-size: 13.5px;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           border: 1px solid transparent;
@@ -504,8 +504,8 @@ export default function AdminLayout({
 
         .admin-main {
           flex: 1;
-          margin-left: 270px;
-          padding: 30px;
+          margin-left: 240px;
+          padding: 20px;
           min-height: 100vh;
           transition: 0.3s;
         }
@@ -516,13 +516,13 @@ export default function AdminLayout({
             -webkit-backdrop-filter: blur(20px);
         }
         .admin-header {
-          height: 70px;
-          border-radius: 20px;
+          height: 56px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 25px;
-          margin-bottom: 30px;
+          padding: 0 20px;
+          margin-bottom: 20px;
           border: 1px solid rgba(255, 255, 255, 0.05);
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
@@ -530,8 +530,8 @@ export default function AdminLayout({
         .glass-status {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 8px 18px;
-            border-radius: 18px;
+            padding: 6px 14px;
+            border-radius: 12px;
         }
         
         @media (max-width: 1024px) {

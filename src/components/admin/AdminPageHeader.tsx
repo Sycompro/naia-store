@@ -34,7 +34,7 @@ export default function AdminPageHeader({ title, breadcrumb, actions }: AdminPag
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
-                    margin-bottom: 30px;
+                    margin-bottom: 20px;
                     padding: 0 5px;
                 }
                 .header-content {
@@ -43,11 +43,11 @@ export default function AdminPageHeader({ title, breadcrumb, actions }: AdminPag
                     gap: 6px;
                 }
                 .header-title {
-                    font-size: 2rem;
+                    font-size: 1.6rem;
                     font-weight: 950;
                     color: white;
                     margin: 0;
-                    letter-spacing: -0.04em;
+                    letter-spacing: -0.03em;
                 }
                 .breadcrumb-nav {
                     display: flex;

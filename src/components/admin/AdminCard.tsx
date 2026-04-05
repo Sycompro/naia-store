@@ -34,8 +34,8 @@ export default function AdminCard({ children, title, description, actions, icon,
                 .admin-card {
                     background: rgba(255, 255, 255, 0.03);
                     border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 24px;
-                    padding: 24px;
+                    border-radius: 16px;
+                    padding: 16px;
                     transition: all 0.3s ease;
                 }
                 .admin-card:hover {
@@ -46,8 +46,8 @@ export default function AdminCard({ children, title, description, actions, icon,
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-start;
-                    margin-bottom: 24px;
-                    gap: 16px;
+                    margin-bottom: 16px;
+                    gap: 12px;
                 }
                 .header-info-with-icon {
                     display: flex;
@@ -55,9 +55,9 @@ export default function AdminCard({ children, title, description, actions, icon,
                     align-items: flex-start;
                 }
                 .card-icon-container-admin {
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 12px;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 10px;
                     background: rgba(255, 255, 255, 0.05);
                     display: flex;
                     align-items: center;

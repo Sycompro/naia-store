@@ -152,7 +152,7 @@ export default function AdminDashboard({
             </div>
 
             <style jsx>{`
-                .dashboard-view-container { display: flex; flex-direction: column; gap: 30px; }
+                .dashboard-view-container { display: flex; flex-direction: column; gap: 20px; }
 
                 .stats-grid-modern {
                     display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
@@ -160,8 +160,8 @@ export default function AdminDashboard({
                 .stat-card-deep {
                     background: rgba(15, 23, 42, 0.4);
                     border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 24px; padding: 24px;
-                    display: flex; flex-direction: column; gap: 12px;
+                    border-radius: 16px; padding: 16px;
+                    display: flex; flex-direction: column; gap: 8px;
                     position: relative; overflow: hidden;
                     transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
@@ -169,13 +169,13 @@ export default function AdminDashboard({
 
                 .stat-header { display: flex; align-items: center; gap: 12px; }
                 .icon-box {
-                    width: 40px; height: 40px; border-radius: 12px;
+                    width: 32px; height: 32px; border-radius: 10px;
                     background: rgba(255, 255, 255, 0.03);
                     display: flex; align-items: center; justify-content: center;
                     color: white; border: 1px solid rgba(255, 255, 255, 0.05);
                 }
                 .label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; }
-                .stat-value { font-size: 2rem; font-weight: 950; color: white; letter-spacing: -0.04em; line-height: 1; }
+                .stat-value { font-size: 1.5rem; font-weight: 950; color: white; letter-spacing: -0.03em; line-height: 1; }
                 .stat-footer-alt { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; }
                 .trend { font-size: 11px; font-weight: 950; display: flex; align-items: center; gap: 4px; }
                 .trend.pos { color: #10b981; }
@@ -196,7 +196,7 @@ export default function AdminDashboard({
                 .text-btn { background: none; border: none; color: #64748b; font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
                 .chart-container-modern { height: 260px; margin-top: 10px; }
-                .chart-bars { display: flex; gap: 15px; height: 100%; align-items: flex-end; }
+                .chart-bars { display: flex; gap: 10px; height: 100%; align-items: flex-end; }
                 .bar-col { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; }
                 .bar-track { width: 100%; height: 200px; display: flex; align-items: flex-end; justify-content: center; }
                 .bar-fill {
