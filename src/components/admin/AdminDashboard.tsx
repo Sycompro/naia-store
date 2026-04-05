@@ -8,8 +8,11 @@ import {
     TrendingUp,
     Clock,
     RefreshCw,
-    Circle
+    Circle,
+    ArrowUpRight,
+    ArrowDownRight
 } from 'lucide-react';
+import AdminCard from './AdminCard';
 
 interface AdminDashboardProps {
     stats: any;
@@ -30,156 +33,103 @@ export default function AdminDashboard({
 }: AdminDashboardProps) {
     return (
         <div className="dashboard-view-container">
-            {/* Welcome Header */}
-            <div className="welcome-banner animate-fade-in">
-                <div className="welcome-text">
-                    <div className="flex items-center gap-3">
-                        <h2>Vista General del Negocio</h2>
-                        <div className="live-indicator">
-                            <Circle size={8} fill="#22c55e" className="text-green-500 animate-pulse" />
-                            <span>En Vivo</span>
-                        </div>
+            {/* Stats Overview */}
+            <div className="stats-grid-modern">
+                <div className="stat-card-deep glass-accent-v">
+                    <div className="stat-header">
+                        <div className="icon-box"><DollarSign size={20} /></div>
+                        <span className="label">Ventas Totales</span>
                     </div>
-                    <p>Monitorea tus ventas, clientes e inventario en tiempo real.</p>
+                    <div className="stat-value">S/ {(stats?.totalRevenue || 0).toLocaleString()}</div>
+                    <div className="stat-footer-alt">
+                        <span className="trend neg"><ArrowUpRight size={14} /> +12.5%</span>
+                        <span className="period">Este mes</span>
+                    </div>
                 </div>
-                <div className="flex items-center gap-4">
-                    <button
-                        className={`refresh-btn glass-premium ${refreshing ? 'spinning' : ''}`}
-                        onClick={onRefresh}
-                        disabled={refreshing}
-                    >
-                        <RefreshCw size={18} />
-                        <span>{refreshing ? 'Sincronizando...' : 'Refrescar'}</span>
-                    </button>
-                    <div className="last-sync">
-                        <Clock size={14} /> Actualizado: {new Date().toLocaleTimeString()}
+
+                <div className="stat-card-deep glass-accent-p">
+                    <div className="stat-header">
+                        <div className="icon-box"><ShoppingBag size={20} /></div>
+                        <span className="label">Pedidos Activos</span>
+                    </div>
+                    <div className="stat-value">{stats?.totalOrders || 0}</div>
+                    <div className="stat-footer-alt">
+                        <span className="trend pos"><ArrowUpRight size={14} /> 5 hoy</span>
+                        <span className="period">Tiempo real</span>
+                    </div>
+                </div>
+
+                <div className="stat-card-deep glass-accent-b">
+                    <div className="stat-header">
+                        <div className="icon-box"><Users size={20} /></div>
+                        <span className="label">Clientes</span>
+                    </div>
+                    <div className="stat-value">{stats?.totalUsers || 0}</div>
+                    <div className="stat-footer-alt">
+                        <span className="trend pos"><ArrowUpRight size={14} /> +3</span>
+                        <span className="period">Últimas 24h</span>
+                    </div>
+                </div>
+
+                <div className="stat-card-deep glass-accent-o">
+                    <div className="stat-header">
+                        <div className="icon-box"><Package size={20} /></div>
+                        <span className="label">Inventario</span>
+                    </div>
+                    <div className="stat-value">{stats?.totalProducts || 0}</div>
+                    <div className="stat-footer-alt">
+                        <span className="trend neg"><ArrowDownRight size={14} /> {stats?.lowStock.length || 0} bajo stock</span>
+                        <span className="period">Alertas</span>
                     </div>
                 </div>
             </div>
 
-            {/* Stats Cards */}
-            <div className="stats-grid">
-                <div className="stat-card glass-premium p-violet animate-slide-up" style={{ animationDelay: '0s' }}>
-                    <div className="stat-content">
-                        <div className="stat-main">
-                            <span className="stat-label">Ingresos Totales</span>
-                            <span className="stat-value">S/ {(stats?.totalRevenue || 0).toLocaleString()}</span>
-                        </div>
-                        <div className="stat-icon-wrapper">
-                            <DollarSign size={24} />
-                        </div>
-                    </div>
-                    <div className="stat-footer">
-                        <span className={`trend ${stats?.revenueTrend >= 0 ? 'positive' : 'negative'}`}>
-                            {stats?.revenueTrend >= 0 ? '+' : ''}{stats?.revenueTrend?.toFixed(1)}% vs mes anterior
-                        </span>
-                    </div>
-                </div>
-
-                <div className="stat-card glass-premium p-pink animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                    <div className="stat-content">
-                        <div className="stat-main">
-                            <span className="stat-label">Pedidos Realizados</span>
-                            <span className="stat-value">{stats?.totalOrders || 0}</span>
-                        </div>
-                        <div className="stat-icon-wrapper">
-                            <ShoppingBag size={24} />
-                        </div>
-                    </div>
-                    <div className="stat-footer">
-                        <span className="trend positive">+5 nuevos pedidos hoy</span>
-                    </div>
-                </div>
-
-                <div className="stat-card glass-premium p-blue animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                    <div className="stat-content">
-                        <div className="stat-main">
-                            <span className="stat-label">Clientes Registrados</span>
-                            <span className="stat-value">{stats?.totalUsers || 0}</span>
-                        </div>
-                        <div className="stat-icon-wrapper">
-                            <Users size={24} />
-                        </div>
-                    </div>
-                    <div className="stat-footer">
-                        <span className="trend">Crecimiento orgánico</span>
-                    </div>
-                </div>
-
-                <div className="stat-card glass-premium p-orange animate-slide-up" style={{ animationDelay: '0.3s' }}>
-                    <div className="stat-content">
-                        <div className="stat-main">
-                            <span className="stat-label">Stock de Productos</span>
-                            <span className="stat-value">{stats?.totalProducts || 0}</span>
-                        </div>
-                        <div className="stat-icon-wrapper">
-                            <Package size={24} />
-                        </div>
-                    </div>
-                    <div className="stat-footer">
-                        <span className="trend negative">{stats?.lowStock.length || 0} con stock bajo</span>
-                    </div>
-                </div>
-            </div>
-
-            <div className="dashboard-main-grid">
+            <div className="dashboard-grid-content">
                 {/* Sales Chart */}
-                <div className="chart-card glass-premium animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                    <div className="card-header">
-                        <h3><TrendingUp size={18} /> Ventas Mensuales</h3>
-                        <div className="card-actions">
-                            <button className="period-btn active">Año Actual</button>
-                        </div>
-                    </div>
-                    <div className="chart-container">
-                        <div className="chart-body">
+                <AdminCard
+                    title="Ventas Mensuales"
+                    description="Rendimiento comercial del periodo actual."
+                    actions={<button className="period-btn-alt">Año 2026</button>}
+                >
+                    <div className="chart-container-modern">
+                        <div className="chart-bars">
                             {stats?.monthlySales.map((m: any, i: number) => (
-                                <div key={i} className="chart-column">
-                                    <div className="bar-wrapper">
+                                <div key={i} className="bar-col">
+                                    <div className="bar-track">
                                         <div
-                                            className="bar"
-                                            style={{ height: `${Math.max((m.total / maxSale) * 100, 8)}%` }}
+                                            className="bar-fill shadow-premium"
+                                            style={{ height: `${Math.max((m.total / maxSale) * 100, 5)}%` }}
                                         >
-                                            <span className="bar-tooltip">S/ {m.total.toFixed(0)}</span>
+                                            <div className="bar-value">S/ {m.total.toFixed(0)}</div>
                                         </div>
                                     </div>
-                                    <span className="chart-label">{m.month.substring(0, 3)}</span>
+                                    <span className="bar-label">{m.month.substring(0, 3)}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
-                </div>
+                </AdminCard>
 
-                {/* Recent Orders */}
-                <div className="orders-card glass-premium animate-fade-in" style={{ animationDelay: '0.5s' }}>
-                    <div className="card-header">
-                        <h3><Clock size={18} /> Historial Reciente</h3>
-                        <button className="view-all-btn">Ver todo</button>
-                    </div>
-                    <div className="orders-list">
+                {/* Recent Activity */}
+                <AdminCard
+                    title="Actividad Reciente"
+                    description="Últimos pedidos realizados por tus clientes."
+                    actions={<button className="text-btn">Ver todo</button>}
+                >
+                    <div className="activity-list">
                         {stats?.recentOrders.length === 0 ? (
-                            <div className="empty-state">
-                                <ShoppingBag size={40} />
-                                <p>No hay pedidos recientes</p>
-                            </div>
+                            <div className="empty-state">No hay pedidos registrados</div>
                         ) : (
-                            stats?.recentOrders.slice(0, 6).map((order: any) => (
-                                <div key={order.id} className="order-item">
-                                    <div className="order-user-info">
-                                        <div className="order-avatar">
-                                            {(order.user?.name || 'C').charAt(0)}
-                                        </div>
-                                        <div className="order-details">
-                                            <span className="order-name">{order.user?.name || order.user?.email}</span>
-                                            <span className="order-time">{new Date(order.createdAt).toLocaleDateString()}</span>
-                                        </div>
+                            stats?.recentOrders.slice(0, 5).map((order: any) => (
+                                <div key={order.id} className="activity-item">
+                                    <div className="item-avatar">{order.user?.name?.charAt(0) || 'U'}</div>
+                                    <div className="item-info">
+                                        <span className="name">{order.user?.name || 'Cliente Externo'}</span>
+                                        <span className="meta">{new Date(order.createdAt).toLocaleDateString()} • Pedido #{order.id}</span>
                                     </div>
-                                    <div className="order-meta">
-                                        <span className="order-amount">S/ {order.total.toFixed(2)}</span>
-                                        <span className="order-badge" style={{
-                                            backgroundColor: `${statusColor(order.status)}15`,
-                                            color: statusColor(order.status)
-                                        }}>
+                                    <div className="item-amount">
+                                        <span className="price">S/ {order.total.toFixed(2)}</span>
+                                        <span className="status-mini" style={{ '--sc': statusColor(order.status) } as any}>
                                             {statusLabel(order.status)}
                                         </span>
                                     </div>
@@ -187,141 +137,102 @@ export default function AdminDashboard({
                             ))
                         )}
                     </div>
-                </div>
+                </AdminCard>
             </div>
 
             <style jsx>{`
-                .dashboard-view-container { display: flex; flex-direction: column; gap: 32px; }
+                .dashboard-view-container { display: flex; flex-direction: column; gap: 30px; }
 
-                .welcome-banner { display: flex; justify-content: space-between; align-items: center; }
-                .welcome-text h2 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; margin: 0; color: #f8fafc; }
-                .welcome-text p { color: #94a3b8; font-weight: 500; margin-top: 4px; }
-                
-                .live-indicator { 
-                    display: flex; align-items: center; gap: 6px; 
-                    background: rgba(34,197,94,0.1); color: #22c55e; 
-                    padding: 4px 10px; border-radius: 20px;
-                    font-size: 11px; font-weight: 800; text-transform: uppercase;
+                .stats-grid-modern {
+                    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
                 }
-
-                .refresh-btn { 
-                    display: flex; align-items: center; gap: 10px; 
-                    padding: 10px 20px; border-radius: 14px;
-                    font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s;
-                    border: 1px solid rgba(255,255,255,0.05);
-                    background: rgba(255,255,255,0.05);
-                    color: white;
+                .stat-card-deep {
+                    background: rgba(15, 23, 42, 0.4);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    border-radius: 24px; padding: 24px;
+                    display: flex; flex-direction: column; gap: 12px;
+                    position: relative; overflow: hidden;
+                    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
-                .refresh-btn:hover:not(:disabled) { transform: translateY(-2px); background: rgba(255,255,255,0.1); }
-                .refresh-btn.spinning svg { animation: spin 1s linear infinite; }
-                .refresh-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+                .stat-card-deep:hover { transform: translateY(-5px); background: rgba(15, 23, 42, 0.6); }
 
-                .last-sync { font-size: 12px; font-weight: 700; color: #64748b; display: flex; align-items: center; gap: 6px; }
-
-                .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-                
-                .stat-card {
-                    padding: 24px; border-radius: 24px; display: flex; flex-direction: column;
-                    gap: 16px; border: 1px solid rgba(255, 255, 255, 0.05);
-                    transition: all 0.4s; position: relative; overflow: hidden;
-                }
-                .stat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); }
-                
-                .stat-content { display: flex; justify-content: space-between; align-items: center; }
-                .stat-main { display: flex; flex-direction: column; gap: 4px; }
-                .stat-label { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.7); }
-                .stat-value { font-size: 28px; font-weight: 900; color: white; letter-spacing: -1px; }
-                
-                .stat-icon-wrapper {
-                    width: 54px; height: 54px; border-radius: 16px; background: rgba(255, 255, 255, 0.15);
-                    display: flex; align-items: center; justify-content: center; color: white;
-                }
-                
-                .stat-footer { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.8); }
-                .trend.positive { color: #86efac; }
-                .trend.negative { color: #fca5a5; }
-
-                .p-violet { background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%); }
-                .p-pink { background: linear-gradient(135deg, #be123c 0%, #881337 100%); }
-                .p-blue { background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%); }
-                .p-orange { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); }
-
-                .dashboard-main-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
-
-                .glass-premium {
-                    background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-                    border-radius: 24px; padding: 28px;
-                    color: white;
-                }
-
-                .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-                .card-header h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; color: #f1f5f9; }
-                
-                .period-btn { 
-                    padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
-                    background: rgba(255,255,255,0.05); font-size: 12px; font-weight: 700; cursor: pointer; color: #94a3b8;
-                }
-                .period-btn.active { background: white; color: #0f172a; border-color: white; }
-
-                .chart-container { height: 260px; display: flex; align-items: flex-end; }
-                .chart-body { display: flex; gap: 16px; width: 100%; height: 100%; align-items: flex-end; }
-                .chart-column { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; }
-                .bar-wrapper { width: 100%; height: 200px; display: flex; align-items: flex-end; justify-content: center; }
-                .bar { 
-                    width: 100%; max-width: 40px; border-radius: 12px 12px 4px 4px; 
-                    background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-                    position: relative; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-                }
-                .bar:hover { filter: brightness(1.5); transform: scaleX(1.1); cursor: pointer; }
-                .bar-tooltip {
-                    position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
-                    background: white; color: #0f172a; padding: 4px 10px; border-radius: 8px;
-                    font-size: 10px; font-weight: 900; opacity: 0; transition: 0.3s;
-                    white-space: nowrap; pointer-events: none;
-                }
-                .bar:hover .bar-tooltip { opacity: 1; top: -45px; }
-                .chart-label { font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; }
-
-                .orders-list { display: flex; flex-direction: column; gap: 14px; }
-                .order-item {
-                    display: flex; justify-content: space-between; align-items: center;
-                    padding: 16px; background: rgba(255,255,255,0.02); border-radius: 18px;
-                    border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
-                }
-                .order-item:hover { background: rgba(255,255,255,0.05); transform: scale(1.02); }
-                .order-avatar {
-                    width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.05);
+                .stat-header { display: flex; align-items: center; gap: 12px; }
+                .icon-box {
+                    width: 40px; height: 40px; border-radius: 12px;
+                    background: rgba(255, 255, 255, 0.03);
                     display: flex; align-items: center; justify-content: center;
-                    font-weight: 800; color: white; font-size: 14px;
+                    color: white; border: 1px solid rgba(255, 255, 255, 0.05);
                 }
-                .order-name { font-weight: 800; font-size: 15px; color: #f1f5f9; }
-                .order-time { font-size: 12px; color: #64748b; font-weight: 600; }
-                .order-amount { font-weight: 900; font-size: 15px; color: #f1f5f9; }
+                .label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; }
+                .stat-value { font-size: 2rem; font-weight: 950; color: white; letter-spacing: -0.04em; line-height: 1; }
+                .stat-footer-alt { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; }
+                .trend { font-size: 11px; font-weight: 950; display: flex; align-items: center; gap: 4px; }
+                .trend.pos { color: #10b981; }
+                .trend.neg { color: #f43f5e; }
+                .period { font-size: 11px; font-weight: 700; color: #334155; }
+
+                .glass-accent-v::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #8b5cf6; }
+                .glass-accent-p::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #ec4899; }
+                .glass-accent-b::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #3b82f6; }
+                .glass-accent-o::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #f59e0b; }
+
+                .dashboard-grid-content { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; }
                 
-                .view-all-btn { 
-                    background: transparent; border: none; color: #a78bfa; 
-                    font-weight: 800; font-size: 13px; cursor: pointer;
+                .period-btn-alt {
+                    background: white; color: #0f172a; border: none; padding: 6px 12px;
+                    border-radius: 8px; font-size: 10px; font-weight: 900;
                 }
-                .empty-state { text-align: center; padding: 40px; color: #94a3b8; }
+                .text-btn { background: none; border: none; color: #64748b; font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+
+                .chart-container-modern { height: 260px; margin-top: 10px; }
+                .chart-bars { display: flex; gap: 15px; height: 100%; align-items: flex-end; }
+                .bar-col { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+                .bar-track { width: 100%; height: 200px; display: flex; align-items: flex-end; justify-content: center; }
+                .bar-fill {
+                    width: 100%; max-width: 45px; border-radius: 12px 12px 4px 4px;
+                    background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+                    border: 1px solid rgba(255,255,255,0.05); position: relative;
+                    transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .bar-fill:hover { background: white; }
+                .bar-value {
+                    position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+                    font-size: 10px; font-weight: 950; opacity: 0; transition: 0.3s; color: white;
+                }
+                .bar-fill:hover .bar-value { opacity: 1; top: -35px; }
+                .bar-label { font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; }
+
+                .activity-list { display: flex; flex-direction: column; gap: 12px; }
+                .activity-item {
+                    display: flex; align-items: center; gap: 15px; padding: 12px;
+                    background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid rgba(255,255,255,0.03);
+                    transition: 0.2s;
+                }
+                .activity-item:hover { background: rgba(255,255,255,0.05); }
+
+                .item-avatar {
+                    width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.05);
+                    display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px;
+                }
+                .item-info { flex: 1; display: flex; flex-direction: column; }
+                .item-info .name { font-size: 14px; font-weight: 800; color: white; }
+                .item-info .meta { font-size: 11px; font-weight: 700; color: #475569; }
+                .item-amount { display: flex; flex-direction: column; align-items: flex-end; }
+                .item-amount .price { font-size: 14px; font-weight: 900; color: white; }
+                .status-mini { font-size: 9px; font-weight: 950; text-transform: uppercase; color: var(--sc); }
 
                 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-                @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
-                
+
                 .animate-slide-up { animation: slideUp 0.6s backwards; }
                 .animate-fade-in { animation: fadeIn 0.8s; }
-                .animate-pulse { animation: pulse 2s infinite; }
-                @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
 
-                @media (max-width: 1200px) {
-                    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-                    .dashboard-main-grid { grid-template-columns: 1fr; }
+                @media (max-width: 1300px) {
+                    .stats-grid-modern { grid-template-columns: repeat(2, 1fr); }
+                    .dashboard-grid-content { grid-template-columns: 1fr; }
                 }
-                @media (max-width: 600px) {
-                    .stats-grid { grid-template-columns: 1fr; }
-                    .welcome-banner { flex-direction: column; align-items: flex-start; gap: 20px; }
+                @media (max-width: 768px) {
+                    .stats-grid-modern { grid-template-columns: 1fr; }
                 }
             `}</style>
         </div>

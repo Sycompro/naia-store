@@ -15,6 +15,7 @@ import {
     Filter
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 interface Conversation {
     id: string;
     phone: string;
@@ -137,154 +138,173 @@ export default function AdminChatPage() {
     );
 
     return (
-        <div className="admin-chat-layout animate-entrance">
-            {/* Sidebar */}
-            <div className={`chat-sidebar ${selectedId ? 'hide-mobile' : ''}`}>
-                <div className="sidebar-header">
-                    <div className="admin-profile">
-                        <div className="avatar-placeholder">A</div>
-                        <h2>Mensajes Naia</h2>
-                    </div>
-                    <div className="header-actions">
-                        <MessageSquare size={20} />
-                        <MoreVertical size={20} />
-                    </div>
-                </div>
+        <div className="admin-chat-page-root animate-entrance">
+            <AdminPageHeader
+                title="Centro de Mensajería"
+                breadcrumb={[{ label: 'Admin', href: '/admin' }, { label: 'Chat' }]}
+            />
 
-                <div className="search-box">
-                    <div className="search-inner">
-                        <Search size={18} />
-                        <input
-                            type="text"
-                            placeholder="Buscar un chat o número"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <button className="filter-btn"><Filter size={18} /></button>
-                </div>
-
-                <div className="conversations-list">
-                    {loading ? (
-                        <div className="loading-state">Cargando chats...</div>
-                    ) : filteredConversations.length === 0 ? (
-                        <div className="empty-state">No se encontraron chats.</div>
-                    ) : (
-                        filteredConversations.map(conv => (
-                            <div
-                                key={conv.id}
-                                className={`conv-item ${selectedId === conv.id ? 'active' : ''}`}
-                                onClick={() => setSelectedId(conv.id)}
-                            >
-                                <div className="avatar-circle">
-                                    <User size={24} />
-                                </div>
-                                <div className="conv-info">
-                                    <div className="conv-top">
-                                        <span className="conv-name">{conv.name || conv.phone}</span>
-                                        <span className="conv-time">
-                                            {new Date(conv.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </span>
-                                    </div>
-                                    <div className="conv-bottom">
-                                        <p className="conv-last-msg">{conv.lastMessage || 'Empieza a chatear...'}</p>
-                                        {conv.unreadCount > 0 && (
-                                            <span className="unread-badge">{conv.unreadCount}</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-            </div>
-
-            {/* Chat Area */}
-            <div className={`chat-main ${!selectedId ? 'hide-mobile' : ''}`}>
-                {selectedId && activeConv ? (
-                    <>
-                        <div className="chat-main-header">
-                            <div className="header-left">
-                                <button className="back-btn" onClick={() => setSelectedId(null)}>
-                                    <ChevronLeft size={24} />
-                                </button>
-                                <div className="avatar-circle">
-                                    <User size={24} />
-                                </div>
-                                <div className="header-user-info">
-                                    <h3>{activeConv.name || activeConv.phone}</h3>
-                                    <span>{activeConv.phone}</span>
-                                </div>
+            <div className="admin-chat-layout-wrapper">
+                <div className="admin-chat-layout">
+                    {/* Sidebar */}
+                    <div className={`chat-sidebar ${selectedId ? 'hide-mobile' : ''}`}>
+                        <div className="sidebar-header">
+                            <div className="admin-profile">
+                                <div className="avatar-placeholder">A</div>
+                                <h2>Mensajes Naia</h2>
                             </div>
                             <div className="header-actions">
-                                <Phone size={20} />
-                                <Search size={20} />
+                                <MessageSquare size={20} />
                                 <MoreVertical size={20} />
                             </div>
                         </div>
 
-                        <div className="chat-content" ref={scrollRef}>
-                            <div className="encryption-notice">
-                                <p>🔒 Los mensajes están protegidos y sincronizados con WhatsApp Cloud API.</p>
-                            </div>
-                            {messages.map((msg, i) => (
-                                <div key={msg.id || i} className={`msg-row ${msg.sender === 'ADMIN' ? 'sent' : 'received'}`}>
-                                    <div className="msg-bubble-admin">
-                                        <p>{msg.content}</p>
-                                        <div className="msg-meta">
-                                            <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                            {msg.sender === 'ADMIN' && <CheckCheck size={14} />}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="chat-footer">
-                            <div className="footer-actions">
-                                <Smile size={24} />
-                                <Paperclip size={24} />
-                            </div>
-                            <div className="input-container">
+                        <div className="search-box">
+                            <div className="search-inner">
+                                <Search size={18} />
                                 <input
                                     type="text"
-                                    placeholder="Escribe un mensaje"
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                                    placeholder="Buscar un chat o número"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-                            <button className="send-btn-admin" onClick={handleSend} disabled={!input.trim()}>
-                                <Send size={24} />
-                            </button>
+                            <button className="filter-btn"><Filter size={18} /></button>
                         </div>
-                    </>
-                ) : (
-                    <div className="chat-placeholder">
-                        <div className="placeholder-content">
-                            <MessageSquare size={80} strokeWidth={1} />
-                            <h1>Naia Chat Central</h1>
-                            <p>Selecciona una conversación para empezar a responder a tus clientes.</p>
+
+                        <div className="conversations-list">
+                            {loading ? (
+                                <div className="loading-state">Cargando chats...</div>
+                            ) : filteredConversations.length === 0 ? (
+                                <div className="empty-state">No se encontraron chats.</div>
+                            ) : (
+                                filteredConversations.map(conv => (
+                                    <div
+                                        key={conv.id}
+                                        className={`conv-item ${selectedId === conv.id ? 'active' : ''}`}
+                                        onClick={() => setSelectedId(conv.id)}
+                                    >
+                                        <div className="avatar-circle">
+                                            <User size={24} />
+                                        </div>
+                                        <div className="conv-info">
+                                            <div className="conv-top">
+                                                <span className="conv-name">{conv.name || conv.phone}</span>
+                                                <span className="conv-time">
+                                                    {new Date(conv.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </span>
+                                            </div>
+                                            <div className="conv-bottom">
+                                                <p className="conv-last-msg">{conv.lastMessage || 'Empieza a chatear...'}</p>
+                                                {conv.unreadCount > 0 && (
+                                                    <span className="unread-badge">{conv.unreadCount}</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
-                )}
+
+                    {/* Chat Area */}
+                    <div className={`chat-main ${!selectedId ? 'hide-mobile' : ''}`}>
+                        {selectedId && activeConv ? (
+                            <>
+                                <div className="chat-main-header">
+                                    <div className="header-left">
+                                        <button className="back-btn" onClick={() => setSelectedId(null)}>
+                                            <ChevronLeft size={24} />
+                                        </button>
+                                        <div className="avatar-circle">
+                                            <User size={24} />
+                                        </div>
+                                        <div className="header-user-info">
+                                            <h3>{activeConv.name || activeConv.phone}</h3>
+                                            <span>{activeConv.phone}</span>
+                                        </div>
+                                    </div>
+                                    <div className="header-actions">
+                                        <Phone size={20} />
+                                        <Search size={20} />
+                                        <MoreVertical size={20} />
+                                    </div>
+                                </div>
+
+                                <div className="chat-content" ref={scrollRef}>
+                                    <div className="encryption-notice">
+                                        <p>🔒 Los mensajes están protegidos y sincronizados con WhatsApp Cloud API.</p>
+                                    </div>
+                                    {messages.map((msg, i) => (
+                                        <div key={msg.id || i} className={`msg-row ${msg.sender === 'ADMIN' ? 'sent' : 'received'}`}>
+                                            <div className="msg-bubble-admin">
+                                                <p>{msg.content}</p>
+                                                <div className="msg-meta">
+                                                    <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                    {msg.sender === 'ADMIN' && <CheckCheck size={14} />}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="chat-footer">
+                                    <div className="footer-actions">
+                                        <Smile size={24} />
+                                        <Paperclip size={24} />
+                                    </div>
+                                    <div className="input-container">
+                                        <input
+                                            type="text"
+                                            placeholder="Escribe un mensaje"
+                                            value={input}
+                                            onChange={(e) => setInput(e.target.value)}
+                                            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                                        />
+                                    </div>
+                                    <button className="send-btn-admin" onClick={handleSend} disabled={!input.trim()}>
+                                        <Send size={24} />
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="chat-placeholder">
+                                <div className="placeholder-content">
+                                    <MessageSquare size={80} strokeWidth={1} />
+                                    <h1>Naia Chat Central</h1>
+                                    <p>Selecciona una conversación para empezar a responder a tus clientes.</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
 
             <style jsx>{`
+                .admin-chat-page-root {
+                    display: flex;
+                    flex-direction: column;
+                    height: calc(100vh - 120px);
+                    animation: fadeIn 0.5s ease-out;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                .admin-chat-layout-wrapper {
+                    flex: 1;
+                    min-height: 0;
+                    padding-bottom: 20px;
+                }
                 .admin-chat-layout {
                     display: flex;
-                    height: calc(100vh - 180px);
-                    background: rgba(15, 23, 42, 0.2);
+                    height: 100%;
+                    background: rgba(15, 23, 42, 0.4);
                     border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 28px;
+                    border-radius: 24px;
                     overflow: hidden;
                     box-shadow: 0 40px 100px rgba(0,0,0,0.4);
-                    animation: slideUp 0.6s cubic-bezier(0.1, 0.7, 0.1, 1);
-                }
-
-                @keyframes slideUp {
-                    from { opacity: 0; transform: translateY(30px); }
-                    to { opacity: 1; transform: translateY(0); }
+                    backdrop-filter: blur(20px);
                 }
 
                 /* Sidebar */
@@ -332,7 +352,6 @@ export default function AdminChatPage() {
                 .filter-btn:hover { color: white; border-color: white; }
 
                 .conversations-list { flex: 1; overflow-y: auto; padding: 8px; }
-                /* Custom scrollbar for Dark Theme */
                 .conversations-list::-webkit-scrollbar { width: 4px; }
                 .conversations-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
 
@@ -375,7 +394,7 @@ export default function AdminChatPage() {
                 .chat-main::before {
                     content: ''; position: absolute; inset: 0;
                     background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
-                    opacity: 0.02; pointer-events: none; invert: 1;
+                    opacity: 0.05; pointer-events: none; invert: 1;
                 }
 
                 .chat-main-header {
@@ -397,7 +416,7 @@ export default function AdminChatPage() {
                 .encryption-notice p {
                     display: inline-block; background: rgba(255,255,255,0.02); 
                     padding: 10px 20px; border-radius: 12px; font-size: 11px; 
-                    font-weight: 800; color: #475569; border: 1px solid rgba(255,255,255,0.05);
+                    font-weight: 800; color: #64748b; border: 1px solid rgba(255,255,255,0.05);
                     backdrop-filter: blur(4px);
                 }
 
@@ -462,7 +481,7 @@ export default function AdminChatPage() {
 
                 @media (max-width: 1100px) { .chat-sidebar { width: 320px; } }
                 @media (max-width: 900px) {
-                    .admin-chat-layout { height: 100vh; border-radius: 0; margin: -25px; }
+                    .admin-chat-page-root { height: calc(100vh - 100px); }
                     .chat-sidebar { width: 100%; }
                     .chat-sidebar.hide-mobile { display: none; }
                     .chat-main.hide-mobile { display: none; }

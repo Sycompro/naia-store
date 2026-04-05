@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Settings, Globe, Shield, Bell, Save, MessageSquare, Info, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import AdminCard from './AdminCard';
 
 export default function AdminSettings() {
     const [settings, setSettings] = useState<any>(null);
@@ -64,31 +65,27 @@ export default function AdminSettings() {
     }
 
     return (
-        <div className="settings-container">
-            <div className="section-header">
-                <div>
-                    <h2>Configuración del Sistema</h2>
-                    <p className="subtitle">Gestione la identidad de su tienda y las integraciones de seguridad.</p>
-                </div>
+        <div className="settings-container-premium">
+            <div className="settings-header-fixed">
                 <button
-                    className={`save-settings-btn-premium ${saving ? 'loading' : ''}`}
+                    className={`save-btn-floating ${saving ? 'loading' : ''}`}
                     onClick={handleSave}
                     disabled={saving}
                 >
-                    {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                    <span>{saving ? 'Guardando cambios...' : 'Guardar Configuración'}</span>
+                    {saving ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
+                    <span>{saving ? 'Guardando...' : 'Guardar Cambios'}</span>
                 </button>
             </div>
 
-            <div className="settings-grid-layout">
+            <div className="settings-grid-standard">
                 {/* General Store Info */}
-                <div className="settings-card-glass animate-slide-up" id="general">
-                    <div className="card-header-premium">
-                        <div className="icon-box"><Globe size={20} /></div>
-                        <h3>Información General</h3>
-                    </div>
-                    <div className="settings-form-premium">
-                        <div className="form-item">
+                <AdminCard
+                    title="Información de la Tienda"
+                    description="Identidad visual y contacto principal de Naia."
+                    icon={<Globe size={20} />}
+                >
+                    <div className="settings-form-content">
+                        <div className="form-item-premium">
                             <label>Nombre Comercial</label>
                             <input
                                 type="text"
@@ -97,7 +94,7 @@ export default function AdminSettings() {
                                 onChange={(e) => updateField('storeName', e.target.value)}
                             />
                         </div>
-                        <div className="form-item">
+                        <div className="form-item-premium">
                             <label>Correo de Soporte</label>
                             <input
                                 type="email"
@@ -107,21 +104,23 @@ export default function AdminSettings() {
                             />
                         </div>
                     </div>
-                </div>
+                </AdminCard>
 
                 {/* WhatsApp Integration */}
-                <div className="settings-card-glass animate-slide-up" id="whatsapp" style={{ animationDelay: '0.1s' }}>
-                    <div className="card-header-premium">
-                        <div className="icon-box whatsapp"><MessageSquare size={20} /></div>
-                        <h3>WhatsApp Cloud API</h3>
-                    </div>
-                    <div className="whatsapp-control-panel">
-                        <div className="status-banner">
-                            <div className={`status-dot ${settings?.whatsappStatus === 'Conectado' ? 'online' : 'offline'}`}></div>
-                            <span>Servicio: <b>{settings?.whatsappStatus || 'Desconectado'}</b></span>
+                <AdminCard
+                    title="WhatsApp Cloud API"
+                    description="Configuración de mensajería automatizada."
+                    icon={<MessageSquare size={20} />}
+                    actions={
+                        <div className="status-mini-tag">
+                            <div className={`dot-mini ${settings?.whatsappStatus === 'Conectado' ? 'on' : 'off'}`}></div>
+                            {settings?.whatsappStatus || 'Desconectado'}
                         </div>
-                        <div className="api-fields-grid">
-                            <div className="form-item">
+                    }
+                >
+                    <div className="settings-form-content">
+                        <div className="api-dual-grid">
+                            <div className="form-item-premium">
                                 <label>Phone ID</label>
                                 <input
                                     type="text"
@@ -130,7 +129,7 @@ export default function AdminSettings() {
                                     onChange={(e) => updateField('whatsappPhoneId', e.target.value)}
                                 />
                             </div>
-                            <div className="form-item">
+                            <div className="form-item-premium">
                                 <label>Verify Token</label>
                                 <input
                                     type="text"
@@ -140,66 +139,60 @@ export default function AdminSettings() {
                                 />
                             </div>
                         </div>
-                        <button className="test-conn-btn">Verificar Conexión</button>
+                        <button className="test-action-btn">Verificar Integración</button>
                     </div>
-                </div>
+                </AdminCard>
 
                 {/* Security */}
-                <div className="settings-card-glass animate-slide-up" id="security" style={{ animationDelay: '0.2s' }}>
-                    <div className="card-header-premium">
-                        <div className="icon-box security"><Shield size={20} /></div>
-                        <h3>Seguridad y Control</h3>
-                    </div>
-                    <div className="security-list">
-                        <div className="control-item">
-                            <div className="control-info">
-                                <h4>Autenticación 2FA</h4>
-                                <p>Solicitar código adicional al ingresar.</p>
+                <AdminCard
+                    title="Seguridad y Auditoría"
+                    description="Control interno y protección de datos."
+                    icon={<Shield size={20} />}
+                >
+                    <div className="security-settings-list">
+                        <div className="toggle-item-premium">
+                            <div className="toggle-info">
+                                <b>Autenticación 2FA</b>
+                                <span>Solicitar código adicional al ingresar.</span>
                             </div>
                             <div
-                                className={`custom-toggle ${settings?.twoFactorAuth ? 'on' : ''}`}
+                                className={`premium-toggle-ui ${settings?.twoFactorAuth ? 'checked' : ''}`}
                                 onClick={() => updateField('twoFactorAuth', !settings?.twoFactorAuth)}
                             >
-                                <div className="toggle-thumb"></div>
+                                <div className="toggle-thumb-ui"></div>
                             </div>
                         </div>
-                        <div className="control-item">
-                            <div className="control-info">
-                                <h4>Logs Administrativos</h4>
-                                <p>Registro histórico de todas las acciones.</p>
-                            </div>
-                            <button className="secondary-action-btn">Explorar Logs</button>
-                        </div>
+                        <button className="full-width-action-btn">Explorar Logs Administrativos</button>
                     </div>
-                </div>
+                </AdminCard>
 
                 {/* Notifications */}
-                <div className="settings-card-glass animate-slide-up" id="notifications" style={{ animationDelay: '0.3s' }}>
-                    <div className="card-header-premium">
-                        <div className="icon-box notifications"><Bell size={20} /></div>
-                        <h3>Alertas de Sistema</h3>
-                    </div>
-                    <div className="notification-grid-p">
-                        <label className="premium-check">
+                <AdminCard
+                    title="Notificaciones Automáticas"
+                    description="Gestión de alertas del sistema."
+                    icon={<Bell size={20} />}
+                >
+                    <div className="check-settings-grid">
+                        <label className="standard-check">
                             <input
                                 type="checkbox"
                                 checked={settings?.notifyOrderWS || false}
                                 onChange={(e) => updateField('notifyOrderWS', e.target.checked)}
                             />
-                            <div className="check-box-ui"></div>
-                            <span>Pedidos vía WhatsApp</span>
+                            <div className="check-box-custom"></div>
+                            <span>Nuevos Pedidos vía WhatsApp</span>
                         </label>
-                        <label className="premium-check">
+                        <label className="standard-check">
                             <input
                                 type="checkbox"
                                 checked={settings?.notifyLowStockEmail || false}
                                 onChange={(e) => updateField('notifyLowStockEmail', e.target.checked)}
                             />
-                            <div className="check-box-ui"></div>
-                            <span>Alertas Stock Bajo</span>
+                            <div className="check-box-custom"></div>
+                            <span>Alertas de Stock por Email</span>
                         </label>
                     </div>
-                </div>
+                </AdminCard>
             </div>
 
             {toast && (
@@ -210,112 +203,90 @@ export default function AdminSettings() {
             )}
 
             <style jsx>{`
-                .settings-container { display: flex; flex-direction: column; gap: 40px; animation: fadeIn 0.8s cubic-bezier(0.1, 0.7, 0.1, 1); }
-                .section-header { display: flex; justify-content: space-between; align-items: center; }
-                .section-header h2 { font-size: 28px; font-weight: 950; letter-spacing: -1px; color: white; margin-bottom: 4px; }
-                .subtitle { color: #64748b; font-size: 14px; font-weight: 600; }
-
-                .save-settings-btn-premium {
-                    background: white; color: #0f172a; border: none; padding: 14px 28px; border-radius: 16px;
-                    font-weight: 900; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.4s;
+                .settings-container-premium { display: flex; flex-direction: column; gap: 24px; animation: fadeIn 0.4s ease-out; position: relative; }
+                
+                .settings-header-fixed {
+                    position: absolute; top: -55px; right: 0;
                 }
-                .save-settings-btn-premium:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(255,255,255,0.1); }
-                .save-settings-btn-premium.loading { opacity: 0.6; transform: none; }
-
-                .settings-grid-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-
-                .settings-card-glass {
-                    background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(40px);
-                    border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 32px; padding: 32px;
-                    display: flex; flex-direction: column; gap: 28px; transition: 0.4s;
+                .save-btn-floating {
+                    background: white; color: #0f172a; border: none; padding: 10px 20px; border-radius: 12px;
+                    font-weight: 900; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
                 }
-                .settings-card-glass:hover { border-color: rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.5); }
+                .save-btn-floating:hover { transform: translateY(-2px); filter: brightness(1.1); }
+                .save-btn-floating.loading { opacity: 0.5; }
 
-                .card-header-premium { display: flex; align-items: center; gap: 16px; }
-                .icon-box {
-                    width: 48px; height: 48px; border-radius: 14px; background: rgba(255,255,255,0.03);
-                    display: flex; align-items: center; justify-content: center; color: #94a3b8;
-                    border: 1px solid rgba(255,255,255,0.05);
-                }
-                .icon-box.whatsapp { color: #10b981; background: rgba(16, 185, 129, 0.05); }
-                .icon-box.security { color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
-                .icon-box.notifications { color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
-                .card-header-premium h3 { font-size: 18px; font-weight: 900; color: white; letter-spacing: -0.3px; }
+                .settings-grid-standard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
 
-                .settings-form-premium { display: flex; flex-direction: column; gap: 20px; }
-                .form-item { display: flex; flex-direction: column; gap: 10px; }
-                .form-item label { font-size: 11px; font-weight: 900; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
-                .form-item input {
+                .settings-form-content { display: flex; flex-direction: column; gap: 20px; }
+                .form-item-premium { display: flex; flex-direction: column; gap: 8px; }
+                .form-item-premium label { font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+                .form-item-premium input {
                     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-                    padding: 14px 18px; border-radius: 14px; color: white; font-weight: 600; outline: none; transition: 0.3s;
+                    padding: 12px 16px; border-radius: 12px; color: white; font-weight: 600; outline: none; transition: 0.2s;
                 }
-                .form-item input:focus { background: rgba(255,255,255,0.06); border-color: white; }
+                .form-item-premium input:focus { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
 
-                .whatsapp-control-panel { display: flex; flex-direction: column; gap: 24px; }
-                .status-banner {
-                    background: rgba(0,0,0,0.2); padding: 16px 20px; border-radius: 16px;
-                    display: flex; align-items: center; gap: 12px; font-size: 14px; color: #94a3b8;
-                    border: 1px solid rgba(255,255,255,0.03);
+                .api-dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+                .test-action-btn {
+                    padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+                    background: rgba(255,255,255,0.02); color: #94a3b8; font-weight: 800; cursor: pointer; transition: 0.3s;
                 }
-                .status-dot { width: 10px; height: 10px; border-radius: 50%; }
-                .status-dot.online { background: #10b981; box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); animation: pulse 2s infinite; }
-                .status-dot.offline { background: #ef4444; }
+                .test-action-btn:hover { background: rgba(255,255,255,0.05); color: white; border-color: rgba(255,255,255,0.2); }
 
-                .api-fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-                .test-conn-btn {
-                    padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);
-                    background: transparent; color: white; font-weight: 800; cursor: pointer; transition: 0.3s;
+                .status-mini-tag {
+                    display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; color: #64748b;
+                    background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 20px;
                 }
-                .test-conn-btn:hover { background: rgba(255,255,255,0.05); }
+                .dot-mini { width: 6px; height: 6px; border-radius: 50%; }
+                .dot-mini.on { background: #10b981; box-shadow: 0 0 10px #10b981; }
+                .dot-mini.off { background: #ef4444; }
 
-                .security-list { display: flex; flex-direction: column; gap: 24px; }
-                .control-item { display: flex; justify-content: space-between; align-items: center; }
-                .control-info h4 { font-size: 15px; font-weight: 800; color: #f1f5f9; margin-bottom: 2px; }
-                .control-info p { font-size: 12px; color: #64748b; font-weight: 600; }
+                .security-settings-list { display: flex; flex-direction: column; gap: 20px; }
+                .toggle-item-premium { display: flex; justify-content: space-between; align-items: center; }
+                .toggle-info b { font-size: 15px; color: white; display: block; }
+                .toggle-info span { font-size: 12px; color: #475569; font-weight: 600; }
 
-                .custom-toggle {
-                    width: 48px; height: 26px; border-radius: 13px; background: rgba(255,255,255,0.05);
-                    position: relative; cursor: pointer; transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
-                    border: 1px solid rgba(255,255,255,0.05);
+                .premium-toggle-ui {
+                    width: 44px; height: 24px; border-radius: 12px; background: rgba(255,255,255,0.05);
+                    position: relative; cursor: pointer; transition: 0.3s; border: 1px solid rgba(255,255,255,0.05);
                 }
-                .toggle-thumb {
-                    position: absolute; left: 4px; top: 4px; width: 18px; height: 18px;
-                    border-radius: 50%; background: #64748b; transition: 0.4s;
+                .toggle-thumb-ui {
+                    position: absolute; left: 3px; top: 3px; width: 18px; height: 18px;
+                    border-radius: 50%; background: #475569; transition: 0.3s;
                 }
-                .custom-toggle.on { background: white; }
-                .custom-toggle.on .toggle-thumb { left: 26px; background: #0f172a; }
+                .premium-toggle-ui.checked { background: white; }
+                .premium-toggle-ui.checked .toggle-thumb-ui { left: 23px; background: #0f172a; }
 
-                .secondary-action-btn {
-                    padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
-                    background: rgba(255,255,255,0.03); color: white; font-size: 13px; font-weight: 800; cursor: pointer;
+                .full-width-action-btn {
+                    width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
+                    background: rgba(255,255,255,0.02); color: white; font-weight: 800; cursor: pointer; transition: 0.3s;
                 }
+                .full-width-action-btn:hover { background: rgba(255,255,255,0.05); }
 
-                .notification-grid-p { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-                .premium-check { display: flex; align-items: center; gap: 12px; cursor: pointer; color: #94a3b8; font-weight: 600; font-size: 14px; }
-                .premium-check input { display: none; }
-                .check-box-ui { 
-                    width: 22px; height: 22px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.1); 
+                .check-settings-grid { display: flex; flex-direction: column; gap: 16px; }
+                .standard-check { display: flex; align-items: center; gap: 12px; cursor: pointer; color: #94a3b8; font-weight: 600; font-size: 14px; }
+                .standard-check input { display: none; }
+                .check-box-custom { 
+                    width: 20px; height: 20px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.1); 
                     position: relative; transition: 0.3s;
                 }
-                .premium-check input:checked + .check-box-ui { background: white; border-color: white; }
-                .premium-check input:checked + .check-box-ui::after { 
+                .standard-check input:checked + .check-box-custom { background: white; border-color: white; }
+                .standard-check input:checked + .check-box-custom::after { 
                     content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
                     color: #0f172a; font-weight: 900; font-size: 12px;
                 }
 
                 .premium-toast {
                     position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-                    background: white; color: #0f172a; padding: 16px 32px; border-radius: 24px;
-                    display: flex; align-items: center; gap: 14px; font-weight: 900;
+                    background: white; color: #0f172a; padding: 14px 28px; border-radius: 20px;
+                    display: flex; align-items: center; gap: 12px; font-weight: 900;
                     box-shadow: 0 30px 60px rgba(0,0,0,0.5); z-index: 5000;
                 }
                 .premium-toast.error { background: #ef4444; color: white; }
 
-                @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.4; } 100% { transform: scale(1); opacity: 1; } }
-                @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-                @keyframes toastIn { from { bottom: -20px; opacity: 0; } to { bottom: 40px; opacity: 1; } }
-
-                @media (max-width: 1024px) { .settings-grid-layout { grid-template-columns: 1fr; } }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+                @media (max-width: 1024px) { .settings-grid-standard { grid-template-columns: 1fr; } }
             `}</style>
         </div>
     );

@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import AdminSettings from '@/components/admin/AdminSettings';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { useRouter } from 'next/navigation';
 
 export default function ConfigPage() {
@@ -27,6 +28,10 @@ export default function ConfigPage() {
 
     return (
         <div className="admin-config-page">
+            <AdminPageHeader
+                title="Configuración"
+                breadcrumb={[{ label: 'Admin', href: '/admin' }, { label: 'Ajustes' }]}
+            />
             <AdminSettings />
         </div>
     );

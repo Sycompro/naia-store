@@ -258,7 +258,7 @@ export default function AdminLayout({
         }
 
         .admin-sidebar {
-          width: 300px;
+          width: 270px;
           height: 100vh;
           position: fixed;
           left: 0;
@@ -504,8 +504,8 @@ export default function AdminLayout({
 
         .admin-main {
           flex: 1;
-          margin-left: 300px;
-          padding: 40px;
+          margin-left: 270px;
+          padding: 30px;
           min-height: 100vh;
           transition: 0.3s;
         }
@@ -516,15 +516,15 @@ export default function AdminLayout({
             -webkit-backdrop-filter: blur(20px);
         }
         .admin-header {
-          height: 85px;
-          border-radius: 24px;
+          height: 70px;
+          border-radius: 20px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 35px;
-          margin-bottom: 40px;
+          padding: 0 25px;
+          margin-bottom: 30px;
           border: 1px solid rgba(255, 255, 255, 0.05);
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
 
         .glass-status {
@@ -535,10 +535,10 @@ export default function AdminLayout({
         }
         
         @media (max-width: 1024px) {
-          .admin-sidebar { transform: translateX(-100%); width: 280px; }
+          .admin-sidebar { transform: translateX(-100%); width: 260px; }
           .sidebar-open .admin-sidebar { transform: translateX(0); }
           .sidebar-open .sidebar-overlay { display: block; opacity: 1; pointer-events: auto; }
-          .admin-main { margin-left: 0; padding: 25px 15px; }
+          .admin-main { margin-left: 0; padding: 20px 15px; }
           .mobile-only { display: flex; }
           .desktop-only { display: none; }
           .admin-header { padding: 0 20px; margin-bottom: 30px; }

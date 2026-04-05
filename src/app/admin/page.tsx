@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { BarChart3, Boxes, ShoppingBag, Settings as SettingsIcon } from 'lucide-react';
 import AdminDashboard from '@/components/admin/AdminDashboard';
-import AdminInventory from '@/components/admin/AdminInventory';
-import AdminOrders from '@/components/admin/AdminOrders';
-import AdminSettings from '@/components/admin/AdminSettings';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import { RefreshCw } from 'lucide-react';
 
 interface StatsData {
     totalProducts: number;
@@ -75,7 +74,21 @@ export default function AdminPage() {
     }
 
     return (
-        <div className="admin-dashboard-page">
+        <div className="admin-page animate-entrance">
+            <AdminPageHeader
+                title="Panel de Control"
+                breadcrumb={[{ label: 'Admin' }, { label: 'Dashboard' }]}
+                actions={
+                    <button
+                        className={`refresh-btn-premium ${refreshing ? 'spinning' : ''}`}
+                        onClick={fetchStats}
+                        disabled={refreshing}
+                    >
+                        <RefreshCw size={16} /> {refreshing ? 'Sincronizando...' : 'Actualizar Datos'}
+                    </button>
+                }
+            />
+
             <AdminDashboard
                 stats={stats}
                 maxSale={maxSale}
@@ -84,6 +97,35 @@ export default function AdminPage() {
                 onRefresh={fetchStats}
                 refreshing={refreshing}
             />
+
+            <style jsx>{`
+                .refresh-btn-premium {
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    padding: 10px 20px;
+                    border-radius: 14px;
+                    color: white;
+                    font-weight: 800;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    cursor: pointer;
+                    transition: 0.3s;
+                }
+                .refresh-btn-premium:hover:not(:disabled) {
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: translateY(-2px);
+                }
+                .refresh-btn-premium:disabled {
+                    opacity: 0.5;
+                }
+                .spinning {
+                    animation: spin 1s linear infinite;
+                }
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </div>
     );
 }

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import AdminInventory from '@/components/admin/AdminInventory';
 import ProductModal from '@/components/admin/ProductModal';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function ProductosPage() {
@@ -119,7 +121,17 @@ export default function ProductosPage() {
     };
 
     return (
-        <div className="admin-productos-page">
+        <div className="admin-productos-page animate-entrance">
+            <AdminPageHeader
+                title="Gestión de Inventario"
+                breadcrumb={[{ label: 'Admin', href: '/admin' }, { label: 'Productos' }]}
+                actions={
+                    <button className="add-btn-premium" onClick={openAddModal}>
+                        <Plus size={18} /> Nuevo Producto
+                    </button>
+                }
+            />
+
             <AdminInventory
                 products={products}
                 loading={loading}
@@ -133,20 +145,22 @@ export default function ProductosPage() {
             />
 
             {pagination.totalPages > 1 && (
-                <div className="pagination-controls">
-                    <button
-                        disabled={pagination.page <= 1}
-                        onClick={() => setPagination(p => ({ ...p, page: p.page - 1 }))}
-                    >
-                        Anterior
-                    </button>
-                    <span>Página {pagination.page} de {pagination.totalPages}</span>
-                    <button
-                        disabled={pagination.page >= pagination.totalPages}
-                        onClick={() => setPagination(p => ({ ...p, page: p.page + 1 }))}
-                    >
-                        Siguiente
-                    </button>
+                <div className="pagination-wrapper">
+                    <div className="pagination-controls-admin">
+                        <button
+                            disabled={pagination.page <= 1}
+                            onClick={() => setPagination(p => ({ ...p, page: p.page - 1 }))}
+                        >
+                            Anterior
+                        </button>
+                        <span className="page-indicator">Página {pagination.page} de {pagination.totalPages}</span>
+                        <button
+                            disabled={pagination.page >= pagination.totalPages}
+                            onClick={() => setPagination(p => ({ ...p, page: p.page + 1 }))}
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -158,35 +172,64 @@ export default function ProductosPage() {
             />
 
             <style jsx>{`
-                .pagination-controls {
+                .admin-productos-page {
+                    max-width: 1600px;
+                    margin: 0 auto;
+                }
+                .add-btn-premium {
+                    background: white;
+                    color: #0f172a;
+                    border: none;
+                    padding: 10px 24px;
+                    border-radius: 14px;
+                    font-weight: 800;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    gap: 20px;
-                    margin-top: 30px;
-                    padding: 20px;
-                    color: white;
+                    gap: 10px;
+                    cursor: pointer;
+                    transition: 0.3s;
+                    box-shadow: 0 10px 30px rgba(255,255,255,0.1);
                 }
-                button {
-                    background: rgba(255, 255, 255, 0.1);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    padding: 8px 20px;
-                    border-radius: 8px;
+                .add-btn-premium:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 15px 40px rgba(255,255,255,0.2);
+                }
+                .pagination-wrapper {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-top: 20px;
+                }
+                .pagination-controls-admin {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    background: rgba(255,255,255,0.03);
+                    padding: 8px 16px;
+                    border-radius: 16px;
+                    border: 1px solid rgba(255,255,255,0.05);
+                }
+                .page-indicator {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #64748b;
+                }
+                button:not(.add-btn-premium) {
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    padding: 8px 16px;
+                    border-radius: 10px;
                     color: white;
                     cursor: pointer;
-                    transition: all 0.3s ease;
+                    font-size: 13px;
+                    font-weight: 700;
+                    transition: 0.3s;
                 }
-                button:hover:not(:disabled) {
-                    background: rgba(255, 255, 255, 0.2);
-                    transform: translateY(-2px);
+                button:not(.add-btn-premium):hover:not(:disabled) {
+                    background: rgba(255, 255, 255, 0.15);
                 }
                 button:disabled {
                     opacity: 0.3;
                     cursor: not-allowed;
-                }
-                span {
-                    font-size: 0.9rem;
-                    opacity: 0.8;
                 }
             `}</style>
         </div>

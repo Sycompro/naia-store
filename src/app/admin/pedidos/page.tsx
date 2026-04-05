@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminOrders from '@/components/admin/AdminOrders';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 
 export default function PedidosPage() {
     const [orders, setOrders] = useState<any[]>([]);
@@ -74,7 +75,12 @@ export default function PedidosPage() {
     }
 
     return (
-        <div className="admin-pedidos-page">
+        <div className="admin-pedidos-page animate-entrance">
+            <AdminPageHeader
+                title="Gestión de Pedidos"
+                breadcrumb={[{ label: 'Admin', href: '/admin' }, { label: 'Pedidos' }]}
+            />
+
             <AdminOrders
                 orders={orders}
                 statusColor={statusColor}
@@ -84,53 +90,66 @@ export default function PedidosPage() {
             />
 
             {pagination.totalPages > 1 && (
-                <div className="pagination-controls">
-                    <button
-                        disabled={pagination.page <= 1}
-                        onClick={() => setPagination(p => ({ ...p, page: p.page - 1 }))}
-                    >
-                        Anterior
-                    </button>
-                    <span>Página {pagination.page} de {pagination.totalPages}</span>
-                    <button
-                        disabled={pagination.page >= pagination.totalPages}
-                        onClick={() => setPagination(p => ({ ...p, page: p.page + 1 }))}
-                    >
-                        Siguiente
-                    </button>
+                <div className="pagination-wrapper">
+                    <div className="pagination-controls-admin">
+                        <button
+                            disabled={pagination.page <= 1}
+                            onClick={() => setPagination(p => ({ ...p, page: p.page - 1 }))}
+                        >
+                            Anterior
+                        </button>
+                        <span className="page-indicator">Página {pagination.page} de {pagination.totalPages}</span>
+                        <button
+                            disabled={pagination.page >= pagination.totalPages}
+                            onClick={() => setPagination(p => ({ ...p, page: p.page + 1 }))}
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                 </div>
             )}
 
             <style jsx>{`
-                .pagination-controls {
+                .admin-pedidos-page {
+                    max-width: 1600px;
+                    margin: 0 auto;
+                }
+                .pagination-wrapper {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-top: 20px;
+                }
+                .pagination-controls-admin {
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    gap: 20px;
-                    margin-top: 30px;
-                    padding: 20px;
-                    color: white;
+                    gap: 16px;
+                    background: rgba(255,255,255,0.03);
+                    padding: 8px 16px;
+                    border-radius: 16px;
+                    border: 1px solid rgba(255,255,255,0.05);
+                }
+                .page-indicator {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #64748b;
                 }
                 button {
-                    background: rgba(255, 255, 255, 0.1);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    padding: 8px 20px;
-                    border-radius: 8px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    padding: 8px 16px;
+                    border-radius: 10px;
                     color: white;
                     cursor: pointer;
-                    transition: all 0.3s ease;
+                    font-size: 13px;
+                    font-weight: 700;
+                    transition: 0.3s;
                 }
                 button:hover:not(:disabled) {
-                    background: rgba(255, 255, 255, 0.2);
-                    transform: translateY(-2px);
+                    background: rgba(255, 255, 255, 0.15);
                 }
                 button:disabled {
                     opacity: 0.3;
                     cursor: not-allowed;
-                }
-                span {
-                    font-size: 0.9rem;
-                    opacity: 0.8;
                 }
             `}</style>
         </div>
