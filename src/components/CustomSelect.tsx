@@ -89,48 +89,40 @@ export default function CustomSelect({
                 
                 .select-trigger {
                     display: flex; align-items: center; justify-content: space-between;
-                    background: var(--slate-50); border: 1px solid var(--slate-200);
+                    background: #fff; border: 1px solid #e2e8f0;
                     border-radius: 14px; height: 50px; padding: 0 20px; cursor: pointer;
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); user-select: none;
                 }
-                :global(.men-theme) .select-trigger { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); }
                 
-                .select-trigger:hover { border-color: var(--primary); background: var(--white); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-                :global(.men-theme) .select-trigger:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); }
+                .select-trigger:hover { border-color: #ec4899; background: #fff; box-shadow: 0 4px 12px rgba(236, 72, 153, 0.05); }
                 
-                .select-trigger.active { border-color: var(--fg); background: var(--white); box-shadow: 0 0 0 4px rgba(0,0,0,0.03); }
-                :global(.men-theme) .select-trigger.active { border-color: white; background: rgba(255,255,255,0.08); box-shadow: 0 0 20px rgba(255,255,255,0.05); }
+                .select-trigger.active { border-color: #1e293b; background: #fff; box-shadow: 0 0 0 4px rgba(30, 41, 59, 0.03); }
 
                 .trigger-left { display: flex; align-items: center; gap: 12px; overflow: hidden; }
-                .trigger-icon { color: var(--slate-400); flex-shrink: 0; opacity: 0.8; }
-                .select-trigger span { font-size: 14px; font-weight: 700; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-                .select-trigger span.placeholder { color: var(--slate-500); font-weight: 500; }
-                :global(.men-theme) .select-trigger span.placeholder { color: #64748b; }
+                .trigger-icon { color: #94a3b8; flex-shrink: 0; }
+                .select-trigger span { font-size: 14px; font-weight: 800; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+                .select-trigger span.placeholder { color: #94a3b8; font-weight: 600; }
 
-                .chevron { color: var(--slate-400); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; }
-                .chevron.rotate { transform: rotate(180deg); color: var(--fg); }
+                .chevron { color: #94a3b8; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; }
+                .chevron.rotate { transform: rotate(180deg); color: #1e293b; }
 
                 .select-options-menu {
                     position: absolute; top: calc(100% + 8px); left: 0; width: 100%;
-                    background: var(--white); border: 1px solid var(--slate-200);
+                    background: #fff; border: 1px solid #e2e8f0;
                     border-radius: 18px; overflow: hidden; z-index: 5000;
-                    box-shadow: 0 25px 50px rgba(0,0,0,0.12); padding: 8px;
+                    box-shadow: 0 25px 50px rgba(0,0,0,0.08); padding: 8px;
                     max-height: 300px; overflow-y: auto;
-                    scrollbar-width: thin; scrollbar-color: var(--slate-300) transparent;
+                    scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent;
                 }
-                :global(.men-theme) .select-options-menu { background: #1e293b; border-color: rgba(255,255,255,0.15); box-shadow: 0 30px 60px rgba(0,0,0,0.6); backdrop-filter: blur(20px); }
 
                 .option-item {
-                    padding: 12px 16px; font-size: 14px; font-weight: 700; color: var(--slate-600);
+                    padding: 12px 16px; font-size: 14px; font-weight: 800; color: #64748b;
                     border-radius: 10px; cursor: pointer; transition: 0.2s;
                 }
-                :global(.men-theme) .option-item { color: var(--slate-300); }
                 
-                .option-item:hover { background: var(--slate-100); color: var(--fg); }
-                :global(.men-theme) .option-item:hover { background: rgba(255,255,255,0.08); color: white; }
+                .option-item:hover { background: #fdf2f8; color: #ec4899; }
                 
-                .option-item.selected { background: var(--fg); color: var(--bg); }
-                :global(.men-theme) .option-item.selected { background: white; color: #0f172a; }
+                .option-item.selected { background: #1e293b; color: #fff; }
 
                 .animate-slide-down { animation: slideDown 0.4s cubic-bezier(0, 0, 0.2, 1); }
                 @keyframes slideDown { 
@@ -140,8 +132,7 @@ export default function CustomSelect({
 
                 .select-options-menu::-webkit-scrollbar { width: 4px; }
                 .select-options-menu::-webkit-scrollbar-track { background: transparent; }
-                .select-options-menu::-webkit-scrollbar-thumb { background: var(--slate-300); border-radius: 10px; }
-                :global(.men-theme) .select-options-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+                .select-options-menu::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
             `}</style>
         </div>
     );

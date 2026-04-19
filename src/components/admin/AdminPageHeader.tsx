@@ -21,7 +21,7 @@ export default function AdminPageHeader({ title, breadcrumb, actions }: AdminPag
                             ) : (
                                 <span className="breadcrumb-current">{item.label}</span>
                             )}
-                            {idx < breadcrumb.length - 1 && <ChevronRight size={12} className="breadcrumb-sep" />}
+                            {idx < breadcrumb.length - 1 && <ChevronRight size={10} className="breadcrumb-sep" />}
                         </React.Fragment>
                     ))}
                 </nav>
@@ -34,58 +34,60 @@ export default function AdminPageHeader({ title, breadcrumb, actions }: AdminPag
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
-                    margin-bottom: 20px;
-                    padding: 0 5px;
-                    list-style: none;
+                    margin-bottom: 35px;
+                    padding: 0;
                 }
-                .admin-page-header :global(*) { list-style: none !important; }
                 .header-content {
                     display: flex;
                     flex-direction: column;
-                    gap: 4px;
+                    gap: 6px;
                 }
                 .header-title {
-                    font-size: 1.3rem;
+                    font-size: 32px;
                     font-weight: 950;
-                    color: white;
+                    color: #1e293b;
                     margin: 0;
-                    letter-spacing: -0.03em;
+                    letter-spacing: -1.2px;
+                    line-height: 1;
                 }
                 .breadcrumb-nav {
                     display: flex;
                     align-items: center;
-                    gap: 6px;
+                    gap: 8px;
                 }
                 .breadcrumb-link {
-                    font-size: 10px;
+                    font-size: 11px;
                     font-weight: 800;
-                    color: #64748b;
+                    color: #94a3b8;
                     text-decoration: none;
                     text-transform: uppercase;
                     transition: 0.3s;
+                    letter-spacing: 0.5px;
                 }
                 .breadcrumb-link:hover {
-                    color: white;
+                    color: #ec4899;
                 }
                 .breadcrumb-current {
-                    font-size: 10px;
+                    font-size: 11px;
                     font-weight: 800;
-                    color: #94a3b8;
+                    color: #1e293b;
                     text-transform: uppercase;
+                    letter-spacing: 0.5px;
                 }
                 .breadcrumb-sep {
-                    color: #334155;
+                    color: #cbd5e1;
                 }
                 .header-actions {
                     display: flex;
-                    gap: 12px;
+                    gap: 15px;
                 }
                 @media (max-width: 768px) {
                     .admin-page-header {
                         flex-direction: column;
                         align-items: flex-start;
-                        gap: 20px;
+                        gap: 25px;
                     }
+                    .header-title { font-size: 28px; }
                 }
             `}</style>
         </div>

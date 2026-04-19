@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import AdminOrders from '@/components/admin/AdminOrders';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import { ShoppingBag, Clock } from 'lucide-react';
 
 function PedidosContent() {
     const [orders, setOrders] = useState<any[]>([]);
@@ -70,20 +71,12 @@ function PedidosContent() {
         }
     };
 
-    if (loading && orders.length === 0) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="w-10 h-10 border-3 border-slate-200 border-t-slate-900 rounded-full animate-spin" />
-            </div>
-        );
-    }
-
     const currentFilter = statusFilter?.toUpperCase();
 
     return (
-        <div className="admin-pedidos-page animate-entrance max-w-[1600px] mx-auto">
+        <div className="admin-pedidos-page animate-entrance">
             <AdminPageHeader
-                title={currentFilter === 'PENDIENTE' ? 'Pedidos Pendientes' : 'Gestión de Pedidos'}
+                title={currentFilter === 'PENDIENTE' ? 'Nuevos Pedidos' : 'Centro de Pedidos'}
                 breadcrumb={[
                     { label: 'Admin', href: '/admin' },
                     { label: 'Pedidos', href: '/admin/pedidos' },
@@ -96,52 +89,72 @@ function PedidosContent() {
                     className={`tab-item ${!statusFilter ? 'active' : ''}`}
                     onClick={() => router.push('/admin/pedidos')}
                 >
-                    <span>Todos los Pedidos</span>
+                    <ShoppingBag size={18} /><span>Todos</span>
                 </button>
                 <button
                     className={`tab-item ${currentFilter === 'PENDIENTE' ? 'active' : ''}`}
                     onClick={() => router.push('/admin/pedidos?status=pendiente')}
                 >
-                    <span>Pendientes</span>
+                    <Clock size={18} /><span>Pendientes</span>
                 </button>
             </div>
 
-            <AdminOrders
-                orders={orders}
-                statusColor={statusColor}
-                statusLabel={statusLabel}
-                onUpdateStatus={handleUpdateStatus}
-                onViewDetail={(o) => alert(`Viendo detalle del pedido #${o.id}`)}
-            />
+            <div className="orders-container animate-fade-in">
+                <AdminOrders
+                    orders={orders}
+                    statusColor={statusColor}
+                    statusLabel={statusLabel}
+                    onUpdateStatus={handleUpdateStatus}
+                    onViewDetail={(o) => alert(`Viendo detalle del pedido #${o.id}`)}
+                />
+            </div>
 
             <style jsx>{`
+                .admin-pedidos-page { max-width: 1400px; margin: 0 auto; }
                 .settings-nav-tabs {
-                    display: flex; gap: 8px; background: rgba(15, 23, 42, 0.4); 
-                    padding: 6px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05);
-                    width: fit-content; margin-bottom: 28px;
+                    display: flex; gap: 8px; background: #f1f5f9; 
+                    padding: 6px; border-radius: 18px; border: 1px solid #e2e8f0;
+                    width: fit-content; margin-bottom: 35px;
                 }
                 .tab-item {
-                    display: flex; align-items: center; gap: 10px; padding: 10px 20px;
-                    border-radius: 12px; border: none; background: none; color: #64748b;
+                    display: flex; align-items: center; gap: 10px; padding: 12px 24px;
+                    border-radius: 14px; border: none; background: none; color: #64748b;
                     font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s;
                 }
-                .tab-item:hover { color: white; background: rgba(255,255,255,0.03); }
-                .tab-item.active { background: white; color: #0f172a; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+                .tab-item:hover { color: #ec4899; }
+                .tab-item.active { background: #ec4899; color: white; box-shadow: 0 10px 20px rgba(236, 72, 153, 0.2); }
+
+                .pagination-wrapper { display: flex; justify-content: center; margin-top: 40px; }
+                .pagination-controls-admin { 
+                    display: flex; align-items: center; gap: 20px; background: #fff; 
+                    padding: 8px 12px; border-radius: 20px; border: 1px solid #f1f5f9;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+                }
+                .page-indicator { font-size: 14px; font-weight: 800; color: #1e293b; min-width: 140px; text-align: center; }
+                .p-nav-btn { 
+                    background: #f8fafc; border: 1px solid #f1f5f9; padding: 10px 20px; 
+                    border-radius: 14px; color: #64748b; cursor: pointer; font-size: 13px; font-weight: 800; transition: 0.3s; 
+                }
+                .p-nav-btn:hover:not(:disabled) { background: #1e293b; color: white; border-color: #1e293b; }
+                .p-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+                @keyframes entrance { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                .animate-entrance { animation: entrance 0.6s ease-out; }
             `}</style>
 
             {pagination.totalPages > 1 && (
-                <div className="flex justify-end mt-5">
-                    <div className="flex items-center gap-4 bg-white/5 px-4 py-2 rounded-2xl border border-white/5">
+                <div className="pagination-wrapper">
+                    <div className="pagination-controls-admin">
                         <button
-                            className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-white font-bold text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10 transition-all"
+                            className="p-nav-btn"
                             disabled={pagination.page <= 1}
                             onClick={() => setPagination(p => ({ ...p, page: p.page - 1 }))}
                         >
                             Anterior
                         </button>
-                        <span className="text-sm font-bold text-slate-500">Página {pagination.page} de {pagination.totalPages}</span>
+                        <span className="page-indicator">Página {pagination.page} de {pagination.totalPages}</span>
                         <button
-                            className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-white font-bold text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10 transition-all"
+                            className="p-nav-btn"
                             disabled={pagination.page >= pagination.totalPages}
                             onClick={() => setPagination(p => ({ ...p, page: p.page + 1 }))}
                         >
@@ -156,7 +169,7 @@ function PedidosContent() {
 
 export default function PedidosPage() {
     return (
-        <Suspense fallback={<div className="p-8 text-center text-slate-500">Cargando módulo de pedidos...</div>}>
+        <Suspense fallback={<div className="p-8 text-center text-slate-500 font-bold">Iniciando Centro de Pedidos...</div>}>
             <PedidosContent />
         </Suspense>
     );

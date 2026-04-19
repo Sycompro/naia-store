@@ -28,8 +28,6 @@ export default function AdminHistorias() {
         fetchStories();
     }, []);
 
-    // Form State reset is handled in openEditModal and openAddModal
-
     const fetchStories = async () => {
         setLoading(true);
         try {
@@ -132,7 +130,6 @@ export default function AdminHistorias() {
         const swapIndex = direction === 'up' ? index - 1 : index + 1;
         [newSlides[index], newSlides[swapIndex]] = [newSlides[swapIndex], newSlides[index]];
 
-        // Update orders in DB
         await Promise.all(newSlides.map((s, i) =>
             fetch(`/api/admin/stories/slides/${s.id}`, {
                 method: 'PATCH',
@@ -185,6 +182,7 @@ export default function AdminHistorias() {
     };
 
     const openAddModal = () => {
+        setFormData({ title: '', imageUrl: '', gender: 'FEMALE' });
         setEditingStory(null);
         setSlides([]);
         setShowModal(true);
@@ -193,44 +191,45 @@ export default function AdminHistorias() {
     return (
         <div className="admin-stories-page animate-entrance">
             <AdminPageHeader
-                title="Historias y Novedades"
-                breadcrumb={[{ label: 'Admin', href: '/admin' }, { label: 'Historias' }]}
+                title="Historias e Impacto"
+                breadcrumb={[{ label: 'Admin', href: '/admin' }, { label: 'Contenido Visual' }]}
                 actions={
-                    <button className="add-history-btn-premium" onClick={openAddModal}>
-                        <Plus size={18} /> Nueva Historia
+                    <button className="add-btn-premium" onClick={openAddModal}>
+                        <Plus size={18} /> Crear Historia
                     </button>
                 }
             />
 
-            <div className="stories-grid-container">
+            <div className="stories-view-container">
                 {loading ? (
-                    <div className="loading-state-premium">Cargando historias...</div>
+                    <div className="loading-state-full">
+                        <div className="loader-pulse"></div>
+                        <span>Organizando historias...</span>
+                    </div>
                 ) : stories.length === 0 ? (
-                    <AdminCard className="empty-stories-card">
-                        <div className="empty-state-content">
-                            <ImageIcon size={48} strokeWidth={1.5} />
-                            <p>No hay historias publicadas aún.</p>
-                            <button className="text-link-premium" onClick={openAddModal}>Publicar la primera</button>
-                        </div>
-                    </AdminCard>
+                    <div className="empty-stories-splash">
+                        <div className="splash-icon"><ImageIcon size={64} strokeWidth={1} /></div>
+                        <h3>No hay historias activas</h3>
+                        <p>Las historias ayudan a captar la atención de tus clientes con novedades visuales.</p>
+                        <button className="cta-btn-premium" onClick={openAddModal}>Publicar la primera</button>
+                    </div>
                 ) : (
                     <div className="stories-grid-premium">
                         {stories.map((story) => (
-                            <AdminCard key={story.id} className="story-card-admin" padding="0">
-                                <div className="story-image-wrap">
-                                    <div className="story-img" style={{ backgroundImage: `url(${story.thumbnailUrl})` }}></div>
-                                    <div className="story-badges">
-                                        <div className="gender-pill">{story.gender === 'MALE' ? 'Él' : 'Ella'}</div>
-                                        <div className="slides-pill">{story._count?.slides || 0} Slides</div>
-                                    </div>
-                                    <div className="story-actions-overlay">
-                                        <button className="circle-btn-edit" onClick={() => openEditModal(story)}><Edit2 size={16} /></button>
-                                        <button className="circle-btn-delete" onClick={() => handleDelete(story.id)}><Trash2 size={16} /></button>
+                            <AdminCard key={story.id} padding="0" className="story-card-wrapper">
+                                <div className="story-thumb-area">
+                                    <div className="thumb-image" style={{ backgroundImage: `url(${story.thumbnailUrl})` }}></div>
+                                    <div className="category-pill-premium">{story.gender === 'MALE' ? 'Caballeros' : 'Damas'}</div>
+                                    <div className="slides-count-pill">{story._count?.slides || 0} Slides</div>
+                                    
+                                    <div className="story-overlay-actions">
+                                        <button className="action-circle-edit" onClick={() => openEditModal(story)}><Edit2 size={16} /></button>
+                                        <button className="action-circle-del" onClick={() => handleDelete(story.id)}><Trash2 size={16} /></button>
                                     </div>
                                 </div>
-                                <div className="story-meta-footer">
-                                    <span className="story-title-txt">{story.name}</span>
-                                    <span className="story-date-txt">{new Date(story.createdAt).toLocaleDateString()}</span>
+                                <div className="story-footer-info">
+                                    <span className="story-name-title">{story.name}</span>
+                                    <span className="story-meta-date">{new Date(story.createdAt).toLocaleDateString()}</span>
                                 </div>
                             </AdminCard>
                         ))}
@@ -240,122 +239,103 @@ export default function AdminHistorias() {
 
             {showModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content-premium glass-premium animate-fade-in">
-                        <div className="modal-header-premium">
-                            <div className="header-text">
-                                <h3>{editingStory ? 'Editar Historia' : 'Nueva Historia'}</h3>
-                                <p>Publica una novedad en el carrusel de la tienda</p>
+                    <div className="modal-container-modern animate-modal-in">
+                        <header className="modal-header-premium">
+                            <div className="title-box">
+                                <h3>{editingStory ? 'Gestionar Historia' : 'Nueva Campaña Visual'}</h3>
+                                <p>Crea una secuencia de contenidos para el carrusel principal.</p>
                             </div>
-                            <button className="close-modal-btn" onClick={() => { setShowModal(false); setEditingStory(null); }}><X size={20} /></button>
-                        </div>
-                        <form onSubmit={handleSubmit} className="admin-form-modern">
-                            <div className="form-grid-modern">
-                                <div className="form-group-modern full">
-                                    <label>Título / Categoría</label>
-                                    <input
-                                        type="text"
-                                        required
-                                        placeholder="Ej: Ofertas, Nuevo Serum, Kit Verano"
-                                        value={formData.title}
-                                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                    />
-                                </div>
-                                <div className="form-group-modern">
-                                    <label>Género / Tema</label>
-                                    <CustomSelect
-                                        value={formData.gender}
-                                        onChange={(val) => setFormData({ ...formData, gender: val })}
-                                        icon={UserIcon}
-                                        options={[
-                                            { value: 'FEMALE', label: 'Ella (Femenino)' },
-                                            { value: 'MALE', label: 'Él (Masculino)' }
-                                        ]}
-                                    />
-                                </div>
-                                <div className="form-group-modern full">
-                                    <label>Archivo de Imagen o Vídeo</label>
-                                    <div className="upload-input-wrap">
-                                        <input
-                                            type="file"
-                                            id="file-upload"
-                                            className="hidden-file-input"
-                                            onChange={handleFileUpload}
-                                            accept="image/*,video/*"
-                                        />
-                                        <label htmlFor="file-upload" className="custom-upload-trigger">
-                                            {uploading ? (
-                                                <>Subiendo archivo...</>
-                                            ) : (
-                                                <>{formData.imageUrl ? 'Cambiar Archivo' : 'Seleccionar Imagen/Vídeo'}</>
-                                            )}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                            <button className="btn-close-modal" onClick={() => { setShowModal(false); setEditingStory(null); }}><X size={22} /></button>
+                        </header>
 
-                            {formData.imageUrl && (
-                                <div className="preview-wrap-modern">
-                                    <div className="preview-label">Imagen de Círculo (Miniatura)</div>
-                                    <div className="preview-img-box mini-circle">
-                                        <div className="preview-img-actual" style={{ backgroundImage: `url(${formData.imageUrl})` }}></div>
+                        <form onSubmit={handleSubmit} className="premium-form-layout">
+                            <div className="form-main-fields">
+                                <div className="image-preview-side">
+                                    <label className="label-lite">Portada (Círculo)</label>
+                                    <div className="thumbnail-upload-box">
+                                        {formData.imageUrl ? (
+                                            <div className="thumb-preview-circle">
+                                                <img src={formData.imageUrl} alt="Thumbnail" />
+                                                <button type="button" className="btn-remove-thumb" onClick={() => setFormData({ ...formData, imageUrl: '' })}><X size={12} /></button>
+                                            </div>
+                                        ) : (
+                                            <label htmlFor="thumb-input" className="thumb-placeholder-circle">
+                                                <ImageIcon size={24} color="#ec4899" />
+                                                <span>Imagen</span>
+                                            </label>
+                                        )}
+                                        <input type="file" id="thumb-input" className="hidden-node" onChange={handleFileUpload} accept="image/*" />
                                     </div>
                                 </div>
-                            )}
+
+                                <div className="text-fields-side">
+                                    <div className="form-item-premium">
+                                        <label className="label-lite">Título de la Historia</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            placeholder="Ej: Ofertas de Verano"
+                                            value={formData.title}
+                                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="form-item-premium">
+                                        <label className="label-lite">Segmento</label>
+                                        <CustomSelect
+                                            value={formData.gender}
+                                            onChange={(val) => setFormData({ ...formData, gender: val })}
+                                            icon={UserIcon}
+                                            options={[
+                                                { value: 'FEMALE', label: 'Línea Damas' },
+                                                { value: 'MALE', label: 'Línea Caballeros' }
+                                            ]}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
                             {editingStory && (
-                                <div className="slides-manager-section animate-fade-in">
-                                    <div className="section-header-modern">
-                                        <div className="section-info">
-                                            <h4>Diapositivas del Grupo</h4>
-                                            <p>{slides.length} contenidos en secuencia</p>
-                                        </div>
-                                        <div className="section-action">
-                                            <input type="file" id="slide-upload" className="hidden-file-input" onChange={handleUploadSlide} accept="image/*,video/*" />
-                                            <label htmlFor="slide-upload" className="btn-add-slide-mini">
-                                                <Plus size={14} /> Añadir
-                                            </label>
-                                        </div>
+                                <div className="slides-manager-premium">
+                                    <div className="manager-header">
+                                        <h4>Contenidos de la Historia</h4>
+                                        <label htmlFor="slide-input" className="btn-add-slide-premium">
+                                            <Plus size={16} /> Añadir Slide
+                                        </label>
+                                        <input type="file" id="slide-input" className="hidden-node" onChange={handleUploadSlide} accept="image/*,video/*" />
                                     </div>
 
-                                    {loadingSlides ? (
-                                        <div className="loading-slides-mini">Cargando diapositivas...</div>
-                                    ) : slides.length === 0 ? (
-                                        <div className="empty-slides-mini">Este grupo no tiene diapositivas aún.</div>
-                                    ) : (
-                                        <div className="slides-list-admin-mini">
-                                            {slides.map((slide, index) => (
-                                                <div key={slide.id} className="slide-item-admin-mini glass-card">
-                                                    <div className="slide-preview-mini">
+                                    <div className="slides-grid-mini">
+                                        {loadingSlides ? (
+                                            <div className="loading-slides-txt">Cargando secuencias...</div>
+                                        ) : slides.length === 0 ? (
+                                            <div className="empty-slides-txt">Aún no has añadido diapositivas a este grupo.</div>
+                                        ) : (
+                                            slides.map((slide, index) => (
+                                                <div key={slide.id} className="slide-card-mini">
+                                                    <div className="preview-mini-wrap">
                                                         {slide.type === 'VIDEO' ? (
-                                                            <div className="video-preview-mini">
-                                                                <video src={slide.mediaUrl} muted playsInline className="preview-vid" />
-                                                                <Play size={10} className="vid-icon" />
-                                                            </div>
+                                                            <video src={slide.mediaUrl} className="vid-mini" muted playsInline />
                                                         ) : (
-                                                            <div className="img-preview-mini" style={{ backgroundImage: `url(${slide.mediaUrl})` }}></div>
+                                                            <div className="img-mini" style={{ backgroundImage: `url(${slide.mediaUrl})` }}></div>
                                                         )}
-                                                        <div className="slide-order-badge">#{index + 1}</div>
+                                                        <div className="order-tag">#{index + 1}</div>
+                                                        <button type="button" className="btn-del-slide" onClick={() => handleDeleteSlide(slide.id)}><Trash2 size={12} /></button>
                                                     </div>
-                                                    <div className="slide-controls-mini">
-                                                        <div className="move-btns">
-                                                            <button type="button" onClick={() => handleMoveSlide(slide.id, 'up')} disabled={index === 0}>↑</button>
-                                                            <button type="button" onClick={() => handleMoveSlide(slide.id, 'down')} disabled={index === slides.length - 1}>↓</button>
-                                                        </div>
-                                                        <button type="button" className="btn-delete-slide-mini" onClick={() => handleDeleteSlide(slide.id)}>
-                                                            <Trash2 size={12} />
-                                                        </button>
+                                                    <div className="slide-move-actions">
+                                                        <button type="button" onClick={() => handleMoveSlide(slide.id, 'up')} disabled={index === 0}>↑</button>
+                                                        <button type="button" onClick={() => handleMoveSlide(slide.id, 'down')} disabled={index === slides.length - 1}>↓</button>
                                                     </div>
                                                 </div>
-                                            ))}
-                                        </div>
-                                    )}
+                                            ))
+                                        )}
+                                    </div>
                                 </div>
                             )}
 
-                            <div className="form-footer-modern">
-                                <button type="button" className="btn-cancel-modern" onClick={() => { setShowModal(false); setEditingStory(null); }}>Cancelar</button>
-                                <button type="submit" className="btn-submit-modern" disabled={uploading}>
-                                    {uploading ? 'Cargando...' : editingStory ? 'Guardar Cambios' : 'Crear Grupo'}
+                            <div className="modal-footer-premium">
+                                <button type="button" className="btn-cancel-premium" onClick={() => { setShowModal(false); setEditingStory(null); }}>Cancelar</button>
+                                <button type="submit" className="btn-save-premium" disabled={uploading}>
+                                    {uploading ? 'Procesando...' : editingStory ? 'Confirmar Cambios' : 'Crear Historia'}
                                 </button>
                             </div>
                         </form>
@@ -364,140 +344,96 @@ export default function AdminHistorias() {
             )}
 
             <style jsx>{`
-                .admin-stories-page { display: flex; flex-direction: column; gap: 28px; animation: fadeIn 0.4s ease-out; }
+                .admin-stories-page { max-width: 1400px; margin: 0 auto; }
                 
-                .add-history-btn-premium {
-                    background: white; color: #0f172a; border: none; padding: 10px 20px; border-radius: 12px;
-                    font-weight: 950; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s;
+                .add-btn-premium {
+                    background: #1e293b; color: white; border: none; padding: 12px 24px; border-radius: 16px;
+                    font-weight: 900; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 }
-                .add-history-btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,255,255,0.1); }
+                .add-btn-premium:hover { transform: translateY(-2px); background: #0f172a; }
 
-                .stories-grid-container { min-height: 400px; }
-                .loading-state-premium { padding: 80px; text-align: center; color: #64748b; font-weight: 800; font-size: 1.1rem; }
+                .stories-view-container { margin-top: 40px; }
+                .loading-state-full { padding: 100px; display: flex; flex-direction: column; align-items: center; gap: 20px; color: #94a3b8; font-weight: 800; }
+                .loader-pulse { width: 40px; height: 40px; border-radius: 50%; background: #ec4899; animation: pulse 1.5s infinite; }
+                @keyframes pulse { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.2; } 100% { transform: scale(0.8); opacity: 0.5; } }
 
-                .empty-stories-card { padding: 80px !important; }
-                .empty-state-content { display: flex; flex-direction: column; align-items: center; gap: 16px; color: #475569; }
-                .empty-state-content p { font-size: 16px; font-weight: 700; }
-                .text-link-premium { background: none; border: none; color: white; font-weight: 900; text-decoration: underline; cursor: pointer; }
+                .empty-stories-splash { padding: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; color: #94a3b8; }
+                .splash-icon { width: 120px; height: 120px; background: #f8fafc; border-radius: 40px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; border: 1px solid #f1f5f9; color: #cbd5e1; }
+                .empty-stories-splash h3 { font-size: 24px; font-weight: 950; color: #1e293b; letter-spacing: -0.8px; margin-bottom: 12px; }
+                .empty-stories-splash p { font-size: 15px; font-weight: 700; max-width: 350px; line-height: 1.6; margin-bottom: 30px; }
+                .cta-btn-premium { background: #ec4899; color: white; border: none; padding: 14px 30px; border-radius: 16px; font-weight: 900; cursor: pointer; transition: 0.3s; }
 
-                .stories-grid-premium { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+                .stories-grid-premium { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+                .story-card-wrapper { transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); border: 1px solid #f1f5f9 !important; }
+                .story-card-wrapper:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.08) !important; }
+
+                .story-thumb-area { width: 100%; height: 320px; position: relative; overflow: hidden; background: #1e293b; }
+                .thumb-image { width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.6s; }
+                .story-card-wrapper:hover .thumb-image { transform: scale(1.1); opacity: 0.7; }
+
+                .category-pill-premium { position: absolute; top: 15px; left: 15px; background: #fff; color: #ec4899; padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 950; text-transform: uppercase; z-index: 5; }
+                .slides-count-pill { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); color: #fff; padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 900; z-index: 5; }
+
+                .story-overlay-actions { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 15px; opacity: 0; transition: 0.3s; z-index: 10; }
+                .story-card-wrapper:hover .story-overlay-actions { opacity: 1; }
+                .action-circle-edit, .action-circle-del { width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+                .action-circle-edit { background: #fff; color: #1e293b; }
+                .action-circle-del { background: #f43f5e; color: #fff; }
+                .action-circle-edit:hover, .action-circle-del:hover { transform: scale(1.15); }
+
+                .story-footer-info { padding: 20px; display: flex; flex-direction: column; gap: 4px; background: #fff; }
+                .story-name-title { font-size: 16px; font-weight: 900; color: #1e293b; letter-spacing: -0.3px; }
+                .story-meta-date { font-size: 12px; font-weight: 800; color: #94a3b8; }
+
+                /* Modal Section */
+                .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px; }
+                .modal-container-modern { width: 100%; max-width: 600px; background: #fff; border-radius: 32px; padding: 40px; box-shadow: 0 50px 100px rgba(0,0,0,0.15); }
+                .modal-header-premium { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+                .title-box h3 { font-size: 24px; font-weight: 950; color: #1e293b; letter-spacing: -1px; margin: 0; }
+                .title-box p { font-size: 14px; font-weight: 700; color: #94a3b8; margin-top: 4px; }
+                .btn-close-modal { background: #f8fafc; border: 1px solid #f1f5f9; width: 44px; height: 44px; border-radius: 14px; cursor: pointer; color: #94a3b8; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+                .btn-close-modal:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; transform: rotate(90deg); }
+
+                .premium-form-layout { display: flex; flex-direction: column; gap: 30px; }
+                .form-main-fields { display: flex; gap: 30px; }
+                .image-preview-side { width: 140px; flex-shrink: 0; text-align: center; }
+                .text-fields-side { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+                .label-lite { font-size: 11px; font-weight: 900; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 10px; }
+                .thumb-preview-circle { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; position: relative; border: 3px solid #f1f5f9; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+                .thumb-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
+                .thumb-placeholder-circle { width: 120px; height: 120px; border-radius: 50%; border: 2px dashed #f1f5f9; background: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; color: #94a3b8; font-size: 12px; font-weight: 800; transition: 0.3s; }
+                .thumb-placeholder-circle:hover { border-color: #ec4899; color: #ec4899; background: #fdf2f8; }
                 
-                .story-card-admin :global(.card-body-admin) { padding: 0; }
+                .btn-remove-thumb { position: absolute; bottom: 0; right: 0; width: 30px; height: 30px; border-radius: 50%; background: #f43f5e; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+                .form-item-premium input { width: 100%; padding: 14px 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 14px; font-weight: 800; color: #1e293b; outline: none; transition: 0.3s; }
+                .form-item-premium input:focus { border-color: #ec4899; background: #fff; box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.05); }
+
+                .slides-manager-premium { background: #fcfcfc; border: 1px solid #f1f5f9; border-radius: 24px; padding: 25px; }
+                .manager-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+                .manager-header h4 { font-size: 15px; font-weight: 900; color: #1e293b; margin: 0; }
+                .btn-add-slide-premium { background: #ec4899; color: white; padding: 8px 16px; border-radius: 12px; font-size: 12px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 5px 15px rgba(236, 72, 153, 0.2); }
+
+                .slides-grid-mini { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; max-height: 220px; overflow-y: auto; padding: 5px; }
+                .slide-card-mini { background: #fff; border: 1px solid #f1f5f9; border-radius: 16px; padding: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+                .preview-mini-wrap { width: 100%; height: 120px; border-radius: 12px; overflow: hidden; position: relative; background: #000; margin-bottom: 8px; }
+                .img-mini, .vid-mini { width: 100%; height: 100%; background-size: cover; background-position: center; object-fit: cover; }
+                .order-tag { position: absolute; top: 6px; left: 6px; background: #fff; color: #1e293b; font-size: 10px; font-weight: 950; padding: 2px 6px; border-radius: 6px; }
+                .btn-del-slide { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: #f43f5e; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+                .slide-move-actions { display: flex; justify-content: center; gap: 4px; }
+                .slide-move-actions button { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; width: 24px; height: 24px; font-size: 11px; font-weight: 950; color: #94a3b8; cursor: pointer; }
                 
-                .story-image-wrap { width: 100%; height: 280px; position: relative; overflow: hidden; border-radius: 20px 20px 0 0; background: #000; }
-                .video-container-admin { width: 100%; height: 100%; position: relative; }
-                .story-img { width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.6s cubic-bezier(0.1, 0.7, 0.1, 1); }
-                .story-video-preview { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; opacity: 0.8; }
-                .story-card-admin:hover .story-img { transform: scale(1.1); }
-                .story-card-admin:hover .story-video-preview { transform: scale(1.05); opacity: 1; }
-                
-                .video-icon-indicator {
-                  position: absolute; top: 12px; right: 12px; width: 24px; height: 24px;
-                  background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); border-radius: 50%;
-                  display: flex; align-items: center; justify-content: center; z-index: 5;
-                }
+                .modal-footer-premium { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+                .btn-cancel-premium { background: none; border: none; color: #94a3b8; font-weight: 800; cursor: pointer; }
+                .btn-save-premium { background: #1e293b; color: #fff; border: none; padding: 14px 35px; border-radius: 16px; font-weight: 950; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+                .btn-save-premium:hover { transform: translateY(-3px); background: #000; }
 
-                .story-badges { position: absolute; top: 12px; left: 12px; z-index: 5; display: flex; flex-direction: column; gap: 6px; }
-                .gender-pill { background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; width: fit-content; }
-                .slides-pill { background: white; color: black; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; width: fit-content; }
-
-                .story-actions-overlay {
-                    position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.8), transparent);
-                    display: flex; align-items: center; justify-content: center; gap: 12px; opacity: 0; transition: 0.3s; z-index: 10;
-                }
-                .story-card-admin:hover .story-actions-overlay { opacity: 1; }
-                
-                .circle-btn-edit, .circle-btn-delete {
-                    width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
-                }
-                .circle-btn-edit { background: white; color: #0f172a; }
-                .circle-btn-delete { background: #ef4444; color: white; }
-                .circle-btn-edit:hover, .circle-btn-delete:hover { transform: scale(1.15); }
-
-                .story-meta-footer { padding: 16px; display: flex; flex-direction: column; gap: 4px; border-top: 1px solid rgba(255,255,255,0.03); }
-                .story-title-txt { font-size: 14px; font-weight: 800; color: white; }
-                .story-date-txt { font-size: 11px; font-weight: 700; color: #475569; }
-
-                /* Modal */
-                .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 5000; padding: 20px; }
-                .modal-content-premium { width: 100%; max-width: 500px; padding: 32px; border-radius: 28px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 40px 100px rgba(0,0,0,0.6); }
-                .modal-header-premium { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
-                .header-text h3 { font-size: 24px; font-weight: 950; color: white; letter-spacing: -1px; margin-bottom: 4px; }
-                .header-text p { font-size: 14px; color: #64748b; font-weight: 600; }
-                .close-modal-btn { background: rgba(255,255,255,0.05); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; color: #94a3b8; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-                .close-modal-btn:hover { background: white; color: #0f172a; transform: rotate(90deg); }
-
-                .admin-form-modern { display: flex; flex-direction: column; gap: 24px; }
-                .form-grid-modern { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-                .form-group-modern { display: flex; flex-direction: column; gap: 8px; }
-                .form-group-modern.full { grid-column: 1 / -1; }
-                .form-group-modern label { font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
-                .form-group-modern input, .form-group-modern select {
-                    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-                    padding: 14px 18px; border-radius: 14px; color: white; font-weight: 600; outline: none; transition: 0.2s;
-                }
-                .form-group-modern input:focus { border-color: rgba(255,255,255,0.3); }
-
-                .preview-wrap-modern { margin-top: 10px; }
-                .preview-label { font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 12px; }
-                .preview-img-box { width: 100%; height: 260px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; }
-                .preview-img-actual { width: 100%; height: 100%; background-size: cover; background-position: center; }
-                .full-preview-video { width: 100%; height: 100%; object-fit: contain; }
-
-                .hidden-file-input { display: none; }
-                .custom-upload-trigger {
-                    display: flex; align-items: center; justify-content: center; padding: 16px;
-                    border: 2px dashed rgba(255,255,255,0.1); border-radius: 16px;
-                    color: white; font-weight: 800; cursor: pointer; transition: 0.3s;
-                }
-                .custom-upload-trigger:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.3); }
-                
-                .form-footer-modern { display: flex; justify-content: flex-end; gap: 16px; margin-top: 16px; }
-                .btn-cancel-modern { background: none; border: none; color: #64748b; font-weight: 800; cursor: pointer; }
-                .btn-submit-modern {
-                    background: white; color: #0f172a; border: none; padding: 14px 32px; border-radius: 16px;
-                    font-weight: 950; cursor: pointer; transition: 0.3s;
-                }
-                .btn-submit-modern:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-
-                .preview-img-box.mini-circle { width: 80px; height: 80px; border-radius: 50%; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-                
-                .slides-manager-section { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); }
-                .section-header-modern { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-                .section-info h4 { font-size: 16px; font-weight: 800; color: white; margin: 0; }
-                .section-info p { font-size: 12px; color: #64748b; margin: 2px 0 0; font-weight: 600; }
-                
-                .btn-add-slide-mini {
-                    background: rgba(255,255,255,0.1); color: white; padding: 6px 14px; border-radius: 8px;
-                    font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px;
-                    transition: 0.2s;
-                }
-                .btn-add-slide-mini:hover { background: white; color: black; }
-
-                .slides-list-admin-mini { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px; max-height: 300px; overflow-y: auto; padding-right: 8px; }
-                .slides-list-admin-mini::-webkit-scrollbar { width: 4px; }
-                .slides-list-admin-mini::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-                
-                .slide-item-admin-mini { border-radius: 16px; padding: 10px; border: 1px solid rgba(255,255,255,0.05); }
-                .slide-preview-mini { position: relative; width: 100%; height: 140px; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 8px; }
-                .img-preview-mini, .video-preview-mini { width: 100%; height: 100%; background-size: cover; background-position: center; }
-                .preview-vid { width: 100%; height: 100%; object-fit: cover; }
-                .vid-icon { position: absolute; top: 8px; right: 8px; color: white; }
-                .slide-order-badge { position: absolute; top: 8px; left: 8px; background: white; color: black; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 4px; }
-                
-                .slide-controls-mini { display: flex; justify-content: space-between; align-items: center; }
-                .move-btns { display: flex; gap: 4px; }
-                .move-btns button { 
-                  background: rgba(255,255,255,0.05); border: none; color: white; width: 22px; height: 22px; 
-                  border-radius: 4px; font-size: 10px; cursor: pointer; 
-                }
-                .move-btns button:hover:not(:disabled) { background: rgba(255,255,255,0.2); }
-                .move-btns button:disabled { opacity: 0.3; cursor: not-allowed; }
-                
-                .btn-delete-slide-mini { background: #ef4444; border: none; color: white; padding: 5px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-                .btn-delete-slide-mini:hover { transform: scale(1.1); }
-
-                @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+                .hidden-node { display: none; }
+                @keyframes modalIn { from { opacity: 0; transform: scale(0.9) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+                .animate-modal-in { animation: modalIn 0.5s cubic-bezier(0.1, 0.7, 0.1, 1); }
+                @keyframes entrance { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
             `}</style>
         </div>
     );

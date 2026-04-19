@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, Mail, ArrowRight, ShieldCheck, Sparkles, ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 function AdminLoginForm() {
@@ -10,7 +9,7 @@ function AdminLoginForm() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const { login } = useAuth(); // Obtener función login
+    const { login } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,11 +30,8 @@ function AdminLoginForm() {
                 throw new Error('Esta cuenta no tiene permisos de administrador.');
             }
 
-            // IMPORTANTE: Usar la función login del contexto para actualizar el estado global
             login(data.user);
-
             router.push('/admin');
-            // Ya no es necesario el reload si el estado se actualiza correctamente
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -44,210 +40,103 @@ function AdminLoginForm() {
     };
 
     return (
-        <div className="admin-login-card glass-industrial animate-entrance">
-            <div className="admin-login-header">
-                <div className="admin-badge">
-                    <ShieldCheck size={20} />
-                    <span>Portal Seguro</span>
+        <div className="admin-login-card animate-entrance">
+            <header className="admin-login-header">
+                <div className="security-badge-premium">
+                    <ShieldCheck size={18} />
+                    <span>Conexión Encriptada</span>
                 </div>
                 <h1>Naia<span>Admin</span></h1>
-                <p>Ingrese sus credenciales de gestión para continuar</p>
-            </div>
+                <p>Centro de Control Administrativo</p>
+            </header>
 
             <form onSubmit={handleSubmit} className="admin-login-form">
-                {error && <div className="admin-error-box animate-fade">{error}</div>}
+                {error && <div className="error-alert-premium">{error}</div>}
 
-                <div className="admin-input-group">
+                <div className="form-group-premium">
                     <label><Mail size={14} /> Correo Electrónico</label>
                     <input
                         type="email"
-                        placeholder="admin@naia.com"
+                        placeholder="admin@naia.shop"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         required
                     />
                 </div>
 
-                <div className="admin-input-group">
-                    <label><Lock size={14} /> Contraseña de Seguridad</label>
+                <div className="form-group-premium">
+                    <label><Lock size={14} /> Contraseña</label>
                     <input
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="••••••••••••"
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         required
                     />
                 </div>
 
-                <button type="submit" className="admin-submit-btn" disabled={loading}>
-                    {loading ? 'Verificando...' : 'Acceder al Panel'}
+                <button type="submit" className="login-btn-premium" disabled={loading}>
+                    {loading ? 'Validando Acceso...' : 'Ingresar al Panel'}
                     {!loading && <ArrowRight size={20} />}
                 </button>
             </form>
 
-            <div className="admin-login-footer">
-                <div className="version-info" style={{ margin: '0 auto' }}>v2.4.0 Build 2026</div>
-            </div>
+            <footer className="admin-login-footer">
+                <span className="version-txt">Version 3.0.0 • Naia Cloud Enterprise</span>
+            </footer>
 
             <style jsx>{`
                 .admin-login-card {
                     width: 100%;
-                    max-width: 480px;
+                    max-width: 460px;
                     padding: 60px 50px;
-                    background: rgba(13, 17, 23, 0.9);
-                    backdrop-filter: blur(25px);
-                    -webkit-backdrop-filter: blur(25px);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 32px;
-                    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+                    background: #fff;
+                    border: 1px solid #f1f5f9;
+                    border-radius: 40px;
+                    box-shadow: 0 40px 100px -30px rgba(0,0,0,0.15);
+                    position: relative;
                 }
-                .admin-login-header {
-                    margin-bottom: 40px;
-                    text-align: center;
-                }
-                .admin-badge {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 8px 16px;
-                    background: rgba(30, 41, 59, 0.5);
-                    border: 1px solid rgba(148, 163, 184, 0.2);
-                    border-radius: 100px;
-                    color: #94a3b8;
-                    font-size: 12px;
-                    font-weight: 800;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                    margin-bottom: 24px;
-                }
-                .admin-login-header h1 {
-                    font-size: 38px;
-                    font-weight: 900;
-                    color: white;
-                    margin-bottom: 12px;
-                    letter-spacing: -1px;
-                }
-                .admin-login-header h1 span {
-                    color: var(--primary);
-                    background: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }
-                .admin-login-header p {
-                    color: #94a3b8;
-                    font-size: 15px;
-                    font-weight: 500;
+                .admin-login-header { text-align: center; margin-bottom: 40px; }
+                
+                .security-badge-premium {
+                    display: inline-flex; align-items: center; gap: 8px;
+                    padding: 8px 18px; background: #f0fdf4; border: 1px solid #dcfce7;
+                    border-radius: 100px; color: #10b981; font-size: 11px; font-weight: 950;
+                    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 25px;
                 }
 
-                .admin-login-form {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 28px;
-                }
-                .admin-input-group {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                }
-                .admin-input-group label {
-                    font-size: 13px;
-                    font-weight: 700;
-                    color: #64748b;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding-left: 4px;
-                }
-                .admin-input-group input {
-                    padding: 18px;
-                    background: rgba(30, 41, 59, 0.4);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 16px;
-                    color: white;
-                    font-size: 16px;
-                    font-weight: 600;
-                    outline: none;
-                    transition: all 0.3s;
-                }
-                .admin-input-group input:focus {
-                    background: rgba(30, 41, 59, 0.6);
-                    border-color: var(--primary);
-                    box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.1);
-                }
-                .admin-submit-btn {
-                    padding: 18px;
-                    background: white;
-                    color: #0f172a;
-                    border: none;
-                    border-radius: 18px;
-                    font-size: 16px;
-                    font-weight: 800;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 12px;
-                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                }
-                .admin-submit-btn:hover:not(:disabled) {
-                    transform: translateY(-3px);
-                    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-                    filter: brightness(1.1);
-                }
-                .admin-submit-btn:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
+                .admin-login-header h1 { font-size: 42px; font-weight: 950; color: #1e293b; letter-spacing: -2px; margin-bottom: 8px; }
+                .admin-login-header h1 span { color: #ec4899; }
+                .admin-login-header p { color: #94a3b8; font-size: 15px; font-weight: 700; }
 
-                .admin-error-box {
-                    background: rgba(239, 68, 68, 0.1);
-                    border: 1px solid rgba(239, 68, 68, 0.2);
-                    color: #f87171;
-                    padding: 16px;
-                    border-radius: 14px;
-                    font-size: 14px;
-                    font-weight: 700;
-                    text-align: center;
+                .admin-login-form { display: flex; flex-direction: column; gap: 25px; }
+                
+                .form-group-premium { display: flex; flex-direction: column; gap: 10px; }
+                .form-group-premium label { font-size: 12px; font-weight: 800; color: #64748b; display: flex; align-items: center; gap: 8px; padding-left: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+                .form-group-premium input {
+                    padding: 18px 24px; background: #f8fafc; border: 1px solid #e2e8f0;
+                    border-radius: 20px; color: #1e293b; font-size: 16px; font-weight: 800;
+                    outline: none; transition: 0.3s;
                 }
+                .form-group-premium input:focus { border-color: #ec4899; background: #fff; box-shadow: 0 0 0 5px rgba(236, 72, 153, 0.05); }
 
-                .admin-login-footer {
-                    margin-top: 40px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    font-size: 13px;
-                    font-weight: 600;
+                .login-btn-premium {
+                    padding: 20px; background: #1e293b; color: #fff; border: none;
+                    border-radius: 22px; font-size: 16px; font-weight: 950; cursor: pointer;
+                    display: flex; align-items: center; justify-content: center; gap: 12px;
+                    transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); margin-top: 10px;
+                    box-shadow: 0 15px 35px rgba(30, 41, 59, 0.2);
                 }
-                .back-to-site {
-                    color: #64748b;
-                    text-decoration: none;
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    transition: 0.3s;
-                }
-                .back-to-site:hover {
-                    color: white;
-                }
-                .version-info {
-                    color: #475569;
-                    letter-spacing: 0.5px;
-                }
+                .login-btn-premium:hover:not(:disabled) { transform: translateY(-4px); background: #000; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25); }
+                .login-btn-premium:disabled { opacity: 0.6; cursor: wait; }
 
-                .animate-entrance {
-                    animation: entrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-                }
-                @keyframes entrance {
-                    from { opacity: 0; transform: translateY(30px) scale(0.98); }
-                    to { opacity: 1; transform: translateY(0) scale(1); }
-                }
-                .animate-fade {
-                    animation: fadeIn 0.4s ease;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
+                .error-alert-premium { background: #fff1f2; border: 1px solid #ffe4e6; color: #f43f5e; padding: 16px; border-radius: 18px; font-size: 14px; font-weight: 800; text-align: center; }
+
+                .admin-login-footer { margin-top: 45px; text-align: center; }
+                .version-txt { font-size: 11px; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.2em; }
+
+                @keyframes entrance { from { opacity: 0; transform: translateY(40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+                .animate-entrance { animation: entrance 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
             `}</style>
         </div>
     );
@@ -255,30 +144,29 @@ function AdminLoginForm() {
 
 export default function AdminLoginPage() {
     return (
-        <main className="admin-auth-wrapper dark-mesh-bg">
-            <Suspense fallback={<div className="admin-loader"></div>}>
+        <main className="admin-auth-surface premium-mesh-bg">
+            <Suspense fallback={<div className="premium-loader"></div>}>
                 <AdminLoginForm />
             </Suspense>
 
             <style jsx global>{`
-                .dark-mesh-bg {
-                    background-color: #0a0e17;
+                .premium-mesh-bg {
+                    background-color: #f8fafc;
                     background-image: 
-                        radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0px, transparent 50%),
-                        radial-gradient(at 100% 100%, rgba(131, 24, 67, 0.05) 0px, transparent 50%);
+                        radial-gradient(at 0% 0%, rgba(236, 72, 153, 0.03) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(30, 41, 59, 0.03) 0px, transparent 50%);
                 }
-                .admin-auth-wrapper {
+                .admin-auth-surface {
                     min-height: 100vh;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    padding: 20px;
+                    padding: 30px;
                 }
-                .admin-loader {
-                    width: 40px;
-                    height: 40px;
-                    border: 4px solid rgba(255, 255, 255, 0.05);
-                    border-top-color: var(--primary);
+                .premium-loader {
+                    width: 50px; height: 50px;
+                    border: 4px solid #f1f5f9;
+                    border-top-color: #ec4899;
                     border-radius: 50%;
                     animation: spin 1s linear infinite;
                 }

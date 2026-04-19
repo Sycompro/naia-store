@@ -50,76 +50,76 @@ export default function ProductDetailPage() {
     if (!product) return <div className="not-found mesh-bg"><h1>Producto no encontrado</h1><Link href="/productos" className="btn-premium btn-primary-v3">Volver al catálogo</Link></div>;
 
     return (
-        <main className="p-detail-wrapper mesh-bg">
+        <main className="p-detail-wrapper white-bg">
             <Navbar />
 
             <div className="container p-detail-container">
-                <div className="p-detail-visuals animate-entrance">
-                    <div className="p-main-img-card glass-premium">
+                <div className="p-detail-visuals animate-up">
+                    <div className="p-main-img-card">
                         <img src={product.imageUrl} alt={product.name} className="p-main-img" />
-                        <div className="p-img-badge glass-premium"><Sparkles size={16} /> Premium Quality</div>
+                        <div className="p-img-badge"><Sparkles size={16} /> Producto Original Naia</div>
                     </div>
                 </div>
 
-                <div className="p-detail-info animate-entrance" style={{ animationDelay: '0.2s' }}>
-                    <div className="p-breadcrumb-v3">
-                        <Link href="/productos">Productos</Link>
+                <div className="p-detail-info animate-up" style={{ animationDelay: '0.15s' }}>
+                    <div className="p-breadcrumb-v4">
+                        <Link href="/productos">Catálogo</Link>
                         <ChevronRight size={14} />
                         <span>{product.category}</span>
                     </div>
 
-                    <h1 className="p-detail-title text-gradient">{product.name}</h1>
+                    <h1 className="p-detail-title section-title">{product.name}</h1>
 
                     <div className="p-detail-meta">
-                        <div className="p-rating-v3">
+                        <div className="p-rating-v4">
                             {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="#fbbf24" color="#fbbf24" />)}
-                            <span className="p-rev-count">(24 reseñas verificadas)</span>
+                            <span className="p-rev-count">4.9 (42 reseñas)</span>
                         </div>
-                        <div className="p-stock-tag">En Stock</div>
+                        <div className="p-stock-badge">Disponibilidad Inmediata</div>
                     </div>
 
-                    <div className="p-detail-prices-v3 glass-premium">
-                        <div className="price-main">
-                            <span className="p-label-v3">Precio Unitario</span>
-                            <span className="p-val-v3">S/ {product.unitPrice.toFixed(2)}</span>
+                    <div className="p-detail-prices-v4">
+                        <div className="price-box">
+                            <span className="p-label-v4">Por Unidad</span>
+                            <span className="p-val-v4">S/ {product.unitPrice.toFixed(2)}</span>
                         </div>
-                        <div className="price-v-divider"></div>
-                        <div className="price-secondary">
-                            <span className="p-label-v3">Mayorista <span className="p-extra">(Desde 3 unid.)</span></span>
-                            <span className="p-val-v3 wholesale">S/ {product.wholesalePrice.toFixed(2)}</span>
+                        <div className="price-divider"></div>
+                        <div className="price-box">
+                            <span className="p-label-v4">Mayorista <span className="p-info-tag">(3+ unidades)</span></span>
+                            <span className="p-val-v4 text-primary">S/ {product.wholesalePrice.toFixed(2)}</span>
                         </div>
                     </div>
 
-                    <div className="p-technical-room glass-premium">
-                        <div className="t-tabs">
-                            <button className={activeTab === 'desc' ? 'active' : ''} onClick={() => setActiveTab('desc')}>Visión General</button>
-                            <button className={activeTab === 'inci' ? 'active' : ''} onClick={() => setActiveTab('inci')}>Composición INCI</button>
-                            <button className={activeTab === 'sds' ? 'active' : ''} onClick={() => setActiveTab('sds')}>Certificaciones / SDS</button>
+                    <div className="p-tech-card">
+                        <div className="tech-tabs">
+                            <button className={activeTab === 'desc' ? 'active' : ''} onClick={() => setActiveTab('desc')}>Descripción</button>
+                            <button className={activeTab === 'inci' ? 'active' : ''} onClick={() => setActiveTab('inci')}>Cuidado & Uso</button>
+                            <button className={activeTab === 'sds' ? 'active' : ''} onClick={() => setActiveTab('sds')}>Certificaciones</button>
                         </div>
-                        <div className="t-content">
+                        <div className="tech-content">
                             {activeTab === 'desc' && (
-                                <div className="t-desc">
+                                <div className="tab-fade">
                                     <p className="p-detail-desc">{product.description}</p>
-                                    <div className="p-detail-feat">
-                                        <span className="feat-label">Formato:</span>
-                                        <span className="feat-value">{product.presentation}</span>
+                                    <div className="p-detail-spec">
+                                        <div className="spec-item"><strong>Presentación:</strong> <span>{product.presentation}</span></div>
+                                        <div className="spec-item"><strong>Categoría:</strong> <span>{product.category}</span></div>
                                     </div>
                                 </div>
                             )}
                             {activeTab === 'inci' && (
-                                <div className="t-inci">
-                                    <p className="inci-text"><strong>Activos Clínicos:</strong> Formulación base de Agua Purificada, Copolímeros de Acrilato, Niacinamida (5%), Ácido Hialurónico de peso molecular mixto (2%), Pantenol, Glicerina, Extracto biológico de Centella Asiática, Conservantes naturales.</p>
-                                    <div className="t-inci-note">*Fórmula libre de parabenos, ftalatos y sulfatos (SLS/SLES). pH balanceado 5.5.</div>
+                                <div className="tab-fade">
+                                    <p className="inci-text">Nuestras fórmulas están diseñadas para maximizar resultados respetando el equilibrio natural de tu piel. <strong>Activos principales:</strong> Extractos botánicos, vitaminas esenciales y agentes de hidratación profunda.</p>
+                                    <div className="inci-note">Apto para todo tipo de piel, incluyendo pieles sensibles.</div>
                                 </div>
                             )}
                             {activeTab === 'sds' && (
-                                <div className="t-sds">
-                                    <div className="sds-list">
-                                        <div className="sds-item"><Shield size={18} className="text-primary" /> <span>ISO 22716 - Buenas Prácticas de Manufactura Cosmética (BPM)</span></div>
-                                        <div className="sds-item"><Heart size={18} className="text-primary" /> <span>Certificación Cruelty-Free & Vegan (PETA)</span></div>
+                                <div className="tab-fade">
+                                    <div className="cert-grid">
+                                        <div className="cert-item"><Shield size={18} /> <span>Garantía de Calidad Naia</span></div>
+                                        <div className="cert-item"><Heart size={18} /> <span>100% Sin Crueldad Animal</span></div>
                                     </div>
-                                    <button className="btn-outline-premium mt-15 sds-btn">
-                                        <FileText size={16} /> Descargar Ficha de Seguridad (MSDS / SDS PDF)
+                                    <button className="btn-outline-v4 mt-20">
+                                        <FileText size={16} /> Ficha Técnica Completa (PDF)
                                     </button>
                                 </div>
                             )}
@@ -127,31 +127,31 @@ export default function ProductDetailPage() {
                     </div>
 
                     <div className="p-detail-actions">
-                        <button className="btn-premium btn-primary-v3 flex-1" onClick={() => addToCart(product as any)}>
+                        <button className="btn-premium-v4 btn-grad flex-1 main-add-btn" onClick={() => addToCart(product as any)}>
                             Agregar al Carrito <ShoppingBag size={20} />
                         </button>
-                        <div className="p-side-actions">
-                            <button className="p-detail-icon-btn glass-premium" onClick={() => setIsShareModalOpen(true)}>
-                                <Share2 size={22} />
+                        <div className="p-extra-btns">
+                            <button className="p-icon-btn-v4" onClick={() => setIsShareModalOpen(true)}>
+                                <Share2 size={24} />
                             </button>
-                            <button className="p-detail-icon-btn glass-premium">
-                                <Heart size={22} />
+                            <button className="p-icon-btn-v4">
+                                <Heart size={24} />
                             </button>
                         </div>
                     </div>
 
                     <div className="p-detail-benefits">
-                        <div className="b-item glass-premium">
-                            <Truck size={22} />
-                            <span>Envío Prioritario</span>
+                        <div className="benefit-card">
+                            <Truck size={24} />
+                            <span>Envío a todo el país</span>
                         </div>
-                        <div className="b-item glass-premium">
-                            <Shield size={22} />
-                            <span>Garantía Naia</span>
+                        <div className="benefit-card">
+                            <Shield size={24} />
+                            <span>Producto Garantizado</span>
                         </div>
-                        <div className="b-item glass-premium">
-                            <RotateCcw size={22} />
-                            <span>Cambio Fácil</span>
+                        <div className="benefit-card">
+                            <RotateCcw size={24} />
+                            <span>30 días para cambios</span>
                         </div>
                     </div>
                 </div>
@@ -166,119 +166,96 @@ export default function ProductDetailPage() {
             <Footer />
 
             <style jsx>{`
-                .p-detail-wrapper { padding-top: 130px; min-height: 100vh; }
-                .p-detail-container { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 80px; padding-bottom: 100px; align-items: start; }
+                .p-detail-wrapper { padding-top: 140px; min-height: 100vh; background: var(--white); }
+                .p-detail-container { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-bottom: 120px; align-items: start; max-width: 1200px; }
                 
                 .p-main-img-card { 
                     border-radius: var(--radius-xl); 
-                    padding: 20px; 
                     position: relative;
-                    transition: transform 0.3s;
+                    background: var(--slate-50);
+                    padding: 30px;
+                    border: 1px solid var(--slate-100);
+                    box-shadow: var(--shadow-xl);
                 }
-                .p-main-img { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); }
+                .p-main-img { width: 100%; border-radius: var(--radius-lg); transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
+                .p-main-img-card:hover .p-main-img { transform: scale(1.02); }
                 .p-img-badge {
-                    position: absolute; bottom: 40px; left: 40px;
+                    position: absolute; bottom: 30px; left: 30px;
                     padding: 10px 20px; border-radius: 50px;
                     font-size: 13px; font-weight: 800; color: var(--fg);
                     display: flex; align-items: center; gap: 10px;
+                    background: var(--white);
+                    box-shadow: var(--shadow-md);
+                    border: 1px solid var(--slate-100);
                 }
 
-                .p-detail-info { display: flex; flex-direction: column; gap: 25px; }
-                .p-breadcrumb-v3 { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: var(--slate-400); }
-                .p-breadcrumb-v3 :global(a) { color: var(--slate-400); text-decoration: none; transition: color 0.3s; }
-                .p-breadcrumb-v3 :global(a:hover) { color: var(--primary); }
+                .p-detail-info { display: flex; flex-direction: column; gap: 30px; }
+                .p-breadcrumb-v4 { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--slate-400); text-transform: uppercase; letter-spacing: 0.05em; }
+                .p-breadcrumb-v4 :global(a) { color: var(--slate-400); text-decoration: none; transition: 0.3s; }
+                .p-breadcrumb-v4 :global(a:hover) { color: var(--primary); }
                 
-                .p-detail-title { font-size: clamp(36px, 5vw, 56px); line-height: 1.1; }
+                .p-detail-title { font-size: 52px; line-height: 1.1; margin: 0; }
                 
-                .p-detail-meta { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-                .p-rating-v3 { display: flex; align-items: center; gap: 10px; }
+                .p-detail-meta { display: flex; align-items: center; gap: 30px; }
+                .p-rating-v4 { display: flex; align-items: center; gap: 8px; }
                 .p-rev-count { font-size: 14px; color: var(--slate-400); font-weight: 600; }
-                .p-stock-tag { padding: 4px 12px; background: #f0fdf4; color: #16a34a; border-radius: 8px; font-size: 12px; font-weight: 800; border: 1px solid rgba(22, 163, 74, 0.1); }
+                .p-stock-badge { padding: 6px 14px; background: #f0fdf4; color: #16a34a; border-radius: 10px; font-size: 12px; font-weight: 800; border: 1px solid rgba(22, 163, 74, 0.1); }
 
-                .p-detail-prices-v3 { display: flex; padding: 25px; border-radius: var(--radius-xl); align-items: center; }
-                .price-main, .price-secondary { flex: 1; display: flex; flex-direction: column; }
-                .p-label-v3 { font-size: 11px; font-weight: 800; color: var(--slate-400); text-transform: uppercase; margin-bottom: 5px; }
-                .p-val-v3 { font-size: 32px; font-weight: 900; color: var(--fg); }
-                .p-val-v3.wholesale { color: var(--primary); }
-                .p-extra { font-size: 9px; opacity: 0.7; }
-                .price-v-divider { width: 1px; height: 40px; background: var(--slate-200); margin: 0 25px; }
+                .p-detail-prices-v4 { display: flex; padding: 25px; border-radius: var(--radius-xl); align-items: center; background: var(--slate-50); border: 1px solid var(--slate-100); }
+                .price-box { flex: 1; display: flex; flex-direction: column; }
+                .p-label-v4 { font-size: 11px; font-weight: 900; color: var(--slate-400); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.05em; }
+                .p-val-v4 { font-size: 32px; font-weight: 950; color: var(--fg); letter-spacing: -1px; }
+                .p-info-tag { font-size: 10px; font-weight: 700; opacity: 0.7; }
+                .price-divider { width: 1px; height: 50px; background: var(--slate-200); margin: 0 30px; }
 
-                .p-technical-room { border-radius: var(--radius-xl); overflow: hidden; margin-bottom: 20px; }
-                .t-tabs { display: flex; border-bottom: 1px solid var(--slate-200); }
-                :global(.men-theme) .t-tabs { border-color: rgba(255,255,255,0.1); }
-                .t-tabs button { flex: 1; padding: 15px 10px; background: none; border: none; font-size: 13px; font-weight: 800; color: var(--slate-400); cursor: pointer; transition: all 0.3s; position: relative; text-transform: uppercase; letter-spacing: 0.5px; }
-                .t-tabs button:hover { color: var(--fg); background: rgba(0,0,0,0.02); }
-                :global(.men-theme) .t-tabs button:hover { background: rgba(255,255,255,0.02); }
-                .t-tabs button.active { color: var(--primary); }
-                .t-tabs button.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--primary); border-radius: 3px 3px 0 0; }
+                .p-tech-card { border-radius: 24px; border: 1px solid var(--slate-100); overflow: hidden; background: var(--white); box-shadow: var(--shadow-sm); }
+                .tech-tabs { display: flex; background: var(--slate-50); border-bottom: 1px solid var(--slate-100); }
+                .tech-tabs button { flex: 1; padding: 18px 10px; background: none; border: none; font-size: 13px; font-weight: 800; color: var(--slate-400); cursor: pointer; transition: 0.3s; position: relative; text-transform: uppercase; letter-spacing: 1px; }
+                .tech-tabs button:hover { color: var(--fg); }
+                .tech-tabs button.active { color: var(--primary); background: var(--white); }
+                .tech-tabs button.active::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--primary); }
                 
-                .t-content { padding: 25px; min-height: 150px; }
-                
-                .p-detail-desc { font-size: 15px; line-height: 1.6; color: var(--slate-500); font-weight: 500; margin-bottom: 15px; }
-                .p-detail-feat { display: flex; align-items: center; gap: 10px; padding-top: 15px; border-top: 1px dashed var(--slate-200); }
-                :global(.men-theme) .p-detail-feat { border-color: rgba(255,255,255,0.1); }
-                .feat-label { font-size: 13px; font-weight: 800; color: var(--slate-400); text-transform: uppercase; }
-                .feat-value { font-size: 14px; font-weight: 900; color: var(--fg); }
+                .tech-content { padding: 30px; min-height: 160px; }
+                .p-detail-desc { font-size: 16px; line-height: 1.7; color: var(--slate-500); font-weight: 500; margin-bottom: 20px; }
+                .p-detail-spec { display: flex; flex-direction: column; gap: 10px; padding-top: 20px; border-top: 1px dashed var(--slate-200); }
+                .spec-item { font-size: 14px; color: var(--slate-500); }
+                .spec-item strong { color: var(--fg); font-weight: 800; margin-right: 8px; text-transform: uppercase; font-size: 12px; }
 
-                .inci-text { font-size: 14px; line-height: 1.7; color: var(--slate-600); }
-                :global(.men-theme) .inci-text { color: var(--slate-300); }
-                .inci-text strong { color: var(--fg); font-weight: 800; }
-                .t-inci-note { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--slate-200); font-size: 12px; color: var(--slate-400); font-weight: 600; font-style: italic; }
-                :global(.men-theme) .t-inci-note { border-color: rgba(255,255,255,0.1); }
+                .inci-text { font-size: 15px; line-height: 1.7; color: var(--slate-600); }
+                .inci-note { margin-top: 20px; padding: 12px 18px; background: var(--slate-50); border-radius: 12px; font-size: 13px; color: var(--slate-500); font-weight: 600; border-left: 4px solid var(--primary); }
 
-                .sds-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-                .sds-item { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; color: var(--fg); }
-                .text-primary { color: var(--primary); }
-                .mt-15 { margin-top: 15px; }
-                .sds-btn { width: 100%; justify-content: center; font-size: 13px; height: 44px; display: flex; align-items: center; gap: 8px; }
+                .cert-grid { display: flex; flex-direction: column; gap: 15px; }
+                .cert-item { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; color: var(--fg); }
+                .cert-item :global(svg) { color: var(--primary); }
+                .btn-outline-v4 { width: 100%; height: 48px; border-radius: 14px; border: 1px solid var(--slate-200); background: var(--white); color: var(--fg); font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.3s; }
+                .btn-outline-v4:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
-                .p-detail-actions { display: flex; gap: 15px; margin-top: 10px; }
-                .flex-1 { flex: 1; justify-content: center; height: 60px; font-size: 18px; }
-                .p-side-actions { display: flex; gap: 12px; }
-                .p-detail-icon-btn { width: 60px; height: 60px; border-radius: 18px; border: none; display: flex; align-items: center; justify-content: center; color: var(--slate-500); cursor: pointer; transition: all 0.3s; }
-                .p-detail-icon-btn:hover { color: var(--primary); transform: translateY(-3px); }
+                .p-detail-actions { display: flex; gap: 20px; margin-top: 10px; }
+                .main-add-btn { height: 64px; font-size: 18px; border-radius: 20px; }
+                .p-extra-btns { display: flex; gap: 15px; }
+                .p-icon-btn-v4 { width: 64px; height: 64px; border-radius: 20px; border: 1px solid var(--slate-100); background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--slate-400); cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-sm); }
+                .p-icon-btn-v4:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-md); }
 
-                .p-detail-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-                .b-item { padding: 20px 10px; border-radius: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--slate-500); font-size: 12px; font-weight: 800; }
-                .b-item :global(svg) { color: var(--primary); }
+                .p-detail-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+                .benefit-card { padding: 25px 15px; border-radius: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; background: var(--slate-50); border: 1px solid var(--slate-100); color: var(--slate-500); font-size: 12px; font-weight: 800; text-align: center; }
+                .benefit-card :global(svg) { color: var(--primary); opacity: 0.8; }
 
-                .p-loader { width: 50px; height: 50px; border: 4px solid var(--primary-light); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-                .loader-page { height: 100vh; display: flex; align-items: center; justify-content: center; }
-                @keyframes spin { to { transform: rotate(360deg); } }
+                .tab-fade { animation: fadeIn 0.4s ease-out; }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
                 @media (max-width: 1100px) {
                     .p-detail-wrapper { padding-top: 100px; }
-                    .p-detail-container { grid-template-columns: 1fr; gap: 35px; padding-bottom: 60px; }
-                    .p-detail-title { font-size: clamp(32px, 8vw, 42px); }
-                    .p-main-img-card { padding: 12px; border-radius: 20px; }
-                    .p-img-badge { bottom: 20px; left: 20px; padding: 8px 16px; font-size: 11px; }
-                    
-                    .p-detail-prices-v3 { padding: 15px; gap: 15px; }
-                    .p-val-v3 { font-size: 24px; }
-                    .price-v-divider { margin: 0 15px; height: 30px; }
-                    .p-detail-desc { font-size: 16px; }
-
+                    .p-detail-container { grid-template-columns: 1fr; gap: 50px; padding-bottom: 80px; }
+                    .p-detail-title { font-size: 42px; }
                     .p-detail-actions { flex-direction: column; }
-                    .p-side-actions { order: 2; justify-content: center; }
-                    .flex-1 { order: 1; width: 100%; }
-
-                    .p-detail-benefits { 
-                        display: flex; 
-                        overflow-x: auto; 
-                        padding-bottom: 10px; 
-                        margin: 10px -20px 0;
-                        padding: 0 20px 15px;
-                        gap: 12px;
-                        scrollbar-width: none;
-                    }
-                    .p-detail-benefits::-webkit-scrollbar { display: none; }
-                    .b-item { flex: 0 0 130px; padding: 15px 10px; background: rgba(255,255,255,0.05); }
+                    .p-extra-btns { order: 2; justify-content: center; }
+                    .main-add-btn { order: 1; width: 100%; }
                 }
 
                 @media (max-width: 480px) {
-                    .p-detail-prices-v3 { flex-direction: column; align-items: stretch; }
-                    .price-v-divider { display: none; }
-                    .price-main, .price-secondary { text-align: center; }
+                    .p-detail-prices-v4 { flex-direction: column; align-items: stretch; gap: 20px; }
+                    .price-divider { display: none; }
+                    .price-box { text-align: center; }
                 }
             `}</style>
         </main>

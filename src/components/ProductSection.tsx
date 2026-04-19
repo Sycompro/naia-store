@@ -154,8 +154,8 @@ export default function ProductSection() {
                   <ShoppingCart size={18} /> Agregar
                 </button>
                 <div className="p-actions-v3">
-                  <button className="p-action-btn-v4 bg-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={18} /></button>
-                  <Link href={`/productos/${product.id}`} className="p-action-btn-v4 bg-blue" title="Más información"><Info size={18} /></Link>
+                  <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={18} /></button>
+                  <Link href={`/productos/${product.id}`} className="p-action-btn-v4 bg-soft-blue" title="Más información"><Info size={18} /></Link>
                 </div>
               </div>
             </div>
@@ -246,7 +246,7 @@ export default function ProductSection() {
           padding: 12px;
           background: var(--white);
           border: 1px solid rgba(0,0,0,0.03);
-          box-shadow: var(--shadow- premium);
+          box-shadow: var(--shadow-premium);
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           position: relative;
         }
@@ -311,47 +311,61 @@ export default function ProductSection() {
         .p-desc { font-size: 14px; color: var(--slate-400); font-weight: 500; margin-bottom: 20px; height: 40px; overflow: hidden; }
         
         .p-price-v3 { 
-          padding: 14px; 
-          border-radius: 14px; 
+          padding: 16px; 
+          border-radius: 18px; 
           display: flex; 
           align-items: center; 
           justify-content: space-between; 
           margin-bottom: 20px;
           background: var(--slate-50);
+          border: 1px solid var(--slate-100);
         }
         .price-item { display: flex; flex-direction: column; }
-        .price-item .label { font-size: 10px; font-weight: 700; color: var(--slate-400); margin-bottom: 2px; text-transform: uppercase; }
-        .price-item .val { font-size: 16px; font-weight: 800; color: var(--fg); }
-        .wholesale .val { color: var(--primary-dark); }
+        .price-item .label { font-size: 10px; font-weight: 800; color: var(--slate-400); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .price-item .val { font-size: 18px; font-weight: 900; color: var(--fg); letter-spacing: -0.5px; }
+        .wholesale .val { color: var(--primary); }
 
-        .p-footer-v3 { display: flex; align-items: center; gap: 10px; }
-        .p-add { flex: 1; padding: 12px; border-radius: 12px; font-size: 14px; justify-content: center; }
+        .p-footer-v3 { display: flex; align-items: center; gap: 12px; }
+        .p-add { flex: 1; padding: 12px; border-radius: 14px; font-size: 14px; justify-content: center; height: 48px; }
+        
         .p-actions-v3 { display: flex; gap: 8px; }
         .p-action-btn-v4 {
-          width: 44px;
-          height: 44px;
-          border-radius: 12px;
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
           border: none;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.3s;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          background: var(--white);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+          border: 1px solid var(--slate-100);
         }
-        .p-action-btn-v4:hover { transform: translateY(-3px); }
+        .p-action-btn-v4:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); border-color: var(--slate-200); }
+        
+        .bg-soft-rose { color: #f43f5e; }
+        .bg-soft-rose:hover { background: #fff1f2; color: #e11d48; }
+        .bg-soft-blue { color: #3b82f6; }
+        .bg-soft-blue:hover { background: #eff6ff; color: #2563eb; }
 
         @media (max-width: 600px) {
           .p-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
           .p-section { padding: 40px 0; }
           .p-card { padding: 8px; border-radius: 16px; }
           .p-img { height: 180px; }
-          .p-name-v3 h3 { font-size: 14px; }
+          .p-name-v3 h3 { font-size: 14px; height: 34px; overflow: hidden; }
           .p-desc, .p-rating, .p-wishlist { display: none; }
-          .p-price-v3 { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px; }
-          .p-footer-v3 { flex-direction: column; }
-          .p-add { width: 100%; }
+          .p-price-v3 { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
+          .price-item .val { font-size: 15px; }
+          .p-footer-v3 { flex-direction: column; gap: 8px; }
+          .p-add { width: 100%; height: 42px; font-size: 12px; }
+          .p-actions-v3 { width: 100%; gap: 6px; }
+          .p-action-btn-v4 { flex: 1; height: 42px; border-radius: 10px; }
         }
       `}</style>
+
     </section>
   );
 }

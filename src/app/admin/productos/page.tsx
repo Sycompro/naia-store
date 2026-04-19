@@ -145,11 +145,10 @@ function ProductsContent() {
     };
 
     const setTab = (tab: string) => router.push(`/admin/productos?tab=${tab}`);
-
     return (
         <div className="admin-productos-page animate-entrance">
             <AdminPageHeader
-                title="Gestión de Productos"
+                title="Catálogo & Stock"
                 breadcrumb={[{ label: 'Admin', href: '/admin' }, { label: 'Productos' }]}
                 actions={activeTab === 'inventario' && (
                     <button className="add-btn-premium" onClick={() => { setEditingProduct(null); setIsModalOpen(true); }}>
@@ -173,14 +172,14 @@ function ProductsContent() {
             {activeTab === 'categorias' ? (
                 <div className="categories-grid animate-fade-in">
                     {categoriesLoading ? (
-                        <div className="p-20 flex justify-center"><Loader2 className="animate-spin" /></div>
+                        <div className="p-20 flex justify-center"><Loader2 className="animate-spin text-primary" /></div>
                     ) : (
                         categories.map((cat, idx) => (
-                            <div key={idx} className="category-card-premium glass-card">
+                            <div key={idx} className="category-card-premium">
                                 <div className="category-icon-box"><Tag size={24} /></div>
                                 <div className="category-info">
                                     <h3>{cat.category}</h3>
-                                    <p><Package size={14} />{cat._count._all} Productos</p>
+                                    <p>{cat._count._all} Productos registrados</p>
                                 </div>
                                 <button className="view-btn" onClick={() => {
                                     setSearchTerm(cat.category);
@@ -193,7 +192,7 @@ function ProductsContent() {
                     )}
                 </div>
             ) : (
-                <>
+                <div className="inventory-wrapper animate-fade-in">
                     <AdminInventory
                         products={products}
                         loading={loading}
@@ -207,15 +206,15 @@ function ProductsContent() {
                     />
 
                     {activeTab === 'inventario' && pagination.totalPages > 1 && (
-                        <div className="pagination-wrapper">
+                        <div className="pagination-wrapper mt-10">
                             <div className="pagination-controls-admin">
-                                <button disabled={pagination.page <= 1} onClick={() => setPagination(p => ({ ...p, page: p.page - 1 }))}>Anterior</button>
+                                <button className="p-nav-btn" disabled={pagination.page <= 1} onClick={() => setPagination(p => ({ ...p, page: p.page - 1 }))}>Anterior</button>
                                 <span className="page-indicator">Página {pagination.page} de {pagination.totalPages}</span>
-                                <button disabled={pagination.page >= pagination.totalPages} onClick={() => setPagination(p => ({ ...p, page: p.page + 1 }))}>Siguiente</button>
+                                <button className="p-nav-btn" disabled={pagination.page >= pagination.totalPages} onClick={() => setPagination(p => ({ ...p, page: p.page + 1 }))}>Siguiente</button>
                             </div>
                         </div>
                     )}
-                </>
+                </div>
             )}
 
             <ProductModal
@@ -226,30 +225,57 @@ function ProductsContent() {
             />
 
             <style jsx>{`
-                .admin-productos-page { max-width: 1600px; margin: 0 auto; }
-                .settings-nav-tabs { display: flex; gap: 8px; background: rgba(15, 23, 42, 0.4); padding: 6px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); width: fit-content; margin-bottom: 28px; }
-                .tab-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 12px; border: none; background: none; color: #64748b; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; }
-                .tab-item:hover { color: white; background: rgba(255,255,255,0.03); }
-                .tab-item.active { background: white; color: #0f172a; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+                .admin-productos-page { max-width: 1400px; margin: 0 auto; }
+                .settings-nav-tabs { 
+                    display: flex; gap: 8px; background: #f1f5f9; padding: 6px; 
+                    border-radius: 18px; width: fit-content; margin-bottom: 35px;
+                    border: 1px solid #e2e8f0;
+                }
+                .tab-item { display: flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 14px; border: none; background: none; color: #64748b; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; }
+                .tab-item:hover { color: #ec4899; }
+                .tab-item.active { background: #ec4899; color: white; box-shadow: 0 10px 20px rgba(236, 72, 153, 0.2); }
                 
-                .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-                .category-card-premium { display: flex; align-items: center; gap: 16px; padding: 24px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; transition: 0.3s; }
-                .category-card-premium:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
-                .category-icon-box { width: 54px; height: 54px; background: rgba(255, 255, 255, 0.03); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; border: 1px solid rgba(255, 255, 255, 0.05); }
-                .category-info h3 { font-size: 1.1rem; font-weight: 800; color: white; margin: 0 0 4px 0; }
-                .category-info p { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #64748b; }
-                .view-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); border:none; display: flex; align-items: center; justify-content: center; color: #475569; cursor: pointer; transition: 0.3s; }
-                .category-card-premium:hover .view-btn { background: white; color: #0f172a; }
+                .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+                .category-card-premium { 
+                    display: flex; align-items: center; gap: 20px; padding: 30px; 
+                    background: #fff; border: 1px solid #f1f5f9; border-radius: 24px; 
+                    transition: 0.3s; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.02);
+                }
+                .category-card-premium:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05); }
+                .category-icon-box { 
+                    width: 54px; height: 54px; background: #fdf2f8; border-radius: 16px; 
+                    display: flex; align-items: center; justify-content: center; color: #ec4899; 
+                    border: 1px solid #fce7f3; 
+                }
+                .category-info h3 { font-size: 20px; font-weight: 950; color: #1e293b; margin: 0 0 4px 0; letter-spacing: -0.5px; }
+                .category-info p { font-size: 13px; font-weight: 600; color: #94a3b8; }
+                .view-btn { width: 44px; height: 44px; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; cursor: pointer; transition: 0.3s; margin-left: auto; }
+                .category-card-premium:hover .view-btn { background: #ec4899; color: #fff; border-color: #ec4899; }
 
-                .add-btn-premium { background: white; color: #0f172a; border: none; padding: 10px 24px; border-radius: 14px; font-weight: 800; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
-                .pagination-wrapper { display: flex; justify-content: flex-end; margin-top: 20px; }
-                .pagination-controls-admin { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
-                .page-indicator { font-size: 13px; font-weight: 700; color: #64748b; }
-                button:not(.add-btn-premium, .tab-item, .view-btn) { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 10px; color: white; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.3s; }
-                button:disabled { opacity: 0.3; cursor: not-allowed; }
+                .add-btn-premium { 
+                    background: #1e293b; color: white; border: none; padding: 12px 24px; 
+                    border-radius: 14px; font-weight: 800; display: flex; align-items: center; 
+                    gap: 10px; cursor: pointer; transition: 0.3s; 
+                    box-shadow: 0 10px 20px rgba(30, 41, 59, 0.1);
+                }
+                .add-btn-premium:hover { background: #0f172a; transform: translateY(-2px); }
+
+                .pagination-wrapper { display: flex; justify-content: center; margin-top: 40px; }
+                .pagination-controls-admin { 
+                    display: flex; align-items: center; gap: 20px; background: #fff; 
+                    padding: 8px 12px; border-radius: 20px; border: 1px solid #f1f5f9;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+                }
+                .page-indicator { font-size: 14px; font-weight: 800; color: #1e293b; min-width: 140px; text-align: center; }
+                .p-nav-btn { 
+                    background: #f8fafc; border: 1px solid #f1f5f9; padding: 10px 20px; 
+                    border-radius: 14px; color: #64748b; cursor: pointer; font-size: 13px; font-weight: 800; transition: 0.3s; 
+                }
+                .p-nav-btn:hover:not(:disabled) { background: #1e293b; color: white; border-color: #1e293b; }
+                .p-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
                 @keyframes entrance { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 .animate-entrance { animation: entrance 0.6s ease-out; }
-            `}</style>
+            `}</style>tyle>
         </div>
     );
 }

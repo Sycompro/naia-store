@@ -32,59 +32,61 @@ export default function AdminCard({ children, title, description, actions, icon,
 
             <style jsx>{`
                 .admin-card {
-                    background: rgba(255, 255, 255, 0.03);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 16px;
-                    padding: 16px;
+                    background: #fff;
+                    border: 1px solid #f1f5f9;
+                    border-radius: 24px;
+                    padding: 30px;
                     transition: all 0.3s ease;
+                    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.02), 0 4px 10px -2px rgba(0,0,0,0.01);
                 }
                 .admin-card:hover {
-                    border-color: rgba(255, 255, 255, 0.1);
-                    background: rgba(255, 255, 255, 0.04);
+                    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
+                    transform: translateY(-2px);
                 }
                 .card-header-admin {
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-start;
-                    margin-bottom: 10px;
-                    gap: 12px;
+                    margin-bottom: 25px;
+                    gap: 15px;
                 }
                 .header-info-with-icon {
                     display: flex;
-                    gap: 16px;
+                    gap: 18px;
                     align-items: flex-start;
                 }
                 .card-icon-container-admin {
-                    width: 32px;
-                    height: 32px;
-                    border-radius: 10px;
-                    background: rgba(255, 255, 255, 0.05);
+                    width: 42px;
+                    height: 42px;
+                    border-radius: 12px;
+                    background: #f8fafc;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    color: white;
-                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    color: #1e293b;
+                    border: 1px solid #f1f5f9;
                     flex-shrink: 0;
                 }
                 .header-text-admin {
                     display: flex;
                     flex-direction: column;
+                    gap: 4px;
                 }
                 .card-title-admin {
-                    font-size: 1.1rem;
+                    font-size: 20px;
                     font-weight: 800;
-                    color: white;
+                    color: #1e293b;
                     margin: 0;
-                    letter-spacing: -0.02em;
+                    letter-spacing: -0.5px;
                 }
                 .card-desc-admin {
-                    font-size: 0.85rem;
-                    color: #64748b;
-                    margin-top: 4px;
+                    font-size: 14px;
+                    color: #94a3b8;
+                    font-weight: 500;
                 }
                 .card-actions-admin {
                     display: flex;
-                    gap: 8px;
+                    gap: 12px;
                 }
                 .card-body-admin {
                     width: 100%;

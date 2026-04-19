@@ -69,34 +69,33 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
 
     return (
         <div className="p-cart-overlay animate-fade" onClick={onClose}>
-            <div className="p-cart-drawer glass-premium" onClick={e => e.stopPropagation()}>
+            <div className="p-cart-drawer" onClick={e => e.stopPropagation()}>
                 <div className="p-drawer-header">
                     <div className="header-top">
-                        <h3 className="text-gradient">Tu Selección</h3>
-                        <button onClick={onClose} className="p-close-btn glass-premium"><X size={20} /></button>
+                        <h3 className="section-title">Tu <span className="text-gradient">Selección</span></h3>
+                        <button onClick={onClose} className="p-close-btn"><X size={20} /></button>
                     </div>
                     {cart.length > 0 && (
                         <div className="p-items-count">
-                            <span>{cart.reduce((acc, item) => acc + item.quantity, 0)} Productos</span>
-                            <Sparkles size={14} className="text-primary" />
+                            <span>{cart.reduce((acc, item) => acc + item.quantity, 0)} Productos seleccionados</span>
                         </div>
                     )}
                 </div>
 
-                <div className="p-drawer-content">
+                <div className="p-drawer-content custom-scrollbar">
                     {cart.length === 0 ? (
                         <div className="p-empty-cart">
-                            <div className="empty-icon glass-premium">
-                                <ShoppingCart size={40} strokeWidth={1.5} />
+                            <div className="empty-icon">
+                                <ShoppingCart size={48} strokeWidth={1} />
                             </div>
-                            <h4>Tu carrito espera ser llenado</h4>
-                            <p>Explora nuestras colecciones y descubre tu próximo favorito.</p>
-                            <button onClick={onClose} className="btn-premium btn-primary-v3 mt-20">Ver Catálogo</button>
+                            <h4>Tu carrito está vacío</h4>
+                            <p>Parece que aún no has añadido nada a tu selección de belleza.</p>
+                            <button onClick={onClose} className="btn-premium-v4 btn-grad mt-20">Explorar Catálogo</button>
                         </div>
                     ) : (
                         <div className="p-cart-items">
                             {cart.map((item) => (
-                                <div key={item.id} className="p-cart-item glass-premium animate-fade">
+                                <div key={item.id} className="p-cart-item animate-up">
                                     <div className="p-item-img" style={{ backgroundImage: `url(${item.imageUrl})` }}></div>
                                     <div className="p-item-info">
                                         <div className="p-item-top">
@@ -105,11 +104,11 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                                         </div>
                                         <h4>{item.name}</h4>
                                         <div className="p-item-bottom">
-                                            <span className="p-item-price">
-                                                S/ {(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}
+                                            <div className="p-item-price-wrap">
+                                                <span className="p-item-price">S/ {(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}</span>
                                                 {isWholesaleActive && <span className="p-tag-may">Mayorista</span>}
-                                            </span>
-                                            <div className="p-item-qty glass-premium">
+                                            </div>
+                                            <div className="p-item-qty">
                                                 <button onClick={() => updateQuantity(item.id, item.quantity - 1)}><Minus size={14} /></button>
                                                 <span>{item.quantity}</span>
                                                 <button onClick={() => updateQuantity(item.id, item.quantity + 1)}><Plus size={14} /></button>
@@ -123,54 +122,62 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 </div>
 
                 {cart.length > 0 && (
-                    <div className="p-drawer-footer glass-premium">
+                    <div className="p-drawer-footer">
                         <div className="shipping-progress">
-                            <p>{totalAmount >= 150 ? "✨ Envío Premium Gratuito Desbloqueado" : `Estás a S/ ${(150 - totalAmount).toFixed(2)} de obtener envío gratis`}</p>
+                            <p className="progress-text">
+                                {totalAmount >= 150 
+                                    ? "✨ Envío Premium Gratuito Desbloqueado" 
+                                    : <>Estás a <strong>S/ {(150 - totalAmount).toFixed(2)}</strong> de envío gratis</>}
+                            </p>
                             <div className="progress-bar-bg">
                                 <div className="progress-fill" style={{ width: `${Math.min(100, (totalAmount / 150) * 100)}%` }}></div>
                             </div>
                         </div>
 
                         {isGuestFormOpen && !user && (
-                            <div className="guest-form animate-entrance">
+                            <div className="guest-form animate-up">
                                 <h4>Datos de Entrega</h4>
                                 <div className="form-group">
                                     <input
                                         type="text"
-                                        placeholder="Nombre Completo"
+                                        placeholder="Tu nombre completo"
                                         value={guestInfo.name}
                                         onChange={e => setGuestInfo({ ...guestInfo, name: e.target.value })}
-                                        className="glass-input"
+                                        className="premium-input"
                                     />
                                     <input
                                         type="tel"
-                                        placeholder="Teléfono / WhatsApp"
+                                        placeholder="WhatsApp (ej: 999 123 456)"
                                         value={guestInfo.phone}
                                         onChange={e => setGuestInfo({ ...guestInfo, phone: e.target.value })}
-                                        className="glass-input"
+                                        className="premium-input"
                                     />
                                 </div>
                             </div>
                         )}
-                        <div className="p-total-row">
-                            <div className="total-l">
-                                <span>Total Estimado</span>
-                                {isWholesaleActive && <span className="wholesale-hint">¡Ahorro mayorista aplicado!</span>}
+                        
+                        <div className="p-total-area">
+                            <div className="p-total-row">
+                                <div className="total-l">
+                                    <span>Total a pagar</span>
+                                    {isWholesaleActive && <span className="wholesale-hint">¡Precio mayorista aplicado!</span>}
+                                </div>
+                                <span className="p-total-price">S/ {totalAmount.toFixed(2)}</span>
                             </div>
-                            <span className="p-total-price">S/ {totalAmount.toFixed(2)}</span>
+                            
+                            <button
+                                className="btn-premium-v4 btn-grad w-full checkout-btn"
+                                onClick={handleWhatsAppCheckout}
+                                disabled={loading}
+                            >
+                                <span>{loading ? 'Procesando...' : (isGuestFormOpen && !user ? 'Confirmar Pedido' : 'Finalizar Compra')}</span>
+                                {!loading && <Send size={18} />}
+                            </button>
                         </div>
-                        <button
-                            className="btn-premium btn-primary-v3 w-full checkout-btn"
-                            onClick={handleWhatsAppCheckout}
-                            disabled={loading}
-                        >
-                            {loading ? 'Procesando...' : (isGuestFormOpen && !user ? 'Confirmar y Enviar' : 'Completar Compra Segura')}
-                            {!loading && <Send size={18} />}
-                        </button>
+
                         <div className="trust-badges-cart">
-                            <ShieldCheck size={14} /> <span>100% Seguro</span>
-                            <span className="dot">•</span>
-                            <Truck size={14} /> <span>Despacho Rápido</span>
+                            <div className="trust-item"><ShieldCheck size={14} /> <span>Pago Seguro</span></div>
+                            <div className="trust-item"><Truck size={14} /> <span>Envío Express</span></div>
                         </div>
                     </div>
                 )}
@@ -178,114 +185,91 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
 
             <style jsx>{`
                 .p-cart-overlay {
-                    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
-                    backdrop-filter: blur(8px); z-index: 2000;
+                    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+                    backdrop-filter: blur(4px); z-index: 2000;
                     display: flex; justify-content: flex-end;
                 }
                 .p-cart-drawer {
                     width: 100%; max-width: 440px; height: 100%;
-                    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+                    background: var(--white);
                     display: flex; flex-direction: column;
-                    border: none; border-left: 1px solid var(--glass-border);
-                    box-shadow: -20px 0 50px rgba(0,0,0,0.15);
+                    box-shadow: -20px 0 60px rgba(0,0,0,0.15);
+                    position: relative;
                 }
                 
-                .p-drawer-header { padding: 30px; border-bottom: 1px solid var(--slate-100); }
+                .p-drawer-header { padding: 40px 30px 20px; border-bottom: 1px solid var(--slate-100); }
                 .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-                .header-top h3 { font-size: 24px; font-weight: 800; }
-                .p-close-btn { width: 44px; height: 44px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
-                .p-close-btn:hover { background: var(--secondary); color: var(--primary); transform: rotate(90deg); }
+                .p-close-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--slate-50); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; color: var(--slate-400); }
+                .p-close-btn:hover { background: var(--slate-100); color: var(--fg); transform: rotate(90deg); }
+                .p-items-count { font-size: 13px; font-weight: 700; color: var(--slate-400); text-transform: uppercase; letter-spacing: 0.05em; }
+
+                .p-drawer-content { flex: 1; overflow-y: auto; padding: 30px; }
+                .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--slate-200); border-radius: 10px; }
+
+                .p-empty-cart { text-align: center; margin-top: 100px; padding: 0 20px; }
+                .empty-icon { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; background: var(--slate-50); color: var(--slate-300); }
+                .p-empty-cart h4 { font-size: 22px; font-weight: 900; margin-bottom: 10px; letter-spacing: -0.5px; }
+                .p-empty-cart p { color: var(--slate-400); font-size: 15px; font-weight: 500; line-height: 1.6; }
+                .mt-20 { margin-top: 30px; }
+
+                .p-cart-items { display: flex; flex-direction: column; gap: 16px; }
+                .p-cart-item { padding: 12px; border-radius: 20px; display: flex; gap: 16px; background: var(--white); border: 1px solid var(--slate-50); box-shadow: var(--shadow-sm); transition: all 0.3s; }
+                .p-cart-item:hover { box-shadow: var(--shadow-md); border-color: var(--slate-100); }
+                .p-item-img { width: 100px; height: 100px; border-radius: 14px; background-size: cover; background-position: center; flex-shrink: 0; }
+                .p-item-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+                .p-item-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+                .p-item-cat { font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; }
+                .p-item-trash { background: none; border: none; cursor: pointer; color: var(--slate-300); transition: 0.3s; }
+                .p-item-trash:hover { color: #f43f5e; transform: scale(1.1); }
                 
-                .p-items-count { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--slate-400); }
-                .text-primary { color: var(--primary); }
-
-                .p-drawer-content { flex: 1; overflow-y: auto; padding: 30px; scrollbar-width: none; }
-                .p-drawer-content::-webkit-scrollbar { display: none; }
-
-                .p-empty-cart { text-align: center; margin-top: 80px; }
-                .empty-icon { 
-                    width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 25px;
-                    display: flex; align-items: center; justify-content: center;
-                    color: var(--slate-400);
-                }
-                .p-empty-cart h4 { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
-                .p-empty-cart p { color: var(--slate-400); font-size: 15px; font-weight: 500; line-height: 1.5; }
-                .mt-20 { margin-top: 25px; }
-
-                .p-cart-items { display: flex; flex-direction: column; gap: 20px; }
-                .p-cart-item { padding: 15px; border-radius: 20px; display: flex; gap: 18px; }
-                .p-item-img { 
-                    width: 90px; height: 90px; border-radius: 14px; 
-                    background-size: cover; background-position: center; 
-                    flex-shrink: 0; box-shadow: var(--shadow-sm);
-                }
-                .p-item-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-                .p-item-top { display: flex; justify-content: space-between; align-items: center; }
-                .p-item-cat { font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; }
-                .p-item-trash { background: none; border: none; cursor: pointer; color: var(--slate-300); transition: color 0.3s; }
-                .p-item-trash:hover { color: #f43f5e; }
+                .p-item-info h4 { font-size: 15px; font-weight: 800; margin: 0 0 12px; color: var(--fg); line-height: 1.3; }
+                .p-item-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+                .p-item-price-wrap { display: flex; flex-direction: column; gap: 4px; }
+                .p-item-price { font-weight: 950; font-size: 18px; color: var(--fg); letter-spacing: -0.5px; }
+                .p-tag-may { font-size: 9px; padding: 2px 6px; background: #ecfdf5; color: #10b981; border-radius: 4px; font-weight: 800; width: fit-content; border: 1px solid rgba(16, 185, 129, 0.1); }
                 
-                .p-item-info h4 { font-size: 16px; font-weight: 800; margin: 4px 0 10px; line-height: 1.3; }
-                .p-item-bottom { display: flex; justify-content: space-between; align-items: center; }
-                .p-item-price { font-weight: 900; font-size: 17px; display: flex; align-items: center; gap: 8px; color: var(--fg); }
-                .p-tag-may { font-size: 9px; padding: 3px 8px; background: var(--primary-light); color: var(--primary); border-radius: 4px; font-weight: 800; }
+                .p-item-qty { display: flex; align-items: center; gap: 12px; padding: 4px; border-radius: 12px; background: var(--slate-50); border: 1px solid var(--slate-100); }
+                .p-item-qty button { width: 30px; height: 30px; border-radius: 8px; background: var(--white); border: 1px solid var(--slate-200); cursor: pointer; color: var(--fg); display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: var(--shadow-sm); }
+                .p-item-qty button:active { transform: scale(0.9); }
+                .p-item-qty span { font-size: 14px; font-weight: 800; min-width: 20px; text-align: center; }
+
+                .p-drawer-footer { padding: 30px; background: var(--white); border-top: 1px solid var(--slate-100); box-shadow: 0 -10px 40px rgba(0,0,0,0.02); }
+                .guest-form { margin-bottom: 25px; padding: 20px; border-radius: 20px; background: var(--slate-50); border: 1px solid var(--slate-100); }
+                .guest-form h4 { font-size: 13px; font-weight: 800; margin-bottom: 15px; color: var(--slate-400); text-transform: uppercase; letter-spacing: 0.05em; }
+                .form-group { display: flex; flex-direction: column; gap: 12px; }
+                .premium-input { background: var(--white); border: 1px solid var(--slate-200); padding: 14px 18px; border-radius: 14px; font-size: 14px; font-weight: 600; outline: none; transition: 0.3s; }
+                .premium-input:focus { border-color: var(--primary); box-shadow: 0 4px 15px rgba(var(--primary-h), 100%, 70%, 0.1); }
+
+                .p-total-area { margin-bottom: 20px; }
+                .p-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+                .total-l { display: flex; flex-direction: column; gap: 2px; }
+                .total-l span:first-child { font-size: 14px; font-weight: 700; color: var(--slate-500); }
+                .wholesale-hint { font-size: 12px; font-weight: 800; color: #10b981; }
+                .p-total-price { font-size: 32px; font-weight: 950; color: var(--fg); letter-spacing: -1px; }
                 
-                .p-item-qty { display: flex; align-items: center; gap: 12px; padding: 5px; border-radius: 12px; }
-                .p-item-qty button { 
-                    width: 36px; height: 36px; border-radius: 10px;
-                    background: rgba(0,0,0,0.03); border: none; cursor: pointer; color: var(--fg); 
-                    display: flex; align-items: center; justify-content: center;
-                    transition: 0.2s;
-                }
-                .p-item-qty button:active { transform: scale(0.9); background: var(--slate-100); }
-                .p-item-qty span { font-size: 15px; font-weight: 800; min-width: 24px; text-align: center; }
+                .checkout-btn { height: 60px; font-size: 17px; border-radius: 18px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px; }
+                .w-full { width: 100%; }
 
-                .p-drawer-footer { 
-                    padding: 25px 20px calc(20px + var(--safe-bottom)); 
-                    margin: 0 15px 15px; border-radius: 24px; 
-                }
-                .guest-form { margin-bottom: 20px; padding: 15px; border-radius: 16px; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); }
-                .guest-form h4 { font-size: 14px; font-weight: 800; margin-bottom: 12px; opacity: 0.8; }
-                .form-group { display: flex; flex-direction: column; gap: 10px; }
-                .glass-input {
-                    background: rgba(255, 255, 255, 0.5);
-                    border: 1px solid rgba(0,0,0,0.1);
-                    padding: 12px 16px;
-                    border-radius: 12px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    outline: none;
-                    transition: all 0.3s;
-                }
-                .glass-input:focus { border-color: var(--primary); background: white; }
-
-                .p-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-                .total-l { display: flex; flex-direction: column; }
-                .total-l span:first-child { font-size: 13px; font-weight: 700; color: var(--slate-500); }
-                .wholesale-hint { font-size: 11px; font-weight: 800; color: #10b981; }
-                .p-total-price { font-size: 24px; font-weight: 950; color: var(--fg); }
+                .shipping-progress { margin-bottom: 25px; }
+                .progress-text { font-size: 12px; font-weight: 800; color: var(--slate-500); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; }
+                .progress-text strong { color: var(--primary); }
+                .progress-bar-bg { width: 100%; height: 8px; background: var(--slate-100); border-radius: 10px; overflow: hidden; }
+                .progress-fill { height: 100%; background: var(--grad-primary); border-radius: 10px; transition: width 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
                 
-                .checkout-btn { height: 56px; font-size: 16px; border-radius: 18px; margin-bottom: 8px; }
-                .p-footer-note { font-size: 11px; text-align: center; color: var(--slate-400); font-weight: 600; opacity: 0.8; }
-                .w-full { width: 100%; justify-content: center; }
-
-                .shipping-progress { margin-bottom: 20px; text-align: center; }
-                .shipping-progress p { font-size: 12px; font-weight: 900; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-                :global(.men-theme) .shipping-progress p { color: #fbbf24; }
-                .progress-bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.08); border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
-                .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-                :global(.men-theme) .progress-fill { background: linear-gradient(90deg, #fbbf24, #fef3c7); }
-                .trust-badges-cart { display: flex; justify-content: center; align-items: center; gap: 8px; color: var(--slate-500); font-size: 11px; font-weight: 700; margin-top: 8px; }
-                .trust-badges-cart .dot { font-size: 14px; opacity: 0.5; }
+                .trust-badges-cart { display: flex; justify-content: center; gap: 20px; margin-top: 15px; }
+                .trust-item { display: flex; align-items: center; gap: 6px; color: var(--slate-400); font-size: 11px; font-weight: 700; }
+                .trust-item :global(svg) { color: #10b981; opacity: 0.7; }
 
                 @media (max-width: 500px) {
-                    .p-cart-drawer { max-width: 100%; border-radius: 0; }
-                    .p-drawer-header { padding: 20px; }
-                    .header-top h3 { font-size: 20px; }
+                    .p-cart-drawer { max-width: 100%; }
+                    .p-drawer-header { padding: 30px 20px 15px; }
                     .p-drawer-content { padding: 20px; }
-                    .p-drawer-footer { margin: 0; border-radius: 30px 30px 0 0; padding: 25px 20px calc(25px + var(--safe-bottom)); box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
+                    .p-drawer-footer { padding: 25px 20px; }
                 }
             `}</style>
+
         </div>
     );
 }
