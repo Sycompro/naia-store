@@ -36,14 +36,16 @@ export default function AdminPageHeader({ title, breadcrumb, actions }: AdminPag
                     align-items: flex-end;
                     margin-bottom: 20px;
                     padding: 0 5px;
+                    list-style: none;
                 }
+                .admin-page-header :global(*) { list-style: none !important; }
                 .header-content {
                     display: flex;
                     flex-direction: column;
-                    gap: 6px;
+                    gap: 4px;
                 }
                 .header-title {
-                    font-size: 1.6rem;
+                    font-size: 1.3rem;
                     font-weight: 950;
                     color: white;
                     margin: 0;
@@ -55,7 +57,7 @@ export default function AdminPageHeader({ title, breadcrumb, actions }: AdminPag
                     gap: 6px;
                 }
                 .breadcrumb-link {
-                    font-size: 11px;
+                    font-size: 10px;
                     font-weight: 800;
                     color: #64748b;
                     text-decoration: none;
@@ -66,7 +68,7 @@ export default function AdminPageHeader({ title, breadcrumb, actions }: AdminPag
                     color: white;
                 }
                 .breadcrumb-current {
-                    font-size: 11px;
+                    font-size: 10px;
                     font-weight: 800;
                     color: #94a3b8;
                     text-transform: uppercase;

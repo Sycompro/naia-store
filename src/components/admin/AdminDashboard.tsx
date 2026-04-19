@@ -139,7 +139,7 @@ export default function AdminDashboard({
                                         <span className="meta">{new Date(order.createdAt).toLocaleDateString()} • Pedido #{order.id}</span>
                                     </div>
                                     <div className="item-amount">
-                                        <span className="price">S/ {order.total.toFixed(2)}</span>
+                                        <span className="price">S/ {Number(order.total).toFixed(2)}</span>
                                         <span className="status-mini" style={{ '--sc': statusColor(order.status) } as any}>
                                             {statusLabel(order.status)}
                                         </span>

@@ -50,6 +50,7 @@ enum MessageStatus {
 
 model Product {
   id             Int      @id @default(autoincrement())
+  barcode        String?  @unique
   name           String
   description    String?
   imageUrl       String?
@@ -63,13 +64,25 @@ model Product {
   createdAt      DateTime @default(now())
 }
 
-model Story {
-  id        Int      @id @default(autoincrement())
-  title     String
-  imageUrl  String
-  gender    Gender   @default(FEMALE)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
+model StoryGroup {
+  id           Int          @id @default(autoincrement())
+  name         String
+  thumbnailUrl String
+  gender       Gender       @default(FEMALE)
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  slides       StorySlide[]
+}
+
+model StorySlide {
+  id        Int        @id @default(autoincrement())
+  groupId   Int
+  group     StoryGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  mediaUrl  String
+  type      String     @default("IMAGE") // IMAGE or VIDEO
+  duration  Int        @default(5000)    // ms
+  order     Int        @default(0)
+  createdAt DateTime   @default(now())
 }
 
 model User {

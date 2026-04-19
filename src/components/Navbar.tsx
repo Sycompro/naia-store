@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Menu, User, Sparkles, X, LogOut, ChevronRight } from 'lucide-react';
+import { ShoppingBag, Menu, User, Sparkles, X, LogOut, ChevronRight, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -49,6 +49,8 @@ export default function Navbar() {
             <div className="nav-divider"></div>
             <Link href="/nosotros" className="p-nav-link">Nosotros</Link>
             <Link href="/contacto" className="p-nav-link">Contacto</Link>
+            <div className="nav-divider"></div>
+            <Link href="/b2b" className="p-nav-link b2b-link"><Building2 size={14} style={{ display: 'inline', marginRight: '4px', position: 'relative', top: '2px' }} /> Portal B2B</Link>
           </div>
 
           <div className="nav-right">
@@ -64,16 +66,10 @@ export default function Navbar() {
               </button>
 
               {user ? (
-                <div className="p-user-menu">
-                  <button className="p-user-btn glass-premium">
-                    <User size={20} strokeWidth={2.5} />
-                    <span className="p-user-name desktop-only">{user?.name?.split(' ')[0] || 'Invitado'}</span>
-                  </button>
-                  <div className="p-user-dropdown glass-premium">
-                    <Link href="/perfil" className="dropdown-item">Mi Perfil <ChevronRight size={14} /></Link>
-                    <button onClick={logout} className="dropdown-item logout">Cerrar Sesión <LogOut size={14} /></button>
-                  </div>
-                </div>
+                <Link href="/perfil" className="p-user-btn glass-premium" style={{ textDecoration: 'none' }}>
+                  <User size={20} strokeWidth={2.5} />
+                  <span className="p-user-name desktop-only">{user?.name?.split(' ')[0] || 'Invitado'}</span>
+                </Link>
               ) : (
                 <Link href="/auth/login" className="p-icon-btn">
                   <User size={22} strokeWidth={2.5} />
@@ -99,6 +95,7 @@ export default function Navbar() {
             <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)}>Novedades</Link>
             <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)}>Nosotros</Link>
             <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)}>Contacto</Link>
+            <Link href="/b2b" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--primary)' }}>Portal B2B</Link>
             {user && <Link href="/perfil" onClick={() => setIsMobileMenuOpen(false)}>Mi Perfil</Link>}
           </div>
         </div>
@@ -110,159 +107,134 @@ export default function Navbar() {
           top: 0;
           left: 0;
           width: 100%;
-          padding: 8px 0;
+          padding: 12px 0;
           z-index: 1000;
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           pointer-events: none;
         }
-        :global(body.stories-open) .nav-v3 {
-          display: none !important;
-        }
         .nav-container {
           max-width: 1300px;
           margin: 0 auto;
-          height: 72px;
-          border-radius: 50px;
+          height: 76px;
+          border-radius: 20px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 40px;
+          padding: 0 32px;
           width: 96%;
-          transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+          background: var(--white);
+          border: 1px solid rgba(0,0,0,0.03);
+          box-shadow: var(--shadow-lg);
           pointer-events: auto;
-          box-shadow: var(--glass-shadow);
         }
         
         .premium-logo {
-          font-size: 32px !important;
+          font-size: 28px !important;
           font-weight: 900 !important;
           color: var(--fg) !important;
           text-decoration: none !important;
-          letter-spacing: -1px !important;
+          letter-spacing: -1.5px !important;
           display: flex !important;
           align-items: center !important;
           gap: 2px;
-          text-transform: uppercase;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          z-index: 10;
+          transition: all 0.4s;
           line-height: 1;
         }
         .premium-logo:hover {
-          letter-spacing: 1px !important;
-          transform: scale(1.05);
+          letter-spacing: -0.5px !important;
+          transform: scale(1.02);
         }
         .logo-text {
           display: inline-block;
-          font-size: 32px;
-          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
         }
         .logo-highlight {
-          background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
+          color: var(--primary);
+          background: var(--grad-primary);
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
         }
         .logo-dot {
-          width: 8px;
-          height: 8px;
+          width: 6px;
+          height: 6px;
           border-radius: 50%;
-          background: linear-gradient(135deg, var(--primary), var(--primary-dark, #c2185b));
+          background: var(--grad-primary);
           display: inline-block;
-          margin-left: 2px;
-          box-shadow: 0 0 15px var(--primary-light);
-          animation: logoPulse 3s ease-in-out infinite;
-          align-self: center;
-          margin-bottom: 0;
-        }
-        @keyframes logoPulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(0.8); }
+          margin-left: 1px;
+          box-shadow: 0 0 10px rgba(var(--primary-h), 100%, 70%, 0.4);
         }
         
         .nav-center {
           display: flex;
           align-items: center;
-          gap: 5px;
+          gap: 8px;
         }
         .p-nav-link {
-          padding: 8px 18px;
+          padding: 10px 20px;
           text-decoration: none;
-          color: var(--fg);
+          color: var(--slate-600);
           font-weight: 700;
-          font-size: 13px;
-          border-radius: 20px;
-          background: rgba(0,0,0,0.03);
-          border: 1px solid var(--slate-200);
-          transition: all 0.3s;
-        }
-        .men-theme .p-nav-link {
-          background: rgba(255,255,255,0.05);
-          border-color: rgba(255,255,255,0.05);
-          color: var(--slate-200);
+          font-size: 14px;
+          border-radius: 12px;
+          transition: all 0.3s ease;
+          letter-spacing: -0.01em;
         }
         .p-nav-link:hover {
-          background: var(--fg);
-          color: var(--bg);
-          border-color: var(--fg);
-          transform: translateY(-2px);
+          color: var(--primary);
+          background: var(--primary-light);
+          transform: translateY(-1px);
         }
         .nav-divider {
           width: 1px;
-          height: 18px;
+          height: 16px;
           background: var(--slate-200);
-          margin: 0 10px;
+          margin: 0 4px;
         }
 
         .nav-right {
           display: flex;
           align-items: center;
-          gap: 20px;
+          gap: 16px;
         }
         
         .p-theme-toggle {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: 74px;
-          background: var(--slate-100);
-          border: none;
-          padding: 5px 6px;
+          width: 72px;
+          background: var(--slate-50);
+          border: 1px solid var(--slate-100);
+          padding: 4px;
           border-radius: 30px;
           cursor: pointer;
           font-weight: 800;
-          font-size: 13px;
+          font-size: 11px;
           transition: all 0.4s;
           color: var(--slate-500);
         }
-        .p-theme-toggle span {
-          flex: 1;
-          text-align: center;
-        }
         .toggle-sphere {
-          width: 26px;
-          height: 26px;
-          background: var(--primary);
+          width: 24px;
+          height: 24px;
+          background: var(--grad-primary);
           border-radius: 50%;
-          box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-          transition: transform 0.4s;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+          transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .p-theme-toggle.man {
-          flex-direction: row-reverse;
-        }
-        .p-theme-toggle.man .toggle-sphere {
-          background: var(--primary);
-        }
+        .p-theme-toggle.man span { color: var(--fg); }
+        .p-theme-toggle span { flex: 1; text-align: center; }
 
         .p-actions {
           display: flex;
           align-items: center;
-          gap: 15px;
+          gap: 10px;
         }
         .p-icon-btn {
           position: relative;
-          background: none;
+          background: var(--slate-50);
           border: none;
+          width: 44px;
+          height: 44px;
+          border-radius: 14px;
           cursor: pointer;
           color: var(--fg);
           transition: all 0.3s;
@@ -271,84 +243,55 @@ export default function Navbar() {
           justify-content: center;
         }
         .p-icon-btn:hover {
-          color: var(--primary);
+          color: white;
+          background: var(--fg);
           transform: translateY(-2px);
         }
         .p-badge {
           position: absolute;
-          top: -8px;
-          right: -8px;
-          background: var(--primary);
+          top: -4px;
+          right: -4px;
+          background: var(--grad-primary);
           color: white;
           font-size: 10px;
           font-weight: 900;
-          width: 18px;
-          height: 18px;
+          width: 20px;
+          height: 20px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 2px solid var(--white);
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .p-user-menu {
-          position: relative;
-        }
         .p-user-btn {
           display: flex;
           align-items: center;
-          gap: 10px;
-          padding: 6px 14px;
-          border-radius: 30px;
-          border: none;
-          cursor: pointer;
-          font-weight: 800;
-          font-size: 13px;
-          color: var(--fg);
-          transition: all 0.3s;
-        }
-        .p-user-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        
-        .p-user-dropdown {
-          position: absolute;
-          top: 130%;
-          right: 0;
-          width: 180px;
-          padding: 10px;
-          border-radius: 20px;
-          opacity: 0;
-          visibility: hidden;
-          transform: translateY(10px);
-          transition: all 0.3s;
-        }
-        .p-user-menu:hover .p-user-dropdown {
-          opacity: 1;
-          visibility: visible;
-          transform: translateY(0);
-        }
-        .dropdown-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 12px 15px;
-          border-radius: 12px;
-          text-decoration: none;
+          gap: 8px;
+          padding: 8px 16px;
+          background: var(--slate-50);
+          border-radius: 14px;
           color: var(--fg);
           font-weight: 700;
           font-size: 14px;
-          transition: all 0.2s;
-          width: 100%;
-          border: none;
-          background: none;
-          cursor: pointer;
+          transition: all 0.3s;
         }
-        .dropdown-item:hover {
-          background: rgba(0,0,0,0.04);
+        .p-user-btn:hover {
+          background: var(--slate-100);
+          transform: translateY(-2px);
         }
-        .dropdown-item.logout { color: #f43f5e; }
 
         .mobile-only { display: none; }
         .desktop-only { display: flex; }
+
+        @media (max-width: 900px) {
+          .nav-center { display: none; }
+          .nav-container { height: 68px; padding: 0 20px; border-radius: 16px; width: 94%; }
+          .premium-logo { font-size: 24px !important; }
+          .mobile-only { display: flex; }
+          .p-user-name { display: none; }
+        }
 
         .mobile-overlay {
           position: fixed;

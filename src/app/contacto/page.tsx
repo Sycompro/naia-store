@@ -1,10 +1,12 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Mail, Phone, MapPin, Send, Globe, Share2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Globe, Share2, HelpCircle } from 'lucide-react';
+import CustomSelect from '@/components/CustomSelect';
 
 export default function ContactoPage() {
+    const [subject, setSubject] = useState('Consulta de Productos');
     return (
         <main className="contacto-page">
             <Navbar />
@@ -64,12 +66,17 @@ export default function ContactoPage() {
                             </div>
                             <div className="form-group">
                                 <label>Asunto</label>
-                                <select>
-                                    <option>Consulta de Productos</option>
-                                    <option>Ventas al Mayor</option>
-                                    <option>Soporte Técnico</option>
-                                    <option>Otros</option>
-                                </select>
+                                <CustomSelect
+                                    value={subject}
+                                    onChange={setSubject}
+                                    icon={HelpCircle}
+                                    options={[
+                                        { value: 'Consulta de Productos', label: 'Consulta de Productos' },
+                                        { value: 'Ventas al Mayor', label: 'Ventas al Mayor' },
+                                        { value: 'Soporte Técnico', label: 'Soporte Técnico' },
+                                        { value: 'Otros', label: 'Otros' },
+                                    ]}
+                                />
                             </div>
                             <div className="form-group">
                                 <label>Mensaje</label>
@@ -107,13 +114,13 @@ export default function ContactoPage() {
         .social-btns a { width: 44px; height: 44px; border-radius: 12px; background: var(--bg); color: var(--fg); border: 1px solid var(--slate-200); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
         .social-btns a:hover { background: var(--primary); color: white; border-color: var(--primary); transform: rotate(10deg); }
 
-        .contact-form-container { padding: 35px; border-radius: 24px; background: var(--glass); border: 1px solid var(--glass-border); }
-        .contact-form { display: flex; flex-direction: column; gap: 18px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group label { font-weight: 700; font-size: 13px; margin-left: 4px; color: var(--fg); }
-        .form-group input, .form-group select, .form-group textarea {
-          padding: 14px;
-          border-radius: 12px;
+        .contact-form-container { padding: 45px; border-radius: 28px; background: var(--glass); border: 1px solid var(--glass-border); box-shadow: 0 40px 100px rgba(0,0,0,0.1); }
+        .contact-form { display: flex; flex-direction: column; gap: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 10px; }
+        .form-group label { font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; margin-left: 4px; color: var(--slate-500); }
+        .form-group input, .form-group textarea {
+          padding: 16px 20px;
+          border-radius: 14px;
           border: 1px solid var(--slate-200);
           background: var(--bg);
           color: var(--fg);
@@ -122,25 +129,28 @@ export default function ContactoPage() {
           transition: all 0.3s;
           font-family: inherit;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--fg); box-shadow: 0 0 0 4px rgba(0,0,0,0.03); }
         
         .btn-submit {
-          padding: 16px;
+          padding: 18px;
           background: var(--primary);
           color: white;
-          border-radius: 14px;
-          font-weight: 800;
+          border-radius: 16px;
+          font-weight: 900;
           font-size: 15px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
           border: none;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 10px;
-          transition: all 0.3s;
-          margin-top: 8px;
+          gap: 12px;
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          margin-top: 15px;
+          box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.3);
         }
-        .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px var(--primary-light); }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(var(--primary-rgb), 0.4); opacity: 1; }
 
         @media (max-width: 768px) {
           .contacto-page { padding-top: 80px; }

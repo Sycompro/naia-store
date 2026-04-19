@@ -46,7 +46,7 @@ export default function AdminCard({ children, title, description, actions, icon,
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-start;
-                    margin-bottom: 16px;
+                    margin-bottom: 10px;
                     gap: 12px;
                 }
                 .header-info-with-icon {

@@ -24,6 +24,7 @@ export async function GET(request: Request) {
         const search = searchParams.get('search')?.toLowerCase();
         const page = parseInt(searchParams.get('page') || '1');
         const pageSize = parseInt(searchParams.get('pageSize') || '20');
+        const stockBelow = searchParams.get('stockBelow');
         const skip = (page - 1) * pageSize;
 
         const where: any = {};
@@ -31,11 +32,16 @@ export async function GET(request: Request) {
             where.gender = gender;
         }
 
+        if (stockBelow) {
+            where.stock = { lte: parseInt(stockBelow) };
+        }
+
         if (search) {
             where.OR = [
                 { name: { contains: search, mode: 'insensitive' } },
                 { description: { contains: search, mode: 'insensitive' } },
-                { category: { contains: search, mode: 'insensitive' } }
+                { category: { contains: search, mode: 'insensitive' } },
+                { barcode: { contains: search, mode: 'insensitive' } }
             ];
         }
 
@@ -73,6 +79,7 @@ export async function POST(request: Request) {
         const product = await prisma.product.create({
             data: {
                 name: body.name,
+                barcode: body.barcode || null,
                 description: body.description || '',
                 unitPrice: new Prisma.Decimal(body.unitPrice || 0) as any,
                 wholesalePrice: new Prisma.Decimal(body.wholesalePrice || 0) as any,
@@ -104,6 +111,7 @@ export async function PATCH(request: Request) {
         if (data.wholesalePrice !== undefined) updateData.wholesalePrice = new Prisma.Decimal(data.wholesalePrice || 0) as any;
         if (data.stock !== undefined) updateData.stock = parseInt(data.stock) || 0;
         if (data.gender !== undefined) updateData.gender = (data.gender.toUpperCase()) as any;
+        if (data.barcode !== undefined) updateData.barcode = data.barcode || null;
 
         const product = await prisma.product.update({
             where: { id: parseInt(id) },

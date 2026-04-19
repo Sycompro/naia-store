@@ -176,7 +176,19 @@ export default function AdminChatPage() {
                             {loading ? (
                                 <div className="loading-state">Cargando chats...</div>
                             ) : filteredConversations.length === 0 ? (
-                                <div className="empty-state">No se encontraron chats.</div>
+                                <div className="empty-chat-state-premium">
+                                    <MessageSquare size={40} strokeWidth={1} />
+                                    <p>No hay conversaciones activas</p>
+                                    <button
+                                        className="seed-trigger-btn"
+                                        onClick={async () => {
+                                            await fetch('/api/chat/seed', { method: 'POST' });
+                                            fetchConversations();
+                                        }}
+                                    >
+                                        Generar Chats de Prueba
+                                    </button>
+                                </div>
                             ) : (
                                 filteredConversations.map(conv => (
                                     <div
@@ -366,6 +378,16 @@ export default function AdminChatPage() {
                     border-color: rgba(255, 255, 255, 0.05);
                     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
                 }
+                .empty-chat-state-premium {
+                    display: flex; flex-direction: column; align-items: center; justify-content: center;
+                    padding: 40px 20px; color: #475569; text-align: center; gap: 12px;
+                }
+                .empty-chat-state-premium p { font-size: 14px; font-weight: 700; }
+                .seed-trigger-btn {
+                    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+                    color: white; padding: 10px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s;
+                }
+                .seed-trigger-btn:hover { background: white; color: #0f172a; }
                 .avatar-circle {
                     width: 52px; height: 52px; background: rgba(255,255,255,0.03); border-radius: 16px;
                     display: flex; align-items: center; justify-content: center; color: #475569;

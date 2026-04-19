@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/context/AuthContext';
-import { User, Package, Clock, ChevronRight, Edit3, Save, ShoppingBag, AlertCircle } from 'lucide-react';
+import { User, Package, Clock, ChevronRight, Edit3, Save, ShoppingBag, AlertCircle, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface OrderItem {
@@ -22,7 +22,7 @@ interface Order {
 }
 
 export default function PerfilPage() {
-    const { user, loading: authLoading, login } = useAuth();
+    const { user, loading: authLoading, login, logout } = useAuth();
     const router = useRouter();
     const [orders, setOrders] = useState<Order[]>([]);
     const [profile, setProfile] = useState({ name: '', phone: '' });
@@ -178,6 +178,9 @@ export default function PerfilPage() {
                                 <label>Cuenta</label>
                                 <span className="role-badge">{user?.role}</span>
                             </div>
+                            <button className="logout-inline-btn" onClick={logout}>
+                                <LogOut size={16} /> Cerrar Sesión
+                            </button>
                         </div>
                     </div>
                 )}
@@ -286,6 +289,29 @@ export default function PerfilPage() {
                     display: inline-block; padding: 4px 12px; border-radius: 8px;
                     background: var(--primary-light); color: var(--primary);
                     font-size: 12px; font-weight: 800; width: fit-content;
+                }
+                .logout-inline-btn {
+                    margin-top: 30px;
+                    width: 100%;
+                    padding: 14px;
+                    border-radius: 14px;
+                    border: 1px solid #fee2e2;
+                    background: #fff1f2;
+                    color: #e11d48;
+                    font-weight: 800;
+                    font-size: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    font-family: inherit;
+                }
+                .logout-inline-btn:hover {
+                    background: #ffe4e6;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.1);
                 }
 
                 .orders-section { display: flex; flex-direction: column; gap: 16px; }

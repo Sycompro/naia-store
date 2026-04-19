@@ -4,7 +4,7 @@ import { Outfit } from 'next/font/google';
 import { CartProvider } from '../context/CartContext';
 import { AuthProvider } from '../context/AuthContext';
 
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
+const outfit = Outfit({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
@@ -38,7 +38,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={outfit.variable}>
+      <body className={outfit.className}>
         <AuthProvider>
           <CartProvider>
             {children}

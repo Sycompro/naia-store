@@ -29,6 +29,12 @@ export default function Stories() {
       });
   }, [currentGender]);
 
+  const isVideo = (url: string) => {
+    if (!url) return false;
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
+    return videoExtensions.some(ext => url.toLowerCase().endsWith(ext)) || url.includes('/video/upload');
+  };
+
   return (
     <section className="stories-section container">
       <div className="stories-container animate-fade">
@@ -37,15 +43,23 @@ export default function Stories() {
             <div key={i} className="story-skeleton" style={{ flexShrink: 0 }}></div>
           ))
         ) : Array.isArray(stories) && stories.length > 0 ? (
-          stories.map((story, index) => (
-            <div key={story.id} className="story-item" onClick={() => {
+          stories.map((group, index) => (
+            <div key={group.id} className="story-item" onClick={() => {
               setInitialIndex(index);
               setViewerOpen(true);
             }}>
               <div className="story-ring-premium">
-                <div className="story-image-premium" style={{ backgroundImage: `url(${story.imageUrl})` }}></div>
+                <div className="story-image-premium" style={{ backgroundImage: `url(${group.thumbnailUrl})` }}>
+                  {group.slides?.[0]?.type === 'VIDEO' && (
+                    <div className="video-indicator-mini">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="white">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
               </div>
-              <span className="story-name-premium">{story.title}</span>
+              <span className="story-name-premium">{group.name}</span>
             </div>
           ))
         ) : null}
@@ -53,8 +67,8 @@ export default function Stories() {
 
       {viewerOpen && (
         <StoryViewer
-          stories={stories}
-          initialIndex={initialIndex}
+          groups={stories}
+          initialGroupIndex={initialIndex}
           onClose={() => setViewerOpen(false)}
         />
       )}
@@ -139,6 +153,21 @@ export default function Stories() {
           font-weight: 800;
           color: var(--fg);
           letter-spacing: -0.01em;
+        }
+
+        .video-indicator-mini {
+          position: absolute;
+          bottom: 5px;
+          right: 5px;
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(4px);
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid rgba(255,255,255,0.2);
         }
         
         :global(.men-theme) .story-ring-premium {

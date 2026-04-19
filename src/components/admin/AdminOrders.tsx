@@ -48,29 +48,27 @@ export default function AdminOrders({ orders, statusColor, statusLabel, onUpdate
                                             #{String(order.id).padStart(5, '0')}
                                         </div>
                                         <div className="col-cust">
-                                            <div className="flex flex-col">
-                                                <span className="font-bold text-white text-sm">{order.user?.name || 'Invitado'}</span>
-                                                <span className="text-[10px] text-slate-500 font-bold uppercase">{order.user?.email || 'Venta Local'}</span>
-                                            </div>
+                                            <span className="cust-name">{order.user?.name || order.customerName || 'Invitado'}</span>
+                                            <span className="cust-meta">{order.user?.email || order.customerPhone || 'Venta Local'}</span>
                                         </div>
                                         <div className="col-date text-xs font-bold text-slate-400">
                                             {new Date(order.createdAt).toLocaleDateString()}
                                         </div>
                                         <div className="col-total text-right font-black text-white">
-                                            S/ {order.total?.toFixed(2) || '0.00'}
+                                            S/ {Number(order.total || 0).toFixed(2)}
                                         </div>
                                         <div className="col-status">
                                             <span className="status-pill" style={{
                                                 '--status-color': statusColor(order.status)
                                             } as any}>
-                                                {statusLabel(order.status)}
+                                                {statusLabel(order.status) || 'Pendiente'}
                                             </span>
                                         </div>
-                                        <div className="col-actions flex justify-end gap-1.5">
-                                            <button className="btn-mini" onClick={() => onViewDetail(order)} title="Ver Detalle"><Eye size={14} /></button>
-                                            <button className="btn-mini" onClick={() => onUpdateStatus(order.id, 'EN_PROCESO')} title="En Proceso"><Truck size={14} /></button>
-                                            <button className="btn-mini" onClick={() => onUpdateStatus(order.id, 'ENTREGADO')} title="Entregado"><Clock size={14} /></button>
-                                            <button className="btn-mini del" onClick={() => onUpdateStatus(order.id, 'CANCELADO')} title="Cancelar"><MoreVertical size={14} /></button>
+                                        <div className="col-actions">
+                                            <button className="btn-mini" onClick={() => onViewDetail(order)} title="Ver Detalle"><Eye size={16} /></button>
+                                            <button className="btn-mini" onClick={() => onUpdateStatus(order.id, 'EN_PROCESO')} title="En Proceso"><Truck size={16} /></button>
+                                            <button className="btn-mini" onClick={() => onUpdateStatus(order.id, 'ENTREGADO')} title="Entregado"><Clock size={16} /></button>
+                                            <button className="btn-mini del" onClick={() => onUpdateStatus(order.id, 'CANCELADO')} title="Cancelar"><MoreVertical size={16} /></button>
                                         </div>
                                     </div>
                                 ))
@@ -83,52 +81,68 @@ export default function AdminOrders({ orders, statusColor, statusLabel, onUpdate
             <style jsx>{`
                 .orders-section { display: flex; flex-direction: column; gap: 20px; }
                 
-                .header-filters-modern { display: flex; gap: 8px; align-items: center; }
+                .header-filters-modern { display: flex; gap: 4px; align-items: center; }
                 .filter-chip {
-                    padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);
-                    background: rgba(255,255,255,0.02); color: #64748b; font-size: 11px; font-weight: 800;
+                    padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+                    background: rgba(255,255,255,0.02); color: #64748b; font-size: 10px; font-weight: 800;
                     cursor: pointer; transition: 0.3s; text-transform: uppercase;
                 }
                 .filter-chip.active { background: white; color: #0f172a; border-color: white; }
                 
                 .search-mini {
-                    display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+                    display: flex; align-items: center; gap: 6px; padding: 4px 10px;
                     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-                    border-radius: 10px; color: #475569; margin-left: 10px;
+                    border-radius: 8px; color: #475569; margin-left: 6px;
                 }
                 .search-mini input {
-                    background: none; border: none; outline: none; color: white; font-size: 11px; font-weight: 600; width: 100px;
+                    background: none; border: none; outline: none; color: white; font-size: 10px; font-weight: 600; width: 80px;
                 }
 
-                .table-responsive { width: 100%; overflow-x: auto; }
-                .orders-table-modern { min-width: 900px; }
+                .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; }
+                .orders-table-modern { min-width: 1000px; padding: 0 5px; }
                 
                 .table-head {
-                    display: grid; grid-template-columns: 0.8fr 2fr 1fr 1fr 1.2fr 1.5fr;
-                    padding: 12px 10px; border-bottom: 2px solid rgba(255,255,255,0.05);
-                    font-size: 11px; font-weight: 950; color: #475569; text-transform: uppercase;
+                    display: grid; 
+                    grid-template-columns: 0.8fr 2.5fr 1fr 1fr 1.2fr 1.5fr;
+                    padding: 12px 10px; 
+                    border-bottom: 2px solid rgba(255,255,255,0.05);
+                    font-size: 11px; font-weight: 950; color: #475569; 
+                    text-transform: uppercase;
+                    gap: 20px;
+                    align-items: center;
                 }
                 
                 .row-item-modern {
-                    display: grid; grid-template-columns: 0.8fr 2fr 1fr 1fr 1.2fr 1.5fr;
-                    padding: 16px 10px; border-bottom: 1px solid rgba(255,255,255,0.02);
-                    align-items: center; transition: 0.2s;
+                    display: grid; 
+                    grid-template-columns: 0.8fr 2.5fr 1fr 1fr 1.2fr 1.5fr;
+                    padding: 14px 10px; 
+                    border-bottom: 1px solid rgba(255,255,255,0.02);
+                    align-items: center; 
+                    transition: 0.2s;
+                    gap: 20px;
                 }
                 .row-item-modern:hover { background: rgba(255,255,255,0.02); }
 
+                .col-cust { display: flex; flex-direction: column; gap: 2px; }
+                .cust-name { font-weight: 800; color: white; font-size: 13.5px; line-height: 1.2; }
+                .cust-meta { font-size: 10px; color: #64748b; font-weight: 800; text-transform: uppercase; }
+
                 .status-pill {
-                    padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 950;
+                    padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: 950;
                     text-transform: uppercase; letter-spacing: 0.05em;
                     background: color-mix(in srgb, var(--status-color), transparent 90%);
                     color: var(--status-color);
                     border: 1px solid color-mix(in srgb, var(--status-color), transparent 80%);
+                    display: inline-block;
                 }
 
+                .col-actions { display: flex !important; flex-direction: row !important; gap: 8px !important; justify-content: flex-end; }
+
                 .btn-mini {
-                    width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+                    width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
                     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: #64748b; cursor: pointer; transition: 0.2s;
                 }
-                .btn-mini:hover { background: rgba(255,255,255,0.1); color: white; }
+                .btn-mini:hover { background: rgba(255,255,255,0.1); color: white; transform: translateY(-2px); }
                 .btn-mini.del:hover { color: #f87171; border-color: #f87171; background: rgba(248, 113, 113, 0.1); }
 
                 .text-right { text-align: right; }

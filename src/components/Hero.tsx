@@ -17,36 +17,36 @@ export default function Hero() {
 
   const content = isMen ? {
     emoji: '',
-    title: 'Cuidado Facial para el ',
-    highlight: 'Hombre Moderno',
-    subtitle: 'Rutinas simplificadas, resultados potentes. Tecnología avanzada en skincare masculino de alta gama.',
-    cta: 'Ver Colección',
-    secondaryCta: 'Asesoría VIP',
+    title: 'Cuidado Facial ',
+    highlight: 'Avanzado',
+    subtitle: 'Fórmulas clínicas de alta eficacia diseñadas para la piel masculina. Simplicidad, calidad y resultados reales.',
+    cta: 'Explorar Colección',
+    secondaryCta: 'Descubrir Rutinas',
     image: '/men-hero.png',
     gradient: 'linear-gradient(135deg, #334155 0%, #1e293b 100%)'
   } : {
     emoji: '',
-    title: 'Descubre tu Brillo ',
-    highlight: 'Natural',
-    subtitle: 'Productos premium diseñados para resaltar tu belleza única. Ingredientes naturales con ciencia avanzada.',
-    cta: 'Comprar Ahora',
-    secondaryCta: 'Ver Catálogo',
+    title: 'Ciencia y ',
+    highlight: 'Bienestar',
+    subtitle: 'Nuestra prioridad es la salud de tu piel. Formulaciones avanzadas con ingredientes premium para resultados visibles.',
+    cta: 'Explorar Colecciones',
+    secondaryCta: 'Nuestra Ciencia',
     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?q=80&w=1200',
     gradient: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)'
   };
 
   return (
-    <section className="hero mesh-bg">
+    <section className="hero">
       <div className="container hero-content">
-        <div className="hero-text animate-entrance">
-          <div className="badge-premium animate-fade">
+        <div className="hero-text animate-up">
+          <div className="badge-premium">
             <Sparkles size={16} />
-            <span>{content.emoji} Nueva Colección 2026</span>
+            <span>Nueva Colección 2026</span>
           </div>
 
           <h1 className="hero-title">
             {content.title}
-            <span className="text-gradient block">{content.highlight}</span>
+            <span className="text-gradient">{content.highlight}</span>
           </h1>
 
           <p className="hero-subtitle">
@@ -54,52 +54,26 @@ export default function Hero() {
           </p>
 
           <div className="hero-actions">
-            <a href="#productos" className="btn-premium btn-primary-v3">
+            <a href="#productos" className="btn-premium-v4 btn-grad">
               {content.cta} <ArrowRight size={20} />
             </a>
-            <a href="#nosotros" className="btn-outline-premium">
+            <a href="#nosotros" className="btn-premium-v4 btn-ghost">
               {content.secondaryCta}
             </a>
           </div>
 
-          <div className="hero-trust animate-fade" style={{ animationDelay: '0.4s' }}>
+          <div className="hero-trust">
             <div className="trust-item">
-              <ShieldCheck size={18} />
-              <span>Dermatológicamente testeado</span>
+              <div className="trust-icon bg-rose">
+                <ShieldCheck size={20} />
+              </div>
+              <span>Testeado Dermatológicamente</span>
             </div>
-            <div className="trust-divider"></div>
             <div className="trust-item">
-              <Star size={18} />
-              <span>4.9/5 Calificación</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="hero-visual animate-entrance" style={{ animationDelay: '0.2s' }}>
-          <div className="visual-stack">
-            <div className="main-card glass-premium">
-              <div className="card-image" style={{ backgroundImage: `url(${content.image})` }}></div>
-              <div className="card-footer">
-                <div className="footer-info">
-                  <span className="info-label">Producto Estrella</span>
-                  <span className="info-name">Sérum Iluminador</span>
-                </div>
-                <div className="footer-tag">New</div>
+              <div className="trust-icon bg-blue">
+                <Star size={20} />
               </div>
-            </div>
-            <div className="floating-element element-1">
-              <div className="text-box">
-                <span className="bold">100% Orgánico</span>
-                <span className="small">Pureza certificada</span>
-              </div>
-            </div>
-            <div className="floating-element element-2">
-              <div className="user-avatars">
-                <div className="avatar" style={{ backgroundColor: '#FFD2E5' }}></div>
-                <div className="avatar" style={{ backgroundColor: '#E05A94' }}></div>
-                <div className="avatar" style={{ backgroundColor: '#FF7EB3' }}></div>
-              </div>
-              <span className="avatar-text">+2k Clientes</span>
+              <span>4.9/5 Calificación Real</span>
             </div>
           </div>
         </div>
@@ -107,218 +81,110 @@ export default function Hero() {
 
       <style jsx>{`
         .hero {
-          min-height: 95vh;
           display: flex;
           align-items: center;
-          padding: 120px 0 80px;
+          padding: 160px 0 80px;
           position: relative;
+          background: var(--white);
+          overflow: hidden;
+        }
+        .hero::before {
+          content: '';
+          position: absolute;
+          top: -100px;
+          right: -100px;
+          width: 500px;
+          height: 500px;
+          background: var(--grad-soft);
+          border-radius: 50%;
+          filter: blur(100px);
+          opacity: 0.6;
+          z-index: 1;
+        }
+        .hero::after {
+          content: '';
+          position: absolute;
+          bottom: -100px;
+          left: -100px;
+          width: 400px;
+          height: 400px;
+          background: var(--primary-light);
+          border-radius: 50%;
+          filter: blur(80px);
+          opacity: 0.4;
+          z-index: 1;
         }
         .hero-content {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          align-items: center;
-          gap: 80px;
+          width: 100%;
+          max-width: 900px;
+          margin: 0 auto;
           position: relative;
           z-index: 2;
         }
+        
         .badge-premium {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 10px 20px;
-          background: var(--white);
-          border: 1px solid var(--accent);
-          border-radius: 50px;
+          gap: 8px;
+          padding: 8px 16px;
+          background: var(--primary-light);
           color: var(--primary-dark);
+          border-radius: 30px;
           font-weight: 800;
           font-size: 13px;
-          margin-bottom: 30px;
-          box-shadow: var(--shadow-md);
-          transition: all 0.3s ease;
-        }
-        :global(.men-theme) .badge-premium {
-          background: rgba(255, 255, 255, 0.1) !important;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border-color: rgba(255, 255, 255, 0.2);
-          color: white;
+          margin-bottom: 24px;
+          letter-spacing: 0.02em;
         }
         .hero-title {
-          font-size: clamp(54px, 7vw, 92px);
-          margin-bottom: 25px;
-          line-height: 0.9;
+          font-size: clamp(48px, 8vw, 84px);
+          margin-bottom: 24px;
+          line-height: 0.95;
           font-weight: 900;
+          letter-spacing: -3px;
+          color: var(--fg);
         }
-        .block { display: block; }
         .hero-subtitle {
-          font-size: 22px;
+          font-size: 20px;
           color: var(--slate-500);
-          max-width: 580px;
-          margin-bottom: 45px;
+          max-width: 650px;
+          margin-bottom: 40px;
           line-height: 1.5;
           font-weight: 500;
         }
         .hero-actions {
           display: flex;
-          gap: 20px;
-          margin-bottom: 60px;
-        }
-        .btn-outline-premium {
-          padding: 14px 28px;
-          border-radius: var(--radius-md);
-          font-weight: 700;
-          border: 2px solid var(--slate-200);
-          color: var(--fg);
-          text-decoration: none;
-          transition: all 0.3s;
-          display: inline-flex;
-          align-items: center;
-          background: var(--bg);
-        }
-        .btn-outline-premium:hover {
-          border-color: var(--primary);
-          color: var(--primary);
-          transform: translateY(-2px);
+          gap: 16px;
+          margin-bottom: 54px;
         }
         
         .hero-trust {
           display: flex;
           align-items: center;
-          gap: 25px;
-          color: var(--slate-400);
+          gap: 40px;
+          color: var(--slate-600);
         }
         .trust-item {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           font-size: 14px;
           font-weight: 600;
         }
-        .trust-divider {
-          width: 1px;
-          height: 20px;
-          background: var(--slate-200);
-        }
-
-        .hero-visual {
-          position: relative;
-          display: flex;
-          justify-content: center;
-          perspective: 1000px;
-        }
-        .visual-stack {
-          position: relative;
-          width: 100%;
-          max-width: 500px;
-          transform-style: preserve-3d;
-        }
-        .main-card {
-          padding: 12px;
-          border-radius: var(--radius-xl);
-          transform: rotate(-1deg) translateZ(20px);
-          transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-          background: var(--glass);
-          backdrop-filter: blur(var(--glass-blur));
-          -webkit-backdrop-filter: blur(var(--glass-blur));
-          border: 1px solid var(--glass-border);
-          box-shadow: var(--shadow-xl);
-        }
-        .main-card:hover { transform: rotate(0deg) scale(1.03) translateZ(40px); }
-        .card-image {
-          height: 550px;
-          border-radius: var(--radius-lg);
-          background-size: cover;
-          background-position: center;
-          margin-bottom: 20px;
-        }
-        .card-footer {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0 10px 10px;
-        }
-        .info-label { font-size: 12px; color: var(--slate-400); display: block; }
-        .info-name { font-size: 18px; font-weight: 800; color: var(--fg); }
-        .footer-tag {
-          padding: 6px 14px;
-          background: var(--primary);
-          color: white;
-          border-radius: 50px;
-          font-size: 12px;
-          font-weight: 900;
-          text-transform: uppercase;
-        }
-
-        .floating-element {
-          position: absolute;
-          padding: 18px 28px;
-          border-radius: 50px;
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          z-index: 10;
-          background: var(--glass-deep);
-          backdrop-filter: blur(var(--glass-blur));
-          -webkit-backdrop-filter: blur(var(--glass-blur));
-          border: 1px solid var(--glass-border);
-          box-shadow: var(--shadow-lg);
-        }
-        .element-1 {
-          top: -20px;
-          right: -40px;
-          animation: float 4s ease-in-out infinite;
-        }
-        .element-2 {
-          bottom: 40px;
-          left: -60px;
-          animation: float 4s ease-in-out infinite reverse;
-        }
-
-        .icon-box {
-          width: 44px;
-          height: 44px;
-          background: var(--primary-light);
-          color: var(--primary);
-          border-radius: 50%;
+        .trust-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
-        .text-box { display: flex; flex-direction: column; }
-        .bold { font-weight: 800; font-size: 14px; color: var(--fg); }
-        .small { font-size: 12px; color: var(--slate-400); }
-
-        .user-avatars { display: flex; }
-        .avatar {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          border: 3px solid var(--white);
-          margin-left: -12px;
-        }
-        .avatar:first-child { margin-left: 0; }
-        .avatar-text { font-size: 14px; font-weight: 700; color: var(--fg); }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-20px); }
-        }
-
-        @media (max-width: 1100px) {
-          .hero-content { gap: 40px; }
-          .element-1, .element-2 { display: none; }
-        }
-
+        
         @media (max-width: 768px) {
-          .hero { padding: 90px 0 40px; text-align: center; }
-          .hero-content { grid-template-columns: 1fr; gap: 30px; }
-          .hero-title { font-size: clamp(38px, 10vw, 48px); }
-          .hero-subtitle { margin: 0 auto 30px; font-size: 16px; }
-          .hero-actions { justify-content: center; flex-direction: column; gap: 12px; }
-          .btn-premium, .btn-outline-premium { width: 100%; justify-content: center; }
-          .hero-visual { margin-top: 30px; }
-          .card-image { height: 350px; }
-          .hero-trust { justify-content: center; flex-wrap: wrap; gap: 15px; }
+          .hero { padding: 120px 0 40px; }
+          .hero-title { font-size: clamp(42px, 12vw, 56px); letter-spacing: -1.5px; }
+          .hero-subtitle { font-size: 16px; }
+          .hero-actions { flex-direction: column; gap: 12px; margin-bottom: 40px; }
+          .hero-trust { flex-direction: column; align-items: flex-start; gap: 20px; }
         }
       `}</style>
     </section>

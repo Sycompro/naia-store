@@ -106,7 +106,7 @@ function CatalogContent() {
                         <Search className="search-icon-p" size={20} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--slate-400)', pointerEvents: 'none', zIndex: 10 }} />
                         <input
                             type="text"
-                            placeholder="¿Qué buscas hoy?"
+                            placeholder="Buscar por nombre, categoría o marca..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="p-search-input"
@@ -307,15 +307,26 @@ function CatalogContent() {
                 }
                 .p-card:hover { transform: translateY(-8px) translateZ(0); box-shadow: var(--shadow-xl); }
                 
-                .p-img-link { display: block; border-radius: 22px; overflow: hidden; position: relative; background: var(--slate-100); }
+                .p-img-link { 
+                    display: block; 
+                    border-radius: 24px; 
+                    overflow: hidden; 
+                    position: relative; 
+                    background: var(--slate-100); 
+                    transition: all 0.4s ease;
+                }
                 :global(.men-theme) .p-img-link { background: rgba(0,0,0,0.3); }
-                .p-img-v3 { height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; border-radius: 22px; }
+                .p-img-v3 { height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; border-radius: 24px; }
+                .p-card:hover .p-img-link {
+                    filter: drop-shadow(0 15px 30px var(--primary-light));
+                }
                 .p-card:hover .p-img-v3 { transform: scale(1.05); }
                 
                 .p-overlay-v3 {
                     position: absolute; inset: 0; background: rgba(0,0,0,0.2); 
                     display: flex; align-items: center; justify-content: center;
                     opacity: 0; transition: all 0.3s;
+                    border-radius: 24px;
                 }
                 .p-card:hover .p-overlay-v3 { opacity: 1; }
                 .btn-view-premium {
@@ -325,40 +336,75 @@ function CatalogContent() {
                 .p-card:hover .btn-view-premium { transform: translateY(0); }
                 
                 .p-badge-float {
-                    position: absolute; top: 12px; right: 12px; 
+                    position: absolute; top: 20px; right: 20px; 
                     background: var(--primary); color: white; padding: 4px 10px;
                     border-radius: 6px; font-size: 10px; font-weight: 900;
                     letter-spacing: 0.5px;
+                    z-index: 5;
                 }
 
                 .p-info-v3 { padding: 18px 8px 8px; }
                 .p-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-                .p-cat-v3 { font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+                .p-cat-v3 { font-size: 10px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; }
                 .p-stars { font-size: 12px; font-weight: 800; color: #fbbf24; display: flex; align-items: center; gap: 4px; }
                 
                 .p-name-link-v3 { text-decoration: none !important; color: var(--fg) !important; display: block; }
                 .p-name-link-v3 h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; line-height: 1.2; transition: color 0.2s; }
                 .p-name-link-v3:hover h3 { color: var(--primary); }
                 
-                .p-prices-v3 { display: flex; padding: 10px; border-radius: 12px; margin-bottom: 18px; background: var(--slate-50); }
-                :global(.men-theme) .p-prices-v3 { background: rgba(0,0,0,0.2); }
-                .p-price-item { flex: 1; display: flex; flex-direction: column; }
-                .p-price-item .label { font-size: 9px; color: var(--slate-400); font-weight: 800; text-transform: uppercase; }
-                .p-price-item .val { font-size: 16px; font-weight: 900; color: var(--fg); }
-                .p-price-item.wholesale { border-left: 1px solid var(--slate-200); padding-left: 12px; margin-left: 12px; }
-                :global(.men-theme) .p-price-item.wholesale { border-color: rgba(255,255,255,0.08); }
-                .p-price-item.wholesale .val { color: var(--primary-dark); }
-
-                .p-actions-v3 { display: flex; gap: 8px; }
-                .flex-1 { flex: 1; justify-content: center; }
-                .p-icon-btn-v3 { 
-                    width: 44px; height: 44px; border-radius: 12px; border: none; 
-                    background: var(--slate-50); color: var(--fg);
-                    display: flex; align-items: center; justify-content: center; 
-                    cursor: pointer; transition: all 0.3s; 
+                .p-prices-v3 { 
+                    padding: 14px 18px; 
+                    border-radius: 20px; 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: space-between; 
+                    margin-bottom: 18px; 
+                    background: white !important;
+                    border: 1px solid var(--slate-100) !important;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
                 }
-                :global(.men-theme) .p-icon-btn-v3 { background: rgba(255,255,255,0.05); color: white; }
-                .p-icon-btn-v3:hover { color: var(--primary); transform: translateY(-2px); background: var(--primary-light); }
+                :global(.men-theme) .p-prices-v3 { 
+                    background: rgba(255,255,255,0.04) !important; 
+                    border-color: rgba(255,255,255,0.06) !important;
+                }
+                .p-price-item { display: flex; flex-direction: column; }
+                .p-price-item.wholesale { align-items: flex-end; text-align: right; border: none !important; padding: 0 !important; margin: 0 !important; }
+                .p-price-item .label { font-size: 11px; font-weight: 700; color: var(--slate-500); text-transform: none; margin-bottom: 2px; }
+                .p-price-item .val { font-size: 16px; font-weight: 800; color: var(--fg); letter-spacing: -0.01em; }
+                .p-price-item.wholesale .val { color: var(--primary-dark); }
+                :global(.men-theme) .p-price-item.wholesale .val { color: var(--accent); }
+
+                .p-actions-v3 { display: flex; gap: 12px; justify-content: center; align-items: center; }
+                :global(.p-action-btn-v4) {
+                    width: 44px !important;
+                    height: 44px !important;
+                    border-radius: 50% !important;
+                    border: 1px solid var(--slate-200);
+                    display: flex !important;
+                    align-items: center;
+                    justify-content: center;
+                    background: white !important;
+                    color: var(--fg) !important;
+                    cursor: pointer;
+                    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                    padding: 0 !important;
+                    flex-shrink: 0;
+                    text-decoration: none !important;
+                }
+                :global(.men-theme .p-action-btn-v4) {
+                    background: rgba(255, 255, 255, 0.1) !important;
+                    border-color: rgba(255, 255, 255, 0.1) !important;
+                    color: white !important;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                }
+                :global(.p-action-btn-v4:hover) {
+                    background: var(--primary) !important;
+                    color: white !important;
+                    border-color: var(--primary) !important;
+                    transform: translateY(-4px) scale(1.1);
+                    box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.3);
+                }
 
                 .p-empty-v3 { padding: 60px; text-align: center; grid-column: 1/-1; border-radius: var(--radius-xl); background: var(--bg); border: 1px solid var(--slate-100); }
                 :global(.men-theme) .p-empty-v3 { background: var(--glass); border-color: var(--glass-border); }

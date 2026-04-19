@@ -73,10 +73,20 @@ export default function Footer() {
 
       <style jsx>{`
         .p-footer {
-          padding: 100px 0 50px;
-          border-top: 1px solid var(--glass-border);
+          padding: 100px 0 40px;
+          background: #0f172a;
+          color: white;
           position: relative;
-          z-index: 10;
+          overflow: hidden;
+        }
+        .p-footer::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
         }
         .p-footer-grid {
           display: grid;
@@ -84,55 +94,60 @@ export default function Footer() {
           gap: 60px;
           margin-bottom: 80px;
         }
-        .mb-20 { margin-bottom: 20px; display: inline-block; }
+        .mb-20 { margin-bottom: 24px; display: inline-block; }
         
         .p-tagline {
-          font-size: 16px;
-          color: var(--slate-500);
+          font-size: 15px;
+          color: var(--slate-400);
           line-height: 1.6;
-          margin-bottom: 30px;
+          margin-bottom: 32px;
           max-width: 300px;
         }
-        .p-socials { display: flex; gap: 15px; }
+        .p-socials { display: flex; gap: 12px; }
         .p-social-btn {
-          width: 50px;
-          height: 50px;
-          border-radius: 16px;
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--fg);
+          color: white;
+          background: rgba(255,255,255,0.05);
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .p-social-btn:hover {
-          color: var(--primary);
-          transform: translateY(-5px) rotate(8deg);
-          box-shadow: var(--shadow-lg);
+          color: white;
+          background: var(--primary);
+          transform: translateY(-5px);
         }
 
         .p-footer-title {
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 800;
-          margin-bottom: 30px;
-          letter-spacing: -0.02em;
+          margin-bottom: 24px;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: white;
         }
         .p-footer-links { list-style: none; padding: 0; }
-        .p-footer-links li { margin-bottom: 15px; }
+        .p-footer-links li { margin-bottom: 12px; }
         .p-footer-links a {
           text-decoration: none;
-          color: var(--slate-500);
+          color: var(--slate-400);
           font-weight: 600;
-          font-size: 15px;
+          font-size: 14px;
           transition: all 0.3s;
         }
-        .p-footer-links a:hover { color: var(--primary); padding-left: 5px; }
+        .p-footer-links a:hover { color: var(--primary); transform: translateX(5px); display: inline-block; }
 
-        .p-news-desc { font-size: 14px; color: var(--slate-500); margin-bottom: 25px; line-height: 1.5; }
+        .p-news-desc { font-size: 14px; color: var(--slate-400); margin-bottom: 24px; line-height: 1.5; }
         .p-news-form {
           display: flex;
           padding: 6px;
-          border-radius: 18px;
-          gap: 10px;
+          border-radius: 14px;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.05);
+          gap: 8px;
         }
         .p-news-form input {
           flex: 1;
@@ -142,46 +157,44 @@ export default function Footer() {
           outline: none;
           font-weight: 600;
           font-size: 14px;
-          color: var(--fg);
+          color: white;
         }
         .p-news-btn {
-          width: 48px;
-          height: 48px;
-          border-radius: 14px;
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
           border: none;
-          background: var(--fg);
-          color: var(--bg);
+          background: var(--grad-primary);
+          color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           transition: all 0.3s;
-          flex-shrink: 0;
         }
-        :global(.men-theme) .p-news-btn { background: var(--primary); color: white; }
-        .p-news-btn:hover { background: var(--primary); transform: scale(1.05); }
+        .p-news-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
 
         .p-footer-bottom {
           padding-top: 40px;
-          border-top: 1px solid var(--glass-border);
+          border-top: 1px solid rgba(255,255,255,0.05);
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 14px;
-          font-weight: 600;
-          color: var(--slate-400);
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--slate-500);
         }
         .text-primary { color: var(--primary); }
         .p-legal { display: flex; gap: 30px; }
-        .p-legal a { text-decoration: none; color: var(--slate-400); transition: color 0.3s; }
-        .p-legal a:hover { color: var(--primary); }
+        .p-legal a { text-decoration: none; color: var(--slate-500); transition: color 0.3s; }
+        .p-legal a:hover { color: white; }
 
         @media (max-width: 1100px) {
           .p-footer-grid { grid-template-columns: 1fr 1fr; gap: 50px; }
         }
         @media (max-width: 600px) {
           .p-footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-          .p-tagline { margin: 0 auto 30px; }
+          .p-tagline { margin: 0 auto 32px; }
           .p-socials { justify-content: center; }
           .p-footer-bottom { flex-direction: column; text-align: center; gap: 20px; }
           .p-legal { justify-content: center; }

@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { ShoppingBag, Heart, Share2, Shield, Truck, RotateCcw, Star, ChevronRight, Sparkles } from 'lucide-react';
+import { ShoppingBag, Heart, Share2, Shield, Truck, RotateCcw, Star, ChevronRight, Sparkles, FileText } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import ShareModal from '@/components/ShareModal';
 
@@ -25,6 +25,7 @@ export default function ProductDetailPage() {
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState<'desc' | 'inci' | 'sds'>('desc');
     const { addToCart } = useCart();
 
     useEffect(() => {
@@ -89,11 +90,40 @@ export default function ProductDetailPage() {
                         </div>
                     </div>
 
-                    <p className="p-detail-desc">{product.description}</p>
-
-                    <div className="p-detail-feat glass-premium">
-                        <span className="feat-label">Presentación</span>
-                        <span className="feat-value">{product.presentation}</span>
+                    <div className="p-technical-room glass-premium">
+                        <div className="t-tabs">
+                            <button className={activeTab === 'desc' ? 'active' : ''} onClick={() => setActiveTab('desc')}>Visión General</button>
+                            <button className={activeTab === 'inci' ? 'active' : ''} onClick={() => setActiveTab('inci')}>Composición INCI</button>
+                            <button className={activeTab === 'sds' ? 'active' : ''} onClick={() => setActiveTab('sds')}>Certificaciones / SDS</button>
+                        </div>
+                        <div className="t-content">
+                            {activeTab === 'desc' && (
+                                <div className="t-desc">
+                                    <p className="p-detail-desc">{product.description}</p>
+                                    <div className="p-detail-feat">
+                                        <span className="feat-label">Formato:</span>
+                                        <span className="feat-value">{product.presentation}</span>
+                                    </div>
+                                </div>
+                            )}
+                            {activeTab === 'inci' && (
+                                <div className="t-inci">
+                                    <p className="inci-text"><strong>Activos Clínicos:</strong> Formulación base de Agua Purificada, Copolímeros de Acrilato, Niacinamida (5%), Ácido Hialurónico de peso molecular mixto (2%), Pantenol, Glicerina, Extracto biológico de Centella Asiática, Conservantes naturales.</p>
+                                    <div className="t-inci-note">*Fórmula libre de parabenos, ftalatos y sulfatos (SLS/SLES). pH balanceado 5.5.</div>
+                                </div>
+                            )}
+                            {activeTab === 'sds' && (
+                                <div className="t-sds">
+                                    <div className="sds-list">
+                                        <div className="sds-item"><Shield size={18} className="text-primary" /> <span>ISO 22716 - Buenas Prácticas de Manufactura Cosmética (BPM)</span></div>
+                                        <div className="sds-item"><Heart size={18} className="text-primary" /> <span>Certificación Cruelty-Free & Vegan (PETA)</span></div>
+                                    </div>
+                                    <button className="btn-outline-premium mt-15 sds-btn">
+                                        <FileText size={16} /> Descargar Ficha de Seguridad (MSDS / SDS PDF)
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     <div className="p-detail-actions">
@@ -173,11 +203,34 @@ export default function ProductDetailPage() {
                 .p-extra { font-size: 9px; opacity: 0.7; }
                 .price-v-divider { width: 1px; height: 40px; background: var(--slate-200); margin: 0 25px; }
 
-                .p-detail-desc { font-size: 18px; line-height: 1.6; color: var(--slate-500); font-weight: 500; }
+                .p-technical-room { border-radius: var(--radius-xl); overflow: hidden; margin-bottom: 20px; }
+                .t-tabs { display: flex; border-bottom: 1px solid var(--slate-200); }
+                :global(.men-theme) .t-tabs { border-color: rgba(255,255,255,0.1); }
+                .t-tabs button { flex: 1; padding: 15px 10px; background: none; border: none; font-size: 13px; font-weight: 800; color: var(--slate-400); cursor: pointer; transition: all 0.3s; position: relative; text-transform: uppercase; letter-spacing: 0.5px; }
+                .t-tabs button:hover { color: var(--fg); background: rgba(0,0,0,0.02); }
+                :global(.men-theme) .t-tabs button:hover { background: rgba(255,255,255,0.02); }
+                .t-tabs button.active { color: var(--primary); }
+                .t-tabs button.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--primary); border-radius: 3px 3px 0 0; }
                 
-                .p-detail-feat { padding: 15px 25px; border-radius: 20px; display: flex; align-items: center; gap: 15px; width: fit-content; }
-                .feat-label { font-size: 13px; font-weight: 800; color: var(--slate-400); }
-                .feat-value { font-size: 15px; font-weight: 900; color: var(--fg); }
+                .t-content { padding: 25px; min-height: 150px; }
+                
+                .p-detail-desc { font-size: 15px; line-height: 1.6; color: var(--slate-500); font-weight: 500; margin-bottom: 15px; }
+                .p-detail-feat { display: flex; align-items: center; gap: 10px; padding-top: 15px; border-top: 1px dashed var(--slate-200); }
+                :global(.men-theme) .p-detail-feat { border-color: rgba(255,255,255,0.1); }
+                .feat-label { font-size: 13px; font-weight: 800; color: var(--slate-400); text-transform: uppercase; }
+                .feat-value { font-size: 14px; font-weight: 900; color: var(--fg); }
+
+                .inci-text { font-size: 14px; line-height: 1.7; color: var(--slate-600); }
+                :global(.men-theme) .inci-text { color: var(--slate-300); }
+                .inci-text strong { color: var(--fg); font-weight: 800; }
+                .t-inci-note { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--slate-200); font-size: 12px; color: var(--slate-400); font-weight: 600; font-style: italic; }
+                :global(.men-theme) .t-inci-note { border-color: rgba(255,255,255,0.1); }
+
+                .sds-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+                .sds-item { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; color: var(--fg); }
+                .text-primary { color: var(--primary); }
+                .mt-15 { margin-top: 15px; }
+                .sds-btn { width: 100%; justify-content: center; font-size: 13px; height: 44px; display: flex; align-items: center; gap: 8px; }
 
                 .p-detail-actions { display: flex; gap: 15px; margin-top: 10px; }
                 .flex-1 { flex: 1; justify-content: center; height: 60px; font-size: 18px; }

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { ShoppingCart, X, Plus, Minus, Trash2, Send, Sparkles } from 'lucide-react';
+import { ShoppingCart, X, Plus, Minus, Trash2, Send, Sparkles, ShieldCheck, Truck } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -124,6 +124,13 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
 
                 {cart.length > 0 && (
                     <div className="p-drawer-footer glass-premium">
+                        <div className="shipping-progress">
+                            <p>{totalAmount >= 150 ? "✨ Envío Premium Gratuito Desbloqueado" : `Estás a S/ ${(150 - totalAmount).toFixed(2)} de obtener envío gratis`}</p>
+                            <div className="progress-bar-bg">
+                                <div className="progress-fill" style={{ width: `${Math.min(100, (totalAmount / 150) * 100)}%` }}></div>
+                            </div>
+                        </div>
+
                         {isGuestFormOpen && !user && (
                             <div className="guest-form animate-entrance">
                                 <h4>Datos de Entrega</h4>
@@ -157,10 +164,14 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                             onClick={handleWhatsAppCheckout}
                             disabled={loading}
                         >
-                            {loading ? 'Procesando...' : (isGuestFormOpen && !user ? 'Confirmar y Enviar' : 'Finalizar Pedido')}
+                            {loading ? 'Procesando...' : (isGuestFormOpen && !user ? 'Confirmar y Enviar' : 'Completar Compra Segura')}
                             {!loading && <Send size={18} />}
                         </button>
-                        <p className="p-footer-note">Serás redirigido a WhatsApp para concretar tu pedido.</p>
+                        <div className="trust-badges-cart">
+                            <ShieldCheck size={14} /> <span>100% Seguro</span>
+                            <span className="dot">•</span>
+                            <Truck size={14} /> <span>Despacho Rápido</span>
+                        </div>
                     </div>
                 )}
             </div>
@@ -254,9 +265,18 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 .wholesale-hint { font-size: 11px; font-weight: 800; color: #10b981; }
                 .p-total-price { font-size: 24px; font-weight: 950; color: var(--fg); }
                 
-                .checkout-btn { height: 56px; font-size: 16px; margin-bottom: 12px; border-radius: 18px; }
+                .checkout-btn { height: 56px; font-size: 16px; border-radius: 18px; margin-bottom: 8px; }
                 .p-footer-note { font-size: 11px; text-align: center; color: var(--slate-400); font-weight: 600; opacity: 0.8; }
                 .w-full { width: 100%; justify-content: center; }
+
+                .shipping-progress { margin-bottom: 20px; text-align: center; }
+                .shipping-progress p { font-size: 12px; font-weight: 900; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+                :global(.men-theme) .shipping-progress p { color: #fbbf24; }
+                .progress-bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.08); border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
+                .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+                :global(.men-theme) .progress-fill { background: linear-gradient(90deg, #fbbf24, #fef3c7); }
+                .trust-badges-cart { display: flex; justify-content: center; align-items: center; gap: 8px; color: var(--slate-500); font-size: 11px; font-weight: 700; margin-top: 8px; }
+                .trust-badges-cart .dot { font-size: 14px; opacity: 0.5; }
 
                 @media (max-width: 500px) {
                     .p-cart-drawer { max-width: 100%; border-radius: 0; }
