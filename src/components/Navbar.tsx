@@ -422,8 +422,8 @@ export default function Navbar() {
             border-left: 1px solid rgba(0,0,0,0.05);
           }
           :global(.men-theme) .mobile-menu-content {
-            background: rgba(15, 23, 42, 0.99);
-            border-left-color: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.99);
+            border-left-color: rgba(0,0,0,0.05);
           }
           
           .mobile-menu-header {
