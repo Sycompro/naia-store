@@ -1,6 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Menu, User, Sparkles, X, LogOut, ChevronRight, Building2 } from 'lucide-react';
+import { 
+  ShoppingBag, Menu, User, X, Building2, Globe, 
+  Share2, ChevronRight, Sparkle, LogOut, Search
+} from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -30,54 +33,75 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="nav-v3">
-        <div className="nav-container glass-premium">
+      <nav className="nav-elite">
+        <div className="nav-blur-container glass-premium">
           <div className="nav-left">
-            <Link href="/" id="main-naia-logo" className="premium-logo" style={{ fontSize: '32px', fontWeight: '800', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '2px' }}>
+            <Link href="/" className="premium-logo">
               {theme === 'woman' ? (
-                <span className="logo-text" style={{ fontSize: '32px' }}>N<span className="logo-highlight">ai</span>a</span>
+                <span className="logo-text">N<span className="logo-highlight">ai</span>a</span>
               ) : (
-                <span className="logo-text" style={{ fontSize: '32px' }}>N<span className="logo-highlight">oi</span>r</span>
+                <span className="logo-text">N<span className="logo-highlight">oi</span>r</span>
               )}
-              <span className="logo-dot" style={{ width: '8px', height: '8px', marginBottom: '0' }}></span>
+              <span className="logo-dot"></span>
             </Link>
           </div>
 
           <div className="nav-center desktop-only">
-            <Link href="/productos" className="p-nav-link">Productos</Link>
-            <Link href="/novedades" className="p-nav-link">Novedades</Link>
-            <div className="nav-divider"></div>
-            <Link href="/nosotros" className="p-nav-link">Nosotros</Link>
-            <Link href="/contacto" className="p-nav-link">Contacto</Link>
-            <div className="nav-divider"></div>
-            <Link href="/b2b" className="p-nav-link b2b-link"><Building2 size={14} style={{ display: 'inline', marginRight: '4px', position: 'relative', top: '2px' }} /> Portal B2B</Link>
+            <div className="links-wrapper">
+              <Link href="/productos" className="elite-link">
+                <span>Productos</span>
+                <div className="link-indicator"></div>
+              </Link>
+              <Link href="/novedades" className="elite-link">
+                <span>Novedades</span>
+                <div className="link-indicator"></div>
+              </Link>
+              <div className="nav-v-divider"></div>
+              <Link href="/nosotros" className="elite-link">
+                <span>Nosotros</span>
+                <div className="link-indicator"></div>
+              </Link>
+              <Link href="/contacto" className="elite-link">
+                <span>Contacto</span>
+                <div className="link-indicator"></div>
+              </Link>
+              <div className="nav-v-divider"></div>
+              <Link href="/b2b" className="elite-link b2b-accent">
+                <Building2 size={14} />
+                <span>Portal B2B</span>
+              </Link>
+            </div>
           </div>
 
           <div className="nav-right">
-            <button onClick={toggleTheme} className={`p-theme-toggle ${theme}`}>
-              <div className="toggle-sphere"></div>
-              <span>{theme === 'woman' ? 'Ella' : 'Él'}</span>
+            <button onClick={toggleTheme} className={`elite-theme-switch ${theme}`}>
+              <div className="switch-knob">
+                {theme === 'woman' ? <Sparkle size={10} /> : <div className="dark-dot"></div>}
+              </div>
+              <span className="switch-label">{theme === 'woman' ? 'Ella' : 'Él'}</span>
             </button>
 
-            <div className="p-actions">
-              <button className="p-icon-btn" onClick={() => setIsCartOpen(true)}>
-                <ShoppingBag size={22} strokeWidth={2.5} />
-                {totalItems > 0 && <span className="p-badge">{totalItems}</span>}
+            <div className="elite-actions">
+              <button className="elite-icon-btn" onClick={() => setIsCartOpen(true)}>
+                <ShoppingBag size={20} strokeWidth={2.5} />
+                {totalItems > 0 && <span className="elite-badge">{totalItems}</span>}
               </button>
 
               {user ? (
-                <Link href="/perfil" className="p-user-btn glass-premium" style={{ textDecoration: 'none' }}>
-                  <User size={20} strokeWidth={2.5} />
-                  <span className="p-user-name desktop-only">{user?.name?.split(' ')[0] || 'Invitado'}</span>
+                <Link href="/perfil" className="elite-user-btn">
+                  <div className="user-avatar-mini">
+                    <User size={16} />
+                  </div>
+                  <span className="desktop-only">{user?.name?.split(' ')[0]}</span>
                 </Link>
               ) : (
-                <Link href="/auth/login" className="p-icon-btn">
-                  <User size={22} strokeWidth={2.5} />
+                <Link href="/auth/login" className="elite-icon-btn">
+                  <User size={20} strokeWidth={2.5} />
                 </Link>
               )}
 
-              <button className="p-icon-btn mobile-only" onClick={() => setIsMobileMenuOpen(true)}>
-                <Menu size={24} strokeWidth={2.5} />
+              <button className="elite-icon-btn mobile-only menu-trigger" onClick={() => setIsMobileMenuOpen(true)}>
+                <Menu size={22} strokeWidth={2.5} />
               </button>
             </div>
           </div>
@@ -86,293 +110,246 @@ export default function Navbar() {
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-      {/* Mobile Menu Overlay */}
-      <div className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-content glass-premium">
-          <button className="close-menu" onClick={() => setIsMobileMenuOpen(false)}><X /></button>
-          <div className="mobile-links">
-            <Link href="/productos" onClick={() => setIsMobileMenuOpen(false)}>Productos</Link>
-            <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)}>Novedades</Link>
-            <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)}>Nosotros</Link>
-            <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)}>Contacto</Link>
-            <Link href="/b2b" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--primary)' }}>Portal B2B</Link>
-            {user && <Link href="/perfil" onClick={() => setIsMobileMenuOpen(false)}>Mi Perfil</Link>}
+      {/* Mobile Full-Screen Elite Menu */}
+      <div className={`elite-mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-header">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="premium-logo sm">
+             Naia<span className="logo-dot"></span>
+          </Link>
+          <button className="elite-close-btn" onClick={() => setIsMobileMenuOpen(false)}>
+            <X size={28} />
+          </button>
+        </div>
+
+        <div className="mobile-menu-body">
+          {user && (
+            <div className="mobile-user-greeting animate-fade-in">
+              <span className="greeting-label">Bienvenido de nuevo</span>
+              <h2 className="greeting-name">{user.name}</h2>
+            </div>
+          )}
+
+          <div className="mobile-elite-links">
+            <Link href="/productos" className="m-elite-link" onClick={() => setIsMobileMenuOpen(false)} style={{ animationDelay: '0.1s' }}>
+              <span className="link-num">01</span>
+              <span className="link-txt">Colección Premium</span>
+              <ChevronRight size={20} className="link-arrow" />
+            </Link>
+            <Link href="/novedades" className="m-elite-link" onClick={() => setIsMobileMenuOpen(false)} style={{ animationDelay: '0.15s' }}>
+              <span className="link-num">02</span>
+              <span className="link-txt">Novedades Naia</span>
+              <ChevronRight size={20} className="link-arrow" />
+            </Link>
+            <Link href="/b2b" className="m-elite-link accent-pink" onClick={() => setIsMobileMenuOpen(false)} style={{ animationDelay: '0.2s' }}>
+              <span className="link-num">03</span>
+              <span className="link-txt">Socios & Distribuidores</span>
+              <ChevronRight size={20} className="link-arrow" />
+            </Link>
+            <Link href="/nosotros" className="m-elite-link" onClick={() => setIsMobileMenuOpen(false)} style={{ animationDelay: '0.25s' }}>
+              <span className="link-num">04</span>
+              <span className="link-txt">Nuestra Esencia</span>
+              <ChevronRight size={20} className="link-arrow" />
+            </Link>
+            <Link href="/contacto" className="m-elite-link" onClick={() => setIsMobileMenuOpen(false)} style={{ animationDelay: '0.3s' }}>
+              <span className="link-num">05</span>
+              <span className="link-txt">Asesoría Directa</span>
+              <ChevronRight size={20} className="link-arrow" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="mobile-menu-footer">
+          <div className="footer-socials">
+            <a href="#" className="social-pill"><Globe size={18} /> Instagram</a>
+            <a href="#" className="social-pill"><Share2 size={18} /> Facebook</a>
+          </div>
+          <div className="footer-meta">
+            <span>© 2026 Naia - Beauty Science</span>
+            {user ? (
+               <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="m-logout-btn"><LogOut size={14} /> Cerrar Sesión</button>
+            ) : (
+               <Link href="/auth/login" onClick={() => setIsMobileMenuOpen(false)}>Ingresar al Portal</Link>
+            )}
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        .nav-v3 {
+        .nav-elite {
           position: fixed;
           top: 0;
           left: 0;
           width: 100%;
-          padding: 12px 0;
+          padding: 20px 0;
           z-index: 1000;
-          transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           pointer-events: none;
         }
-        .nav-container {
-          max-width: 1300px;
+        .nav-blur-container {
+          max-width: 1200px;
           margin: 0 auto;
-          height: 76px;
-          border-radius: 20px;
+          height: 68px;
+          border-radius: 100px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 32px;
-          width: 96%;
-          background: var(--white);
-          border: 1px solid rgba(0,0,0,0.03);
-          box-shadow: var(--shadow-lg);
+          padding: 0 12px 0 32px;
+          width: 95%;
           pointer-events: auto;
+          transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
         
         .premium-logo {
-          font-size: 28px !important;
-          font-weight: 900 !important;
-          color: var(--fg) !important;
-          text-decoration: none !important;
-          letter-spacing: -1.5px !important;
-          display: flex !important;
-          align-items: center !important;
-          gap: 2px;
-          transition: all 0.4s;
-          line-height: 1;
-        }
-        .premium-logo:hover {
-          letter-spacing: -0.5px !important;
-          transform: scale(1.02);
-        }
-        .logo-text {
-          display: inline-block;
-        }
-        .logo-highlight {
-          color: var(--primary);
-          background: var(--grad-primary);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .logo-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: var(--grad-primary);
-          display: inline-block;
-          margin-left: 1px;
-          box-shadow: 0 0 10px rgba(var(--primary-h), 100%, 70%, 0.4);
-        }
-        
-        .nav-center {
+          text-decoration: none;
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 2px;
+          transition: 0.3s;
         }
-        .p-nav-link {
-          padding: 10px 20px;
+        .logo-text { font-size: 28px; font-weight: 950; color: var(--fg); letter-spacing: -2px; }
+        .logo-highlight { color: var(--primary); background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); display: inline-block; margin-left: 2px; box-shadow: 0 0 10px rgba(var(--primary-h), 100%, 70%, 0.4); }
+        .premium-logo.sm .logo-text { font-size: 24px; }
+
+        .nav-center { display: flex; align-items: center; }
+        .links-wrapper { display: flex; align-items: center; gap: 4px; }
+        
+        .elite-link {
+          padding: 8px 18px;
           text-decoration: none;
           color: var(--slate-600);
-          font-weight: 700;
-          font-size: 14px;
-          border-radius: 12px;
-          transition: all 0.3s ease;
+          font-weight: 800;
+          font-size: 13px;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transition: 0.3s;
           letter-spacing: -0.01em;
         }
-        .p-nav-link:hover {
-          color: var(--primary);
-          background: var(--primary-light);
-          transform: translateY(-1px);
-        }
-        .nav-divider {
-          width: 1px;
-          height: 16px;
-          background: var(--slate-200);
-          margin: 0 4px;
-        }
-
-        .nav-right {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
+        .elite-link:hover { color: var(--fg); }
+        .link-indicator { width: 0; height: 2px; background: var(--primary); border-radius: 2px; position: absolute; bottom: 0; transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1); opacity: 0; }
+        .elite-link:hover .link-indicator { width: 12px; opacity: 1; }
         
-        .p-theme-toggle {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 72px;
-          background: var(--slate-50);
-          border: 1px solid var(--slate-100);
-          padding: 4px;
-          border-radius: 30px;
-          cursor: pointer;
-          font-weight: 800;
-          font-size: 11px;
-          transition: all 0.4s;
-          color: var(--slate-500);
-        }
-        .toggle-sphere {
-          width: 24px;
-          height: 24px;
-          background: var(--grad-primary);
-          border-radius: 50%;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-          transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .p-theme-toggle.man span { color: var(--fg); }
-        .p-theme-toggle span { flex: 1; text-align: center; }
+        .b2b-accent { background: #fdf2f8; color: #ec4899; border-radius: 100px; gap: 8px; margin-left: 10px; padding: 10px 22px; }
+        .b2b-accent:hover { background: #f9a8d4; color: white; transform: scale(1.02); }
+        :global(.men-theme) .b2b-accent { background: rgba(37, 99, 235, 0.1); color: #3b82f6; }
+        :global(.men-theme) .b2b-accent:hover { background: #3b82f6; color: white; }
 
-        .p-actions {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-        .p-icon-btn {
-          position: relative;
-          background: var(--slate-50);
-          border: none;
-          width: 44px;
-          height: 44px;
-          border-radius: 14px;
-          cursor: pointer;
-          color: var(--fg);
-          transition: all 0.3s;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .p-icon-btn:hover {
-          color: white;
-          background: var(--fg);
-          transform: translateY(-2px);
-        }
-        .p-badge {
-          position: absolute;
-          top: -4px;
-          right: -4px;
-          background: var(--grad-primary);
-          color: white;
-          font-size: 10px;
-          font-weight: 900;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 2px solid var(--white);
-          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        .nav-v-divider { width: 1px; height: 16px; background: rgba(0,0,0,0.06); margin: 0 10px; }
+        :global(.men-theme) .nav-v-divider { background: rgba(255,255,255,0.08); }
 
-        .p-user-btn {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 16px;
-          background: var(--slate-50);
-          border-radius: 14px;
-          color: var(--fg);
-          font-weight: 700;
-          font-size: 14px;
-          transition: all 0.3s;
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        
+        .elite-theme-switch {
+          display: flex; align-items: center; padding: 4px 12px 4px 6px; gap: 8px;
+          background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 100px;
+          cursor: pointer; transition: 0.4s;
         }
-        .p-user-btn:hover {
-          background: var(--slate-100);
-          transform: translateY(-2px);
+        :global(.men-theme) .elite-theme-switch { background: #1e293b; border-color: #334155; }
+        .switch-knob { 
+          width: 24px; height: 24px; background: white; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.4s;
         }
+        :global(.men-theme) .switch-knob { background: #0f172a; transform: translateX(0); }
+        .switch-label { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; }
+        :global(.men-theme) .switch-label { color: #94a3b8; }
+        .dark-dot { width: 8px; height: 8px; background: #3b82f6; border-radius: 50%; box-shadow: 0 0 10px #3b82f6; }
+
+        .elite-actions { display: flex; align-items: center; gap: 8px; }
+        
+        .elite-icon-btn {
+          width: 44px; height: 44px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          background: transparent; border: none; cursor: pointer; color: var(--fg);
+          transition: 0.3s; position: relative;
+        }
+        .elite-icon-btn:hover { background: #f8fafc; transform: scale(1.15); }
+        :global(.men-theme) .elite-icon-btn:hover { background: rgba(255,255,255,0.05); }
+
+        .elite-badge {
+          position: absolute; top: 6px; right: 6px;
+          background: var(--primary); color: white;
+          font-size: 9px; font-weight: 950; min-width: 18px; height: 18px;
+          border-radius: 20px; display: flex; align-items: center; justify-content: center;
+          border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        :global(.men-theme) .elite-badge { border-color: #1e293b; }
+
+        .elite-user-btn {
+          display: flex; align-items: center; gap: 10px;
+          padding: 4px 14px 4px 4px; background: #f1f5f9;
+          border-radius: 100px; color: var(--fg); font-weight: 850;
+          font-size: 13px; text-decoration: none; transition: 0.3s;
+        }
+        .user-avatar-mini { width: 34px; height: 34px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); }
+        .elite-user-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        :global(.men-theme) .elite-user-btn { background: #1e293b; }
+        :global(.men-theme) .user-avatar-mini { background: #0f172a; color: #3b82f6; }
+
+        /* Mobile Elite Full-Screen Menu */
+        .elite-mobile-overlay {
+          position: fixed; inset: 0; background: white; z-index: 5000;
+          display: flex; flex-direction: column;
+          transform: translateY(-100%); transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+          padding: 30px;
+        }
+        :global(.men-theme) .elite-mobile-overlay { background: #0f172a; }
+        .elite-mobile-overlay.open { transform: translateY(0); }
+
+        .mobile-menu-header { display: flex; justify-content: space-between; align-items: center; height: 60px; margin-bottom: 40px; }
+        .elite-close-btn { background: #f8fafc; border: none; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--fg); cursor: pointer; transition: 0.3s; }
+        .elite-close-btn:hover { transform: rotate(90deg); background: #f1f5f9; }
+        :global(.men-theme) .elite-close-btn { background: rgba(255,255,255,0.05); }
+
+        .mobile-menu-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        
+        .mobile-user-greeting { margin-bottom: 50px; }
+        .greeting-label { font-size: 13px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
+        .greeting-name { font-size: 38px; font-weight: 950; color: var(--fg); letter-spacing: -2px; margin-top: 5px; }
+
+        .mobile-elite-links { display: flex; flex-direction: column; gap: 15px; }
+        .m-elite-link {
+          display: flex; align-items: center; gap: 25px; padding: 25px 0;
+          text-decoration: none; border-bottom: 1px solid #f1f5f9;
+          transform: translateY(20px); opacity: 0;
+          transition: 0.5s;
+        }
+        :global(.men-theme) .m-elite-link { border-bottom-color: rgba(255,255,255,0.05); }
+        .open .m-elite-link { transform: translateY(0); opacity: 1; animation: slideUpElite 0.8s forwards; }
+        @keyframes slideUpElite { to { transform: translateY(0); opacity: 1; } }
+
+        .link-num { font-size: 12px; font-weight: 950; font-family: 'JetBrains Mono', monospace; color: var(--primary); opacity: 0.5; }
+        .link-txt { font-size: 24px; font-weight: 950; color: var(--fg); flex: 1; letter-spacing: -1.2px; }
+        .link-arrow { color: #cbd5e1; transition: 0.3s; }
+        .m-elite-link:hover .link-txt { color: var(--primary); padding-left: 10px; }
+        .m-elite-link:hover .link-arrow { transform: translateX(10px); color: var(--primary); }
+        .m-elite-link.accent-pink .link-txt { color: #ec4899; }
+
+        .mobile-menu-footer { margin-top: 50px; paddingTop: 30px; border-top: 1px solid #f1f5f9; }
+        :global(.men-theme) .mobile-menu-footer { border-top-color: rgba(255,255,255,0.05); }
+
+        .footer-socials { display: flex; gap: 15px; margin-bottom: 30px; }
+        .social-pill { 
+          display: flex; align-items: center; gap: 8px; padding: 12px 20px;
+          background: #f8fafc; border-radius: 100px; font-size: 13px;
+          font-weight: 900; color: #64748b; text-decoration: none;
+        }
+        :global(.men-theme) .social-pill { background: rgba(255,255,255,0.05); color: #94a3b8; }
+
+        .footer-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 800; color: #94a3b8; }
+        .m-logout-btn { background: none; border: none; color: #f43f5e; font-weight: 950; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+
+        .animate-fade-in { animation: fadeIn 1s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .mobile-only { display: none; }
         .desktop-only { display: flex; }
 
-        @media (max-width: 900px) {
-          .nav-center { display: none; }
-          .nav-container { height: 68px; padding: 0 20px; border-radius: 16px; width: 94%; }
-          .premium-logo { font-size: 24px !important; }
-          .mobile-only { display: flex; }
-          .p-user-name { display: none; }
-        }
-
-        .mobile-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0,0,0,0.5);
-          z-index: 2000;
-          opacity: 0;
-          visibility: hidden;
-          transition: all 0.3s;
-          display: flex;
-          justify-content: flex-end;
-        }
-        .mobile-overlay.open { opacity: 1; visibility: visible; }
-        .mobile-menu-content {
-          width: 280px;
-          height: 100%;
-          padding: 40px 30px;
-          position: relative;
-          transform: translateX(100%);
-          transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .mobile-overlay.open .mobile-menu-content { transform: translateX(0); }
-        .close-menu {
-          position: absolute;
-          top: 25px;
-          right: 25px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          color: var(--fg);
-        }
-        .mobile-links {
-          display: flex;
-          flex-direction: column;
-          gap: 25px;
-          margin-top: 60px;
-        }
-        .mobile-links a {
-          font-size: 24px;
-          font-weight: 900;
-          color: var(--fg);
-          text-decoration: none;
-        }
-
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.2); }
-        }
-
-        @media (max-width: 768px) {
-          .desktop-only { display: none; }
-          .mobile-only { display: flex; }
-          .nav-container { padding: 0 15px; height: 64px; border-radius: 32px; width: 94%; }
-          .premium-logo { font-size: 22px !important; }
-          .logo-text { font-size: 22px; }
-          .p-theme-toggle { padding: 4px 6px; width: 64px; font-size: 10px; }
-          .p-theme-toggle .toggle-sphere { width: 22px; height: 22px; }
-          .p-actions { gap: 8px; }
-          
-          .mobile-menu-content {
-            background: rgba(255, 255, 255, 0.98);
-            width: 85%;
-            max-width: 320px;
-            box-shadow: -10px 0 50px rgba(0,0,0,0.15);
-            border-left: 1px solid rgba(0,0,0,0.05);
-          }
-          :global(.men-theme) .mobile-menu-content {
-            background: rgba(15, 23, 42, 0.98);
-            border-left-color: rgba(255,255,255,0.05);
-          }
-          .mobile-links a {
-            font-size: 21px;
-            letter-spacing: -1px;
-            font-weight: 850;
-            border-bottom: 1px solid rgba(0,0,0,0.03);
-            padding-bottom: 15px;
-            width: 100%;
-          }
-          :global(.men-theme) .mobile-links a {
-            border-bottom-color: rgba(255,255,255,0.05);
-          }
+        @media (max-width: 960px) {
+           .desktop-only { display: none !important; }
+           .mobile-only { display: flex !important; }
+           .nav-blur-container { padding-right: 8px; height: 60px; border-radius: 50px; }
         }
       `}</style>
     </>

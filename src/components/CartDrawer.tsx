@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { ShoppingCart, X, Plus, Minus, Trash2, Send, Sparkles, ShieldCheck, Truck } from 'lucide-react';
+import { ShoppingCart, X, Plus, Minus, Trash2, Send, ShieldCheck, Truck } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
