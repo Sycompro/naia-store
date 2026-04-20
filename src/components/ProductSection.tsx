@@ -360,9 +360,31 @@ export default function ProductSection() {
           .p-price-v3 { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
           .price-item .val { font-size: 15px; }
           .p-footer-v3 { flex-direction: column; gap: 8px; }
-          .p-add { width: 100%; height: 42px; font-size: 12px; }
-          .p-actions-v3 { width: 100%; gap: 6px; }
-          .p-action-btn-v4 { flex: 1; height: 42px; border-radius: 10px; }
+          .p-add { 
+            width: 100%; 
+            height: 48px; 
+            font-size: 14px; 
+            border-radius: 30px;
+            background: var(--grad-primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 700;
+          }
+          .p-actions-v3 { width: 100%; gap: 8px; }
+          .p-action-btn-v4 { 
+            flex: 1; 
+            height: 48px; 
+            border-radius: 30px; 
+            border: 1px solid var(--slate-100);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
         }
       `}</style>
 
