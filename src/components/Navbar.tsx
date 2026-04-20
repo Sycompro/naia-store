@@ -344,14 +344,35 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .desktop-only { display: none; }
           .mobile-only { display: flex; }
-          .nav-container { padding: 0 20px; height: 70px; border-radius: 35px; width: 92%; }
-          .premium-logo { font-size: 24px !important; }
-          .logo-text { font-size: 24px; }
-          .p-theme-toggle { padding: 4px 5px; width: 62px; font-size: 11px; }
-          .p-theme-toggle span { display: block; }
+          .nav-container { padding: 0 15px; height: 64px; border-radius: 32px; width: 94%; }
+          .premium-logo { font-size: 22px !important; }
+          .logo-text { font-size: 22px; }
+          .p-theme-toggle { padding: 4px 6px; width: 64px; font-size: 10px; }
           .p-theme-toggle .toggle-sphere { width: 22px; height: 22px; }
-          .p-theme-toggle.man .toggle-sphere { transform: none; }
-          .p-actions { gap: 12px; }
+          .p-actions { gap: 8px; }
+          
+          .mobile-menu-content {
+            background: rgba(255, 255, 255, 0.98);
+            width: 85%;
+            max-width: 320px;
+            box-shadow: -10px 0 50px rgba(0,0,0,0.15);
+            border-left: 1px solid rgba(0,0,0,0.05);
+          }
+          :global(.men-theme) .mobile-menu-content {
+            background: rgba(15, 23, 42, 0.98);
+            border-left-color: rgba(255,255,255,0.05);
+          }
+          .mobile-links a {
+            font-size: 21px;
+            letter-spacing: -1px;
+            font-weight: 850;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            padding-bottom: 15px;
+            width: 100%;
+          }
+          :global(.men-theme) .mobile-links a {
+            border-bottom-color: rgba(255,255,255,0.05);
+          }
         }
       `}</style>
     </>

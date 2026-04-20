@@ -130,7 +130,7 @@ function B2BContent() {
                         </div>
                     </div>
 
-                    <div className="b2b-table-wrapper">
+                    <div className="b2b-table-wrapper desktop-only-flex">
                         <table className="b2b-table">
                             <thead>
                                 <tr>
@@ -187,6 +187,54 @@ function B2BContent() {
                                 })}
                             </tbody>
                         </table>
+                    </div>
+
+                    {/* Mobile Card View */}
+                    <div className="mobile-products-grid mobile-only-flex">
+                        {loading ? (
+                            <div className="w-full py-40 flex justify-center"><div className="p-loader"></div></div>
+                        ) : displayProducts.length === 0 ? (
+                            <div className="w-full py-40 text-center text-slate-400">No se encontraron productos.</div>
+                        ) : (
+                            displayProducts.map(product => {
+                                const qty = orderQuantities[product.id] || 0;
+                                const isSelected = qty > 0;
+                                return (
+                                    <div key={product.id} className={`b2b-product-card ${isSelected ? 'card-selected' : ''}`}>
+                                        <div className="card-header">
+                                            <span className="card-sku">{product.barcode || `NAIA-${product.id.toString().padStart(4, '0')}`}</span>
+                                            <span className="card-cat">{product.category}</span>
+                                        </div>
+                                        <h4 className="card-title">{product.name}</h4>
+                                        <div className="card-details">
+                                            <div className="detail-item">
+                                                <span className="label">Mayorista</span>
+                                                <span className="value accent">S/ {Number(product.wholesalePrice).toFixed(2)}</span>
+                                            </div>
+                                            <div className="detail-item">
+                                                <span className="label">Formato</span>
+                                                <span className="value">{product.presentation}</span>
+                                            </div>
+                                        </div>
+                                        <div className="card-actions">
+                                            <div className="stock-info">
+                                                <span className="dot bg-green"></span> <span>Stock Alto</span>
+                                            </div>
+                                            <div className={`qty-pill ${isSelected ? 'qty-active' : ''}`}>
+                                                <button onClick={() => decrement(product.id)}><Minus size={14} /></button>
+                                                <input
+                                                    type="number"
+                                                    value={qty || ''}
+                                                    onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                                                    placeholder="0"
+                                                />
+                                                <button onClick={() => increment(product.id)}><Plus size={14} /></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        )}
                     </div>
 
                     {orderedItems.length > 0 && (
@@ -414,6 +462,26 @@ function B2BContent() {
                 .rfq-success { text-align: center; padding: 50px 0; }
                 .success-icon { width: 80px; height: 80px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 30px; box-shadow: 0 20px 40px rgba(16,185,129,0.3); }
 
+                /* Mobile Products View - Cards */
+                .mobile-products-grid { display: none; flex-direction: column; gap: 15px; }
+                .b2b-product-card { background: #fff; border: 1px solid #f1f5f9; border-radius: 20px; padding: 20px; transition: 0.3s; }
+                .card-selected { border-left: 4px solid #ec4899; box-shadow: 0 10px 25px rgba(236, 72, 153, 0.08); background: #fdf2f8; }
+                
+                .card-header { display: flex; justify-content: space-between; margin-bottom: 12px; }
+                .card-sku { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #94a3b8; font-weight: 800; }
+                .card-cat { font-size: 9px; text-transform: uppercase; font-weight: 950; background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #64748b; letter-spacing: 0.5px; }
+                
+                .card-title { font-size: 16px; font-weight: 900; color: #1e293b; margin-bottom: 15px; line-height: 1.2; letter-spacing: -0.4px; }
+                
+                .card-details { display: flex; gap: 20px; margin-bottom: 20px; padding: 12px 0; border-top: 1px solid #f8fafc; border-bottom: 1px solid #f8fafc; }
+                .detail-item { display: flex; flex-direction: column; gap: 2px; }
+                .detail-item .label { font-size: 10px; text-transform: uppercase; font-weight: 850; color: #94a3b8; letter-spacing: 0.5px; }
+                .detail-item .value { font-size: 14px; font-weight: 900; color: #475569; }
+                .detail-item .value.accent { color: #1e293b; }
+                
+                .card-actions { display: flex; justify-content: space-between; align-items: center; }
+                .stock-info { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 900; color: #10b981; text-transform: uppercase; }
+
                 /* P-Loader and others */
                 .p-loader { width: 40px; height: 40px; border: 3px solid #f1f5f9; border-top-color: #ec4899; border-radius: 50%; animation: spin 1s linear infinite; }
                 @keyframes spin { to { transform: rotate(360deg); } }
@@ -428,10 +496,18 @@ function B2BContent() {
                 @media (max-width: 768px) {
                     .b2b-title { font-size: 30px; }
                     .b2b-panel { padding: 20px; border-radius: 20px; }
+                    .b2b-toolbar { flex-direction: column; align-items: flex-start; gap: 15px; }
+                    .mobile-products-grid { display: flex; }
+                    .desktop-only-flex { display: none !important; }
+                    
                     .form-grid { grid-template-columns: 1fr; gap: 15px; }
                     .rfq-modal { padding: 30px; }
-                    .floating-total { font-size: 20px; }
-                    .btn-action-pill { padding: 0 20px; }
+                    .floating-info { margin-bottom: 10px; }
+                    .b2b-panel-footer { flex-direction: column; align-items: stretch; padding: 20px 25px; gap: 15px; text-align: center; }
+                    .floating-buttons { flex-direction: column; width: 100%; }
+                    .btn-action-pill, .btn-view-selected { width: 100%; }
+                    .floating-total { justify-content: center; }
+                    .floating-qty { text-align: center; }
                 }
             `}</style>
         </div >
