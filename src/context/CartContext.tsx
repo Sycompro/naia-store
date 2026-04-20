@@ -1,104 +1,129 @@
 'use client';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import type { CartItem as CartItemType } from '@/types';
 
-type CartItem = {
+interface AddToCartProduct {
     id: number;
     name: string;
     unitPrice: number;
     wholesalePrice: number;
-    imageUrl: string;
-    quantity: number;
-    presentation: string;
-    category: string;
-    gender: string;
-};
+    imageUrl?: string | null;
+    presentation?: string;
+    category?: string;
+    gender?: string;
+}
 
-type CartContextType = {
-    cart: CartItem[];
-    addToCart: (product: any) => void;
+interface CartContextType {
+    cart: CartItemType[];
+    addToCart: (product: AddToCartProduct) => void;
     removeFromCart: (productId: number) => void;
     updateQuantity: (productId: number, quantity: number) => void;
     clearCart: () => void;
     totalItems: number;
     totalAmount: number;
     isWholesaleActive: boolean;
-};
+    isLoading: boolean;
+}
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-    const [cart, setCart] = useState<CartItem[]>([]);
+    const [cart, setCart] = useState<CartItemType[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Load cart from localStorage
     useEffect(() => {
-        const savedCart = localStorage.getItem('naia-cart');
-        if (savedCart) {
-            setCart(JSON.parse(savedCart));
+        try {
+            const savedCart = localStorage.getItem('naia-cart');
+            if (savedCart) {
+                const parsed = JSON.parse(savedCart);
+                if (Array.isArray(parsed)) {
+                    setCart(parsed);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading cart:', error);
+            localStorage.removeItem('naia-cart');
+        } finally {
+            setIsLoading(false);
         }
     }, []);
 
-    // Save cart to localStorage
     useEffect(() => {
-        localStorage.setItem('naia-cart', JSON.stringify(cart));
-    }, [cart]);
+        if (!isLoading) {
+            localStorage.setItem('naia-cart', JSON.stringify(cart));
+        }
+    }, [cart, isLoading]);
 
-    const addToCart = (product: any) => {
+    const addToCart = useCallback((product: AddToCartProduct) => {
         setCart((prevCart) => {
             const existingItem = prevCart.find((item) => item.id === product.id);
             if (existingItem) {
                 return prevCart.map((item) =>
-                    item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+                    item.id === product.id 
+                        ? { ...item, quantity: Math.min(item.quantity + 1, 999) } 
+                        : item
                 );
             }
-            return [
-                ...prevCart,
-                {
-                    id: product.id,
-                    name: product.name,
-                    unitPrice: product.unitPrice,
-                    wholesalePrice: product.wholesalePrice,
-                    imageUrl: product.imageUrl,
-                    presentation: product.presentation,
-                    category: product.category || 'Belleza',
-                    gender: product.gender || 'Femenino',
-                    quantity: 1,
-                },
-            ];
+            const newItem: CartItemType = {
+                id: product.id,
+                name: product.name,
+                unitPrice: product.unitPrice,
+                wholesalePrice: product.wholesalePrice,
+                imageUrl: product.imageUrl || '',
+                presentation: product.presentation || 'Unidad',
+                category: product.category || 'Belleza',
+                gender: product.gender || 'Femenino',
+                quantity: 1,
+            };
+            return [...prevCart, newItem];
         });
-    };
+    }, []);
 
-    const removeFromCart = (productId: number) => {
+    const removeFromCart = useCallback((productId: number) => {
         setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-    };
+    }, []);
 
-    const updateQuantity = (productId: number, quantity: number) => {
+    const updateQuantity = useCallback((productId: number, quantity: number) => {
         if (quantity <= 0) {
             removeFromCart(productId);
             return;
         }
         setCart((prevCart) =>
             prevCart.map((item) =>
-                item.id === productId ? { ...item, quantity } : item
+                item.id === productId 
+                    ? { ...item, quantity: Math.min(quantity, 999) } 
+                    : item
             )
         );
-    };
+    }, [removeFromCart]);
 
-    const clearCart = () => setCart([]);
+    const clearCart = useCallback(() => {
+        setCart([]);
+        localStorage.removeItem('naia-cart');
+    }, []);
 
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalItems = useMemo(() => 
+        cart.reduce((sum, item) => sum + item.quantity, 0), 
+        [cart]
+    );
 
-    // Logic: Wholesale price applies if total items >= 6 or if an item has >= 3 units
-    const isWholesaleActive = totalItems >= 6 || cart.some(item => item.quantity >= 3);
+    const isWholesaleActive = useMemo(() => 
+        totalItems >= 6 || cart.some(item => item.quantity >= 3),
+        [totalItems, cart]
+    );
 
-    const totalAmount = cart.reduce((sum, item) => {
-        const price = isWholesaleActive ? item.wholesalePrice : item.unitPrice;
-        return sum + price * item.quantity;
-    }, 0);
+    const totalAmount = useMemo(() => 
+        cart.reduce((sum, item) => {
+            const price = isWholesaleActive ? item.wholesalePrice : item.unitPrice;
+            return sum + (price * item.quantity);
+        }, 0),
+        [cart, isWholesaleActive]
+    );
 
     return (
         <CartContext.Provider value={{
             cart, addToCart, removeFromCart, updateQuantity, clearCart,
-            totalItems, totalAmount, isWholesaleActive
+            totalItems, totalAmount, isWholesaleActive, isLoading
         }}>
             {children}
         </CartContext.Provider>

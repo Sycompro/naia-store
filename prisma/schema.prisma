@@ -1,5 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Naia E-commerce Database Schema
+// Improved version with validations and indexes
 
 generator client {
   provider = "prisma-client-js"
@@ -61,7 +61,15 @@ model Product {
   gender         Gender   @default(FEMALE)
   isBestSeller   Boolean  @default(false)
   stock          Int      @default(0)
+  isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([category])
+  @@index([gender])
+  @@index([stock])
+  @@index([isBestSeller])
+  @@index([createdAt(sort: Desc)])
 }
 
 model StoryGroup {
@@ -96,6 +104,9 @@ model User {
   createdAt     DateTime       @default(now())
   orders        Order[]
   conversations Conversation[]
+
+  @@index([role])
+  @@index([createdAt(sort: Desc)])
 }
 
 model Conversation {
@@ -110,6 +121,11 @@ model Conversation {
   updatedAt   DateTime  @updatedAt
   messages    Message[]
   createdAt   DateTime  @default(now())
+
+  @@index([status])
+  @@index([unreadCount])
+  @@index([updatedAt(sort: Desc)])
+  @@index([userId])
 }
 
 model Message {
@@ -136,6 +152,11 @@ model Order {
   note          String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt(sort: Desc)])
+  @@index([total])
 }
 
 model Setting {

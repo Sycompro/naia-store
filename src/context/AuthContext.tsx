@@ -1,47 +1,60 @@
 'use client';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import type { User, UserRole } from '@/types';
 
-interface User {
+interface AuthState {
     id: number;
     email: string;
-    name?: string;
-    role: string;
+    name: string | null;
+    role: UserRole;
 }
 
 interface AuthContextType {
-    user: User | null;
-    login: (user: User) => void;
+    user: AuthState | null;
+    login: (user: AuthState) => void;
     logout: () => void;
     loading: boolean;
+    isAdmin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<AuthState | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const savedUser = localStorage.getItem('user');
-        if (savedUser) {
-            setUser(JSON.parse(savedUser));
+        try {
+            const savedUser = localStorage.getItem('naia-user');
+            if (savedUser) {
+                const parsed = JSON.parse(savedUser) as AuthState;
+                if (parsed.id && parsed.email && parsed.role) {
+                    setUser(parsed);
+                }
+            }
+        } catch (error) {
+            console.error('Error parsing user from localStorage:', error);
+            localStorage.removeItem('naia-user');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     }, []);
 
-    const login = (userData: User) => {
+    const login = useCallback((userData: AuthState) => {
         setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
-    };
+        localStorage.setItem('naia-user', JSON.stringify(userData));
+    }, []);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         setUser(null);
-        localStorage.removeItem('user');
-        // Clear cookie if possible or just rely on server mismatch
-    };
+        localStorage.removeItem('naia-user');
+        fetch('/api/auth/logout', { method: 'POST' }).catch(console.error);
+    }, []);
+
+    const isAdmin = user?.role === 'ADMIN';
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, logout, loading, isAdmin }}>
             {children}
         </AuthContext.Provider>
     );
