@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Menu, User, Sparkles, X, LogOut, ChevronRight, Building2 } from 'lucide-react';
+import { ShoppingBag, Menu, User, Sparkle, X, LogOut, ChevronRight, Building2, Heart, MessageCircle, Globe, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -86,17 +86,65 @@ export default function Navbar() {
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-      {/* Mobile Menu Overlay */}
-      <div className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-content glass-premium">
-          <button className="close-menu" onClick={() => setIsMobileMenuOpen(false)}><X /></button>
+      <div className={`mobile-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>
+        <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
+          <div className="mobile-menu-header">
+            <Link href="/" className="premium-logo" onClick={() => setIsMobileMenuOpen(false)}>
+              {theme === 'woman' ? 'Naia' : 'Noir'}<span>.</span>
+            </Link>
+            <button className="close-menu" onClick={() => setIsMobileMenuOpen(false)}><X size={24} /></button>
+          </div>
+
+          <div className="mobile-greeting">
+            {user ? (
+              <>
+                <span className="welcome-small">Bienvenida de nuevo,</span>
+                <h4 className="welcome-name">{user.name?.split(' ')[0]}</h4>
+              </>
+            ) : (
+              <span className="welcome-small">Explora la belleza de Naia</span>
+            )}
+          </div>
+
           <div className="mobile-links">
-            <Link href="/productos" onClick={() => setIsMobileMenuOpen(false)}>Productos</Link>
-            <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)}>Novedades</Link>
-            <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)}>Nosotros</Link>
-            <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)}>Contacto</Link>
-            <Link href="/b2b" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--primary)' }}>Portal B2B</Link>
-            {user && <Link href="/perfil" onClick={() => setIsMobileMenuOpen(false)}>Mi Perfil</Link>}
+            <Link href="/productos" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 1 } as any}>
+              <div className="link-content"><ShoppingBag size={20} /> <span>Productos</span></div>
+              <ChevronRight size={16} className="chevron" />
+            </Link>
+            <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 2 } as any}>
+              <div className="link-content"><Sparkle size={20} /> <span>Novedades</span></div>
+              <ChevronRight size={16} className="chevron" />
+            </Link>
+            <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 3 } as any}>
+              <div className="link-content"><Heart size={20} /> <span>Nosotros</span></div>
+              <ChevronRight size={16} className="chevron" />
+            </Link>
+            <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 4 } as any}>
+              <div className="link-content"><MessageCircle size={20} /> <span>Contacto</span></div>
+              <ChevronRight size={16} className="chevron" />
+            </Link>
+            
+            <div className="mobile-divider" style={{ '--i': 5 } as any}></div>
+            
+            <Link href="/b2b" className="b2b-mobile-pill" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 6 } as any}>
+              <div className="link-content"><Building2 size={20} /> <span>Portal B2B</span></div>
+              <span className="pro-tag">Distribuidor</span>
+            </Link>
+            
+            {user && (
+              <Link href="/perfil" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 7 } as any}>
+                <div className="link-content"><User size={20} /> <span>Mi Perfil</span></div>
+                <ChevronRight size={16} className="chevron" />
+              </Link>
+            )}
+          </div>
+
+          <div className="mobile-menu-footer">
+            <div className="m-socials">
+              <Globe size={18} />
+              <Share2 size={18} />
+            </div>
+            <p>© 2026 Naia - Luxury Experience</p>
           </div>
         </div>
       </div>
@@ -352,26 +400,133 @@ export default function Navbar() {
           .p-actions { gap: 8px; }
           
           .mobile-menu-content {
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255, 255, 255, 0.99);
             width: 85%;
             max-width: 320px;
-            box-shadow: -10px 0 50px rgba(0,0,0,0.15);
+            box-shadow: -10px 0 50px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
             border-left: 1px solid rgba(0,0,0,0.05);
           }
           :global(.men-theme) .mobile-menu-content {
-            background: rgba(15, 23, 42, 0.98);
+            background: rgba(15, 23, 42, 0.99);
             border-left-color: rgba(255,255,255,0.05);
           }
-          .mobile-links a {
-            font-size: 21px;
+          
+          .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+          }
+          .mobile-greeting {
+            margin-bottom: 30px;
+          }
+          .welcome-small {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+          }
+          .welcome-name {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--fg);
+            margin: 0;
             letter-spacing: -1px;
-            font-weight: 850;
+          }
+
+          .mobile-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 0;
+            flex: 1;
+          }
+          .mobile-links a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
             border-bottom: 1px solid rgba(0,0,0,0.03);
-            padding-bottom: 15px;
-            width: 100%;
+            text-decoration: none;
+            color: var(--fg);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition-delay: calc(var(--i) * 0.1s);
+          }
+          .mobile-overlay.open .mobile-links a {
+            opacity: 1;
+            transform: translateX(0);
           }
           :global(.men-theme) .mobile-links a {
             border-bottom-color: rgba(255,255,255,0.05);
+          }
+          
+          .link-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+          }
+          .link-content span {
+            font-size: 18px;
+            font-weight: 850;
+            letter-spacing: -0.5px;
+          }
+          .chevron {
+            color: var(--slate-300);
+            transition: transform 0.3s;
+          }
+          .mobile-links a:active .chevron {
+            transform: translateX(5px);
+            color: var(--primary);
+          }
+
+          .mobile-divider {
+            height: 1px;
+            background: rgba(0,0,0,0.03);
+            margin: 10px 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+            transition-delay: calc(var(--i) * 0.1s);
+          }
+          .mobile-overlay.open .mobile-divider { opacity: 1; }
+
+          .b2b-mobile-pill {
+            background: var(--primary-light);
+            padding: 16px !important;
+            border-radius: 16px;
+            border-bottom: none !important;
+            color: var(--primary) !important;
+          }
+          .pro-tag {
+            font-size: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+          }
+
+          .mobile-menu-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.03);
+          }
+          .m-socials {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+            color: var(--slate-400);
+          }
+          .mobile-menu-footer p {
+            font-size: 11px;
+            color: var(--slate-400);
+            font-weight: 600;
           }
         }
       `}</style>
