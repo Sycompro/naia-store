@@ -107,34 +107,46 @@ export default function Navbar() {
           </div>
 
           <div className="mobile-links">
-            <Link href="/productos" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 1 } as any}>
-              <div className="link-content"><ShoppingBag size={20} /> <span>Productos</span></div>
-              <ChevronRight size={16} className="chevron" />
+            <Link href="/productos" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="mobile-link-row" style={{ '--i': 1 } as any}>
+                <div className="link-content"><ShoppingBag size={20} /> <span>Productos</span></div>
+                <ChevronRight size={16} className="chevron" />
+              </div>
             </Link>
-            <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 2 } as any}>
-              <div className="link-content"><Sparkle size={20} /> <span>Novedades</span></div>
-              <ChevronRight size={16} className="chevron" />
+            <Link href="/novedades" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="mobile-link-row" style={{ '--i': 2 } as any}>
+                <div className="link-content"><Sparkle size={20} /> <span>Novedades</span></div>
+                <ChevronRight size={16} className="chevron" />
+              </div>
             </Link>
-            <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 3 } as any}>
-              <div className="link-content"><Heart size={20} /> <span>Nosotros</span></div>
-              <ChevronRight size={16} className="chevron" />
+            <Link href="/nosotros" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="mobile-link-row" style={{ '--i': 3 } as any}>
+                <div className="link-content"><Heart size={20} /> <span>Nosotros</span></div>
+                <ChevronRight size={16} className="chevron" />
+              </div>
             </Link>
-            <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 4 } as any}>
-              <div className="link-content"><MessageCircle size={20} /> <span>Contacto</span></div>
-              <ChevronRight size={16} className="chevron" />
+            <Link href="/contacto" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="mobile-link-row" style={{ '--i': 4 } as any}>
+                <div className="link-content"><MessageCircle size={20} /> <span>Contacto</span></div>
+                <ChevronRight size={16} className="chevron" />
+              </div>
             </Link>
             
             <div className="mobile-divider" style={{ '--i': 5 } as any}></div>
             
-            <Link href="/b2b" className="b2b-mobile-pill" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 6 } as any}>
-              <div className="link-content"><Building2 size={20} /> <span>Portal B2B</span></div>
-              <span className="pro-tag">Distribuidor</span>
+            <Link href="/b2b" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="mobile-link-row b2b-mobile-pill" style={{ '--i': 6 } as any}>
+                <div className="link-content"><Building2 size={20} /> <span>Portal B2B</span></div>
+                <span className="pro-tag">Distribuidor</span>
+              </div>
             </Link>
             
             {user && (
-              <Link href="/perfil" onClick={() => setIsMobileMenuOpen(false)} style={{ '--i': 7 } as any}>
-                <div className="link-content"><User size={20} /> <span>Mi Perfil</span></div>
-                <ChevronRight size={16} className="chevron" />
+              <Link href="/perfil" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="mobile-link-row" style={{ '--i': 7 } as any}>
+                  <div className="link-content"><User size={20} /> <span>Mi Perfil</span></div>
+                  <ChevronRight size={16} className="chevron" />
+                </div>
               </Link>
             )}
           </div>
@@ -446,25 +458,29 @@ export default function Navbar() {
             flex: 1;
           }
           .mobile-links a {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+          }
+          .mobile-link-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
             padding: 16px 0;
             width: 100%;
             border-bottom: 1px solid rgba(0,0,0,0.03);
-            text-decoration: none;
             color: var(--fg);
             opacity: 0;
             transform: translateX(20px);
             transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             transition-delay: calc(var(--i) * 0.1s);
-            flex-wrap: nowrap;
+            flex-wrap: nowrap !important;
           }
-          .mobile-overlay.open .mobile-links a {
+          .mobile-overlay.open .mobile-link-row {
             opacity: 1;
             transform: translateX(0);
           }
-          :global(.men-theme) .mobile-links a {
+          :global(.men-theme) .mobile-link-row {
             border-bottom-color: rgba(255,255,255,0.05);
           }
           
