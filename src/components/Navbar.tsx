@@ -450,6 +450,7 @@ export default function Navbar() {
             align-items: center;
             justify-content: space-between;
             padding: 16px 0;
+            width: 100%;
             border-bottom: 1px solid rgba(0,0,0,0.03);
             text-decoration: none;
             color: var(--fg);
@@ -457,6 +458,7 @@ export default function Navbar() {
             transform: translateX(20px);
             transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             transition-delay: calc(var(--i) * 0.1s);
+            flex-wrap: nowrap;
           }
           .mobile-overlay.open .mobile-links a {
             opacity: 1;
@@ -470,15 +472,21 @@ export default function Navbar() {
             display: flex;
             align-items: center;
             gap: 15px;
+            flex: 1;
+            min-width: 0;
           }
           .link-content span {
             font-size: 18px;
             font-weight: 850;
             letter-spacing: -0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .chevron {
             color: var(--slate-300);
             transition: transform 0.3s;
+            flex-shrink: 0;
           }
           .mobile-links a:active .chevron {
             transform: translateX(5px);
