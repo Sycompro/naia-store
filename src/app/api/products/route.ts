@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
-import { Prisma } from '@prisma/client';
+import { Prisma, Gender } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
                 wholesalePrice: new Prisma.Decimal(body.wholesalePrice || 0) as any,
                 presentation: body.presentation || 'Unidad',
                 category: body.category || 'General',
-                gender: (body.gender?.toUpperCase() || 'FEMALE') as any,
+                gender: (body.gender?.toUpperCase() || 'FEMALE') as Gender,
                 imageUrl: body.imageUrl || 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571',
                 stock: parseInt(body.stock) || 0
             }
@@ -110,7 +110,7 @@ export async function PATCH(request: Request) {
         if (data.unitPrice !== undefined) updateData.unitPrice = new Prisma.Decimal(data.unitPrice || 0) as any;
         if (data.wholesalePrice !== undefined) updateData.wholesalePrice = new Prisma.Decimal(data.wholesalePrice || 0) as any;
         if (data.stock !== undefined) updateData.stock = parseInt(data.stock) || 0;
-        if (data.gender !== undefined) updateData.gender = (data.gender.toUpperCase()) as any;
+        if (data.gender !== undefined) updateData.gender = (data.gender.toUpperCase()) as Gender;
         if (data.barcode !== undefined) updateData.barcode = data.barcode || null;
 
         const product = await prisma.product.update({

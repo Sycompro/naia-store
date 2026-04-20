@@ -11,12 +11,12 @@ export async function PATCH(
         const id = parseInt(rawId);
         const body = await request.json();
 
-        const story = await prisma.story.update({
+        const story = await prisma.storyGroup.update({
             where: { id },
             data: {
-                title: body.title,
-                imageUrl: body.imageUrl,
-                gender: body.gender,
+                name: body.title || body.name,
+                thumbnailUrl: body.imageUrl || body.thumbnailUrl,
+                gender: body.gender as any,
                 isActive: body.isActive ?? true
             }
         });
@@ -35,7 +35,7 @@ export async function DELETE(
     try {
         const { id: rawId } = await params;
         const id = parseInt(rawId);
-        await prisma.story.delete({
+        await prisma.storyGroup.delete({
             where: { id },
         });
         return NextResponse.json({ message: 'Story deleted successfully' });

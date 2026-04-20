@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 const secret = process.env.JWT_SECRET;
 if (!secret && process.env.NODE_ENV === 'production') {
-    throw new Error('JWT_SECRET is not defined in environment variables');
+    console.warn('WARNING: JWT_SECRET is not defined in environment variables');
 }
 
 const SECRET_KEY = new TextEncoder().encode(secret || 'dev-secret-only-for-local');

@@ -275,7 +275,7 @@ function ProductsContent() {
                 .p-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
                 @keyframes entrance { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 .animate-entrance { animation: entrance 0.6s ease-out; }
-            `}</style>tyle>
+            `}</style>
         </div>
     );
 }
