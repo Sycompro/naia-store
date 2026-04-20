@@ -372,6 +372,7 @@ export default function Navbar() {
           position: relative;
           transform: translateX(100%);
           transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+          background: #ffffff !important;
         }
         .mobile-overlay.open .mobile-menu-content { transform: translateX(0); }
         .close-menu {
@@ -412,7 +413,7 @@ export default function Navbar() {
           .p-actions { gap: 8px; }
           
           .mobile-menu-content {
-            background: rgba(255, 255, 255, 0.99);
+            background: #ffffff !important;
             width: 85%;
             max-width: 320px;
             box-shadow: -10px 0 50px rgba(0,0,0,0.1);
@@ -422,7 +423,7 @@ export default function Navbar() {
             border-left: 1px solid rgba(0,0,0,0.05);
           }
           :global(.men-theme) .mobile-menu-content {
-            background: rgba(255, 255, 255, 0.99);
+            background: #ffffff !important;
             border-left-color: rgba(0,0,0,0.05);
           }
           
