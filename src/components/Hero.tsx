@@ -173,7 +173,7 @@ export default function Hero() {
         .trust-icon {
           width: 40px;
           height: 40px;
-          border-radius: 12px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;

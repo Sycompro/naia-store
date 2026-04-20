@@ -242,7 +242,7 @@ export default function ProductSection() {
         }
         
         .p-card {
-          border-radius: 20px;
+          border-radius: 32px;
           padding: 12px;
           background: var(--white);
           border: 1px solid rgba(0,0,0,0.03);
@@ -257,7 +257,7 @@ export default function ProductSection() {
         
         .p-img-wrapper { 
           display: block; 
-          border-radius: 16px; 
+          border-radius: 28px; 
           overflow: hidden;
           background: var(--slate-50);
         }
@@ -288,7 +288,7 @@ export default function ProductSection() {
           right: 22px;
           width: 36px;
           height: 36px;
-          border-radius: 10px;
+          border-radius: 50%;
           border: none;
           background: white;
           color: var(--slate-400);
@@ -326,13 +326,13 @@ export default function ProductSection() {
         .wholesale .val { color: var(--primary); }
 
         .p-footer-v3 { display: flex; align-items: center; gap: 12px; }
-        .p-add { flex: 1; padding: 12px; border-radius: 14px; font-size: 14px; justify-content: center; height: 48px; }
+        .p-add { flex: 1; padding: 12px; border-radius: 30px; font-size: 14px; justify-content: center; height: 48px; }
         
         .p-actions-v3 { display: flex; gap: 8px; }
         .p-action-btn-v4 {
           width: 48px;
           height: 48px;
-          border-radius: 14px;
+          border-radius: 30px;
           border: none;
           display: flex;
           align-items: center;

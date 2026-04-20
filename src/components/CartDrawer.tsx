@@ -215,9 +215,9 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 .mt-20 { margin-top: 30px; }
 
                 .p-cart-items { display: flex; flex-direction: column; gap: 16px; }
-                .p-cart-item { padding: 12px; border-radius: 20px; display: flex; gap: 16px; background: var(--white); border: 1px solid var(--slate-50); box-shadow: var(--shadow-sm); transition: all 0.3s; }
+                .p-cart-item { padding: 12px; border-radius: 28px; display: flex; gap: 16px; background: var(--white); border: 1px solid var(--slate-50); box-shadow: var(--shadow-sm); transition: all 0.3s; }
                 .p-cart-item:hover { box-shadow: var(--shadow-md); border-color: var(--slate-100); }
-                .p-item-img { width: 100px; height: 100px; border-radius: 14px; background-size: cover; background-position: center; flex-shrink: 0; }
+                .p-item-img { width: 100px; height: 100px; border-radius: 20px; background-size: cover; background-position: center; flex-shrink: 0; }
                 .p-item-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
                 .p-item-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
                 .p-item-cat { font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; }
