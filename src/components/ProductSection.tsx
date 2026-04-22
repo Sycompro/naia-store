@@ -330,7 +330,7 @@ export default function ProductSection() {
 
         @media (max-width: 600px) {
           .p-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-          .p-section { padding: 40px 0; }
+          .p-section { padding: 40px 20px; }
           .p-card { padding: 8px; border-radius: 16px; }
           .p-img { height: 180px; }
           .p-name-v3 h3 { font-size: 14px; height: 34px; overflow: hidden; }
