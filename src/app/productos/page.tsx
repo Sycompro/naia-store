@@ -167,10 +167,10 @@ function CatalogContent() {
                                     </div>
 
                                     <div className="p-actions-v3">
-                                        <button className="btn-premium btn-primary-v3 flex-1" onClick={() => addToCart(product as any)}>
+                                        <button className="btn-premium-v4 btn-grad flex-1" onClick={() => addToCart(product as any)}>
                                             <ShoppingCart size={18} /> Agregar
                                         </button>
-                                        <button className="p-icon-btn-v3 glass-premium" onClick={() => handleShare(product)}>
+                                        <button className="p-action-btn-v4 glass-premium" onClick={() => handleShare(product)}>
                                             <Share2 size={18} />
                                         </button>
                                     </div>
@@ -374,36 +374,31 @@ function CatalogContent() {
                 .p-price-item.wholesale .val { color: var(--primary-dark); }
                 :global(.men-theme) .p-price-item.wholesale .val { color: var(--accent); }
 
-                .p-actions-v3 { display: flex; gap: 12px; justify-content: center; align-items: center; }
-                :global(.p-action-btn-v4) {
-                    width: 44px !important;
-                    height: 44px !important;
-                    border-radius: 50% !important;
-                    border: 1px solid var(--slate-200);
-                    display: flex !important;
+                .p-actions-v3 { display: flex; gap: 12px; margin-top: 10px; }
+                .p-action-btn-v4 {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    display: flex;
                     align-items: center;
                     justify-content: center;
-                    background: white !important;
-                    color: var(--fg) !important;
+                    background: var(--white);
+                    color: var(--slate-400);
+                    border: 1px solid var(--slate-100);
                     cursor: pointer;
-                    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                    padding: 0 !important;
-                    flex-shrink: 0;
-                    text-decoration: none !important;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    box-shadow: var(--shadow-sm);
                 }
-                :global(.men-theme .p-action-btn-v4) {
-                    background: rgba(255, 255, 255, 0.1) !important;
-                    border-color: rgba(255, 255, 255, 0.1) !important;
-                    color: white !important;
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                .p-action-btn-v4:hover { 
+                    transform: translateY(-3px); 
+                    box-shadow: var(--shadow-md); 
+                    border-color: var(--primary); 
+                    color: var(--primary); 
                 }
-                :global(.p-action-btn-v4:hover) {
-                    background: var(--primary) !important;
-                    color: white !important;
-                    border-color: var(--primary) !important;
-                    transform: translateY(-4px) scale(1.1);
-                    box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.3);
+                :global(.men-theme) .p-action-btn-v4 {
+                    background: rgba(255,255,255,0.05);
+                    border-color: rgba(255,255,255,0.1);
+                    color: white;
                 }
 
                 .p-empty-v3 { padding: 60px; text-align: center; grid-column: 1/-1; border-radius: var(--radius-xl); background: var(--bg); border: 1px solid var(--slate-100); }

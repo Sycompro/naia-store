@@ -47,7 +47,7 @@ export default function ProductDetailPage() {
     };
 
     if (loading) return <div className="loader-page mesh-bg"><div className="p-loader"></div></div>;
-    if (!product) return <div className="not-found mesh-bg"><h1>Producto no encontrado</h1><Link href="/productos" className="btn-premium btn-primary-v3">Volver al catálogo</Link></div>;
+    if (!product) return <div className="not-found mesh-bg"><h1>Producto no encontrado</h1><Link href="/productos" className="btn-premium-v4 btn-grad">Volver al catálogo</Link></div>;
 
     return (
         <main className="p-detail-wrapper white-bg">
@@ -128,13 +128,13 @@ export default function ProductDetailPage() {
 
                     <div className="p-detail-actions">
                         <button className="btn-premium-v4 btn-grad flex-1 main-add-btn" onClick={() => addToCart(product as any)}>
-                            Agregar al Carrito <ShoppingBag size={20} />
+                            <ShoppingBag size={20} /> Agregar al Carrito 
                         </button>
                         <div className="p-extra-btns">
-                            <button className="p-icon-btn-v4" onClick={() => setIsShareModalOpen(true)}>
+                            <button className="p-icon-btn-v4-detail" onClick={() => setIsShareModalOpen(true)} title="Compartir">
                                 <Share2 size={24} />
                             </button>
-                            <button className="p-icon-btn-v4">
+                            <button className="p-icon-btn-v4-detail" title="Favoritos">
                                 <Heart size={24} />
                             </button>
                         </div>
@@ -230,11 +230,30 @@ export default function ProductDetailPage() {
                 .btn-outline-v4 { width: 100%; height: 48px; border-radius: 14px; border: 1px solid var(--slate-200); background: var(--white); color: var(--fg); font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.3s; }
                 .btn-outline-v4:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
-                .p-detail-actions { display: flex; gap: 20px; margin-top: 10px; }
-                .main-add-btn { height: 64px; font-size: 18px; border-radius: 20px; }
+                .p-detail-actions { display: flex; gap: 20px; margin-top: 10px; align-items: center; }
+                .main-add-btn { height: 64px; font-size: 18px; border-radius: 20px; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+                .main-add-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 40px rgba(var(--primary-h), 80%, 70%, 0.2); }
                 .p-extra-btns { display: flex; gap: 15px; }
-                .p-icon-btn-v4 { width: 64px; height: 64px; border-radius: 20px; border: 1px solid var(--slate-100); background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--slate-400); cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-sm); }
-                .p-icon-btn-v4:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+                .p-icon-btn-v4-detail { 
+                    width: 64px; 
+                    height: 64px; 
+                    border-radius: 20px; 
+                    border: 1px solid var(--slate-100); 
+                    background: var(--white); 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    color: var(--slate-400); 
+                    cursor: pointer; 
+                    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); 
+                    box-shadow: var(--shadow-sm); 
+                }
+                .p-icon-btn-v4-detail:hover { 
+                    border-color: var(--primary); 
+                    color: var(--primary); 
+                    transform: translateY(-4px); 
+                    box-shadow: var(--shadow-md); 
+                }
 
                 .p-detail-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
                 .benefit-card { padding: 25px 15px; border-radius: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; background: var(--slate-50); border: 1px solid var(--slate-100); color: var(--slate-500); font-size: 12px; font-weight: 800; text-align: center; }
