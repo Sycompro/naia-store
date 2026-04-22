@@ -170,7 +170,7 @@ function CatalogContent() {
                                         <button className="btn-premium-v4 btn-grad flex-1" onClick={() => addToCart(product as any)}>
                                             <ShoppingCart size={18} /> Agregar
                                         </button>
-                                        <button className="p-action-btn-v4 glass-premium" onClick={() => handleShare(product)} title="Compartir">
+                                        <button className="p-action-btn-v4 bg-soft-rose" onClick={() => handleShare(product)} title="Compartir">
                                             <Share2 size={18} />
                                         </button>
                                         <Link href={`/productos/${product.id}`} className="p-action-btn-v4 bg-soft-blue" title="Ver detalles">
@@ -376,38 +376,6 @@ function CatalogContent() {
                 .p-price-item .val { font-size: 16px; font-weight: 800; color: var(--fg); letter-spacing: -0.01em; }
                 .p-price-item.wholesale .val { color: var(--primary-dark); }
                 :global(.men-theme) .p-price-item.wholesale .val { color: var(--accent); }
-
-                .p-actions-v3 { display: flex; gap: 12px; margin-top: 10px; }
-                .p-action-btn-v4 {
-                    width: 48px;
-                    height: 48px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: var(--white);
-                    color: var(--slate-400);
-                    border: 1px solid var(--slate-100);
-                    cursor: pointer;
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    box-shadow: var(--shadow-sm);
-                }
-                .p-action-btn-v4:hover { 
-                    transform: translateY(-3px); 
-                    box-shadow: var(--shadow-md); 
-                    border-color: var(--primary); 
-                    color: var(--primary); 
-                }
-                .p-action-btn-v4.bg-soft-blue:hover {
-                    background: #eff6ff !important;
-                    border-color: #3b82f6 !important;
-                    color: #3b82f6 !important;
-                }
-                :global(.men-theme) .p-action-btn-v4 {
-                    background: rgba(255,255,255,0.05);
-                    border-color: rgba(255,255,255,0.1);
-                    color: white;
-                }
 
                 .p-empty-v3 { padding: 60px; text-align: center; grid-column: 1/-1; border-radius: var(--radius-xl); background: var(--bg); border: 1px solid var(--slate-100); }
                 :global(.men-theme) .p-empty-v3 { background: var(--glass); border-color: var(--glass-border); }

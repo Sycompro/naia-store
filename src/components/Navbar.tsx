@@ -37,7 +37,7 @@ export default function Navbar() {
               {theme === 'woman' ? (
                 <span className="logo-text" style={{ fontSize: '32px' }}>N<span className="logo-highlight">ai</span>a</span>
               ) : (
-                <span className="logo-text" style={{ fontSize: '32px' }}>N<span className="logo-highlight">oi</span>r</span>
+                <span className="logo-text" style={{ fontSize: '32px' }}>N<span className="logo-highlight">ai</span>a</span>
               )}
               <span className="logo-dot" style={{ width: '8px', height: '8px', marginBottom: '0' }}></span>
             </Link>
@@ -90,7 +90,7 @@ export default function Navbar() {
         <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
           <div className="mobile-menu-header">
             <Link href="/" className="premium-logo" onClick={() => setIsMobileMenuOpen(false)}>
-              {theme === 'woman' ? 'Naia' : 'Noir'}<span>.</span>
+              Naia<span>.</span>
             </Link>
             <button className="close-menu" onClick={() => setIsMobileMenuOpen(false)}><X size={24} /></button>
           </div>

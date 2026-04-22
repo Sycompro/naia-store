@@ -138,49 +138,94 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* --- Buttons --- */
+/* --- Buttons & UI Elements --- */
 
+/* Main Add to Cart / Action Button */
 .btn-premium-v4 {
   padding: 14px 28px;
   border-radius: 30px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 15px;
   border: none;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   position: relative;
   overflow: hidden;
   background: var(--fg);
   color: var(--white);
   text-decoration: none;
+  box-shadow: var(--shadow-md);
+  user-select: none;
 }
 
 .btn-premium-v4:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-premium-v4:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-grad {
   background: var(--grad-primary);
   color: white;
+  box-shadow: 0 10px 25px rgba(255, 126, 179, 0.25);
 }
 
 .btn-grad:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 10px 25px rgba(255, 126, 179, 0.3);
+  filter: brightness(1.05);
+  box-shadow: 0 15px 30px rgba(255, 126, 179, 0.35);
 }
 
-.btn-ghost {
-  background: var(--slate-50);
-  color: var(--slate-600);
+/* Circular Action Buttons (Share, Info, Wishlist) */
+.p-action-btn-v4 {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--slate-100);
+  background: var(--white);
+  color: var(--slate-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  text-decoration: none !important;
 }
 
-.btn-ghost:hover {
-  background: var(--slate-100);
-  color: var(--fg);
+.p-action-btn-v4:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: var(--shadow-md);
+  background: var(--white);
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+
+/* Color Variants for Action Buttons */
+.p-action-btn-v4.bg-soft-rose:hover { background: #fff1f2 !important; color: #e11d48 !important; border-color: #fecdd3 !important; }
+.p-action-btn-v4.bg-soft-blue:hover { background: #eff6ff !important; color: #2563eb !important; border-color: #dbeafe !important; }
+.p-action-btn-v4.bg-soft-amber:hover { background: #fffbeb !important; color: #d97706 !important; border-color: #fef3c7 !important; }
+
+/* Dark/Men Theme Overrides for Buttons */
+.men-theme .btn-grad {
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+}
+.men-theme .p-action-btn-v4 {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--slate-400);
+}
+.men-theme .p-action-btn-v4:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border-color: var(--primary);
 }
 
 /* --- Animations --- */
