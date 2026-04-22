@@ -239,7 +239,7 @@ export default function ProductSection() {
         
         .p-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 30px;
         }
         
@@ -259,15 +259,16 @@ export default function ProductSection() {
         
         .p-img-wrapper { 
           display: block; 
-          border-radius: 28px; 
+          border-radius: 32px; 
           overflow: hidden;
           background: var(--slate-50);
         }
         .p-img {
-          height: 260px;
+          height: 280px;
           background-size: cover;
           background-position: center;
           transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+          border-radius: 32px;
         }
         .p-card:hover .p-img { transform: scale(1.08); }
         
