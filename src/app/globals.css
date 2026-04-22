@@ -57,9 +57,9 @@
   --grad-soft: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
   --grad-surface: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   
-  --bg: #0f172a;
-  --fg: #f1f5f9;
-  --white: #0f172a;
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --white: #ffffff;
 }
 
 /* Global Layout */
