@@ -53,13 +53,11 @@
   --primary-dark: #1d4ed8;
   --primary-light: rgba(37, 99, 235, 0.08);
   
-  --grad-primary: linear-gradient(135deg, #334155 0%, #0f172a 100%);
-  --grad-soft: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
-  --grad-surface: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  
   --bg: #ffffff;
   --fg: #1a1a1a;
   --white: #ffffff;
+  --grad-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --grad-soft: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
 }
 
 /* Global Layout */
@@ -315,9 +313,9 @@ body {
 }
 
 .men-theme .glass-premium {
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(37, 99, 235, 0.05);
 }
 
 @media (max-width: 768px) {

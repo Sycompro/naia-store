@@ -23,7 +23,7 @@ export default function Hero() {
     cta: 'Explorar Colección',
     secondaryCta: 'Descubrir Rutinas',
     image: '/men-hero.png',
-    gradient: 'linear-gradient(135deg, #334155 0%, #1e293b 100%)'
+    gradient: 'linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%)'
   } : {
     emoji: '',
     title: 'Ciencia y ',
