@@ -179,7 +179,7 @@ export default function Stories() {
         }
 
         @media (max-width: 600px) {
-          .stories-section { padding: 80px 0 20px; }
+          .stories-section { padding: 110px 0 20px; }
           .stories-container { gap: 15px; padding: 5px 20px; }
           .story-ring-premium { width: 72px; height: 72px; padding: 3px; }
           .story-skeleton { width: 72px; height: 72px; }
