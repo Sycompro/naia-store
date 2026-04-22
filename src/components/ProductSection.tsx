@@ -335,8 +335,9 @@ export default function ProductSection() {
           .p-img { height: 180px; }
           .p-name-v3 h3 { font-size: 14px; height: 34px; overflow: hidden; }
           .p-desc, .p-rating, .p-wishlist { display: none; }
-          .p-price-v3 { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
+          .p-price-v3 { flex-direction: row; justify-content: space-between; align-items: center; gap: 4px; padding: 10px; }
           .price-item .val { font-size: 15px; }
+          .price-item .label { font-size: 9px; }
         }
       `}</style>
 
