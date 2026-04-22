@@ -18,13 +18,20 @@ export default function Navbar() {
     if (savedTheme === 'man') {
       setTheme('man');
       document.body.classList.add('men-theme');
+    } else {
+      setTheme('woman');
+      document.body.classList.remove('men-theme');
     }
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'woman' ? 'man' : 'woman';
     setTheme(newTheme);
-    document.body.classList.toggle('men-theme');
+    if (newTheme === 'man') {
+      document.body.classList.add('men-theme');
+    } else {
+      document.body.classList.remove('men-theme');
+    }
     localStorage.setItem('naia-theme', newTheme);
   };
 
