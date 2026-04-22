@@ -75,7 +75,7 @@ export default function Stories() {
 
       <style jsx>{`
         .stories-section {
-          padding: 100px 0 30px;
+          padding: 130px 0 30px;
           overflow-x: auto;
           scrollbar-width: none;
           mask-image: linear-gradient(to right, black 85%, transparent 100%);
@@ -178,8 +178,8 @@ export default function Stories() {
           border-color: #0f172a;
         }
 
-        @media (max-width: 600px) {
-          .stories-section { padding: 110px 0 20px; }
+        @media (max-width: 768px) {
+          .stories-section { padding: 120px 0 20px; }
           .stories-container { gap: 15px; padding: 5px 20px; }
           .story-ring-premium { width: 72px; height: 72px; padding: 3px; }
           .story-skeleton { width: 72px; height: 72px; }
