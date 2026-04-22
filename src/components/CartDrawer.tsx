@@ -264,9 +264,19 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
 
                 @media (max-width: 500px) {
                     .p-cart-drawer { max-width: 100%; }
-                    .p-drawer-header { padding: 30px 20px 15px; }
-                    .p-drawer-content { padding: 20px; }
-                    .p-drawer-footer { padding: 25px 20px; }
+                    .p-drawer-header { padding: 25px 15px 15px; }
+                    .p-drawer-content { padding: 15px; }
+                    .p-cart-items { gap: 12px; }
+                    .p-cart-item { padding: 10px; gap: 12px; border-radius: 20px; }
+                    .p-item-img { width: 80px; height: 80px; border-radius: 14px; }
+                    .p-item-info h4 { font-size: 13px; margin: 0 0 10px; line-height: 1.2; }
+                    .p-item-price { font-size: 16px; }
+                    .p-item-qty { transform: scale(0.9); transform-origin: bottom right; }
+                    .p-drawer-footer { padding: 20px 15px; }
+                    .checkout-btn { height: 50px; font-size: 15px; border-radius: 14px; }
+                    .p-total-price { font-size: 26px; }
+                    .guest-form { padding: 15px; }
+                    .premium-input { padding: 12px 14px; font-size: 13px; }
                 }
             `}</style>
 
