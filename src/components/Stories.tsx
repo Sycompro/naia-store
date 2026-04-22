@@ -75,7 +75,8 @@ export default function Stories() {
 
       <style jsx>{`
         .stories-section {
-          padding: 130px 0 30px;
+          margin-top: 100px;
+          padding: 20px 0 30px;
           overflow-x: auto;
           scrollbar-width: none;
           mask-image: linear-gradient(to right, black 85%, transparent 100%);
@@ -179,7 +180,7 @@ export default function Stories() {
         }
 
         @media (max-width: 768px) {
-          .stories-section { padding: 120px 0 20px; }
+          .stories-section { margin-top: 90px; padding: 20px 0 10px; }
           .stories-container { gap: 15px; padding: 5px 20px; }
           .story-ring-premium { width: 72px; height: 72px; padding: 3px; }
           .story-skeleton { width: 72px; height: 72px; }
