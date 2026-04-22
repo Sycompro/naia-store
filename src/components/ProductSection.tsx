@@ -70,7 +70,7 @@ export default function ProductSection() {
     <section id="productos" className="p-section container">
       <div className="p-header animate-entrance">
         <h2 className="p-title">
-          Catálogo <span className="text-gradient">{currentGender === 'FEMALE' ? 'Exclusivo' : 'Masculino'}</span>
+          Colección <span className="text-gradient">{currentGender === 'FEMALE' ? 'Naia' : 'Noir'}</span>
         </h2>
         <p className="p-subtitle">Selección de productos con los más altos estándares de calidad y ciencia de vanguardia.</p>
 

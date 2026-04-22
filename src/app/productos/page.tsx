@@ -98,7 +98,7 @@ function CatalogContent() {
                     <div className="hero-text-center animate-entrance">
                         <span className="premium-tag">Colección 2026</span>
                         <h1 className="catalog-title-v3">
-                            Catálogo <span className="text-gradient">{currentGender === 'FEMALE' ? 'Exclusivo' : 'Evolución'}</span>
+                            Colección <span className="text-gradient">{currentGender === 'FEMALE' ? 'Naia' : 'Noir'}</span>
                         </h1>
                         <p className="catalog-subtitle-v3">Descubre la sinergia entre naturaleza y alta cosmética para tu cuidado diario.</p>
                     </div>
