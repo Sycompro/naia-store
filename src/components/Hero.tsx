@@ -95,7 +95,7 @@ export default function Hero() {
           right: -100px;
           width: 500px;
           height: 500px;
-          background: var(--grad-soft);
+          background: var(--primary-light);
           border-radius: 50%;
           filter: blur(100px);
           opacity: 0.6;

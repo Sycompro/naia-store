@@ -20,7 +20,7 @@ export default function Footer() {
         <div className="p-footer-grid">
           <div className="p-brand">
             <Link href="/" className="premium-logo mb-20">
-              Naia
+              Naia<span>.</span>
             </Link>
             <p className="p-tagline">Elevando tu belleza natural con ciencia avanzada y pasión por lo orgánico.</p>
             <div className="p-socials">
@@ -74,10 +74,11 @@ export default function Footer() {
       <style jsx>{`
         .p-footer {
           padding: 100px 0 40px;
-          background: #0f172a;
-          color: white;
+          background: var(--white);
+          color: var(--fg);
           position: relative;
           overflow: hidden;
+          border-top: 1px solid var(--slate-100);
         }
         .p-footer::before {
           content: '';
@@ -127,7 +128,7 @@ export default function Footer() {
           margin-bottom: 24px;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: white;
+          color: var(--fg);
         }
         .p-footer-links { list-style: none; padding: 0; }
         .p-footer-links li { margin-bottom: 12px; }
@@ -157,7 +158,7 @@ export default function Footer() {
           outline: none;
           font-weight: 600;
           font-size: 14px;
-          color: white;
+          color: var(--fg);
         }
         .p-news-btn {
           width: 44px;
@@ -187,7 +188,7 @@ export default function Footer() {
         .text-primary { color: var(--primary); }
         .p-legal { display: flex; gap: 30px; }
         .p-legal a { text-decoration: none; color: var(--slate-500); transition: color 0.3s; }
-        .p-legal a:hover { color: white; }
+        .p-legal a:hover { color: var(--primary); }
 
         @media (max-width: 1100px) {
           .p-footer-grid { grid-template-columns: 1fr 1fr; gap: 50px; }
