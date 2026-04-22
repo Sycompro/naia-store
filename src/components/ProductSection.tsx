@@ -194,7 +194,7 @@ export default function ProductSection() {
           width: 100%;
           padding: 16px 24px;
           border-radius: 16px;
-          border: 1px solid var(--slate-100);
+          border: none;
           background: var(--slate-50);
           color: var(--fg);
           font-weight: 600;
@@ -247,7 +247,7 @@ export default function ProductSection() {
           border-radius: 32px;
           padding: 12px;
           background: var(--white);
-          border: 1px solid rgba(0,0,0,0.03);
+          border: none;
           box-shadow: var(--shadow-premium);
           transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
           position: relative;

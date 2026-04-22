@@ -237,16 +237,16 @@ function CatalogContent() {
                 .search-icon-p { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--slate-400); pointer-events: none; z-index: 10; }
                 .p-search-input {
                     width: 100%;
-                    padding: 16px 20px 16px 52px;
-                    border-radius: 18px;
-                    border: 1px solid var(--slate-200);
+                    padding: 16px 20px 16px 48px;
+                    border-radius: 30px;
+                    border: none;
                     background: var(--bg);
                     color: var(--fg);
                     font-size: 15px;
                     font-weight: 600;
                     outline: none;
                     transition: all 0.3s;
-                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+                    box-shadow: var(--shadow-sm);
                 }
                 :global(.men-theme) .p-search-input {
                     border-color: rgba(255,255,255,0.1);
@@ -305,8 +305,8 @@ function CatalogContent() {
                     border-radius: var(--radius-xl); 
                     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
                     background: var(--bg);
-                    border: 1px solid var(--slate-100);
-                    box-shadow: var(--shadow-sm);
+                    border: none;
+                    box-shadow: var(--shadow-premium);
                     will-change: transform, box-shadow;
                     transform: translateZ(0);
                     backface-visibility: hidden;
