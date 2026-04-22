@@ -247,7 +247,32 @@ body {
   opacity: 0;
   animation: fadeIn 1s ease forwards;
 }
+/* Product Action Containers */
+.p-actions-v3 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin-top: 15px !important;
+}
 
+.p-extra-actions {
+  display: flex !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .p-actions-v3 {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .p-extra-actions {
+    width: 100% !important;
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+}
 @keyframes fadeIn {
   to { opacity: 1; }
 }

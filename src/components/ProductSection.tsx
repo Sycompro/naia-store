@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Heart, Share2, Info, Star } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import ShareModal from './ShareModal';
 
 export default function ProductSection() {
+  const router = useRouter();
   const { addToCart } = useCart();
   const [sharingProduct, setSharingProduct] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
@@ -155,7 +157,7 @@ export default function ProductSection() {
                 </button>
                 <div className="p-actions-v3">
                   <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={18} /></button>
-                  <Link href={`/productos/${product.id}`} className="p-action-btn-v4 bg-soft-blue" title="Más información"><Info size={18} /></Link>
+                  <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Más información"><Info size={18} /></button>
                 </div>
               </div>
             </div>

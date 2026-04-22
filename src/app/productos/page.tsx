@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Search, Filter, ChevronDown, SlidersHorizontal, ShoppingCart, Share2, Star, Info } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import ShareModal from '@/components/ShareModal';
 
@@ -29,6 +30,7 @@ function CatalogContent() {
     const [currentGender, setCurrentGender] = useState<'FEMALE' | 'MALE'>('FEMALE');
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const router = useRouter();
     const { addToCart } = useCart();
 
     useEffect(() => {
@@ -173,12 +175,14 @@ function CatalogContent() {
                                         <button className="btn-premium-v4 btn-grad flex-1" onClick={() => addToCart(product as any)}>
                                             <ShoppingCart size={18} /> Agregar
                                         </button>
-                                        <button className="p-action-btn-v4 bg-soft-rose" onClick={() => handleShare(product)} title="Compartir">
-                                            <Share2 size={18} />
-                                        </button>
-                                        <Link href={`/productos/${product.id}`} className="p-action-btn-v4 bg-soft-blue" title="Ver detalles">
-                                            <Info size={18} />
-                                        </Link>
+                                        <div className="p-extra-actions">
+                                            <button className="p-action-btn-v4 bg-soft-rose" onClick={() => handleShare(product)} title="Compartir">
+                                                <Share2 size={18} />
+                                            </button>
+                                            <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Ver detalles">
+                                                <Info size={18} />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
