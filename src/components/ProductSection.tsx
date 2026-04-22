@@ -259,7 +259,7 @@ export default function ProductSection() {
         
         .p-img-wrapper { 
           display: block; 
-          border-radius: 32px; 
+          border-radius: 20px; 
           overflow: hidden;
           background: var(--slate-50);
         }
@@ -268,7 +268,7 @@ export default function ProductSection() {
           background-size: cover;
           background-position: center;
           transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-          border-radius: 32px;
+          border-radius: 20px;
         }
         .p-card:hover .p-img { transform: scale(1.08); }
         

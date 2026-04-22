@@ -319,14 +319,14 @@ function CatalogContent() {
                 
                 .p-img-link { 
                     display: block; 
-                    border-radius: 24px; 
+                    border-radius: 28px; 
                     overflow: hidden; 
                     position: relative; 
                     background: var(--slate-100); 
                     transition: all 0.4s ease;
                 }
                 :global(.men-theme) .p-img-link { background: rgba(0,0,0,0.3); }
-                .p-img-v3 { height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; border-radius: 24px; }
+                .p-img-v3 { height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; border-radius: 28px; }
                 .p-card:hover .p-img-link {
                     filter: drop-shadow(0 15px 30px var(--primary-light));
                 }
@@ -336,7 +336,7 @@ function CatalogContent() {
                     position: absolute; inset: 0; background: rgba(0,0,0,0.2); 
                     display: flex; align-items: center; justify-content: center;
                     opacity: 0; transition: all 0.3s;
-                    border-radius: 24px;
+                    border-radius: 28px;
                 }
                 .p-card:hover .p-overlay-v3 { opacity: 1; }
                 .btn-view-premium {
