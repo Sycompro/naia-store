@@ -173,7 +173,7 @@ function CatalogContent() {
                                         <button className="p-action-btn-v4 glass-premium" onClick={() => handleShare(product)} title="Compartir">
                                             <Share2 size={18} />
                                         </button>
-                                        <Link href={`/productos/${product.id}`} className="p-action-btn-v4 glass-premium bg-soft-blue" title="Ver detalles">
+                                        <Link href={`/productos/${product.id}`} className="p-action-btn-v4 bg-soft-blue" title="Ver detalles">
                                             <Info size={18} />
                                         </Link>
                                     </div>
@@ -399,8 +399,9 @@ function CatalogContent() {
                     color: var(--primary); 
                 }
                 .p-action-btn-v4.bg-soft-blue:hover {
-                    border-color: #3b82f6;
-                    color: #3b82f6;
+                    background: #eff6ff !important;
+                    border-color: #3b82f6 !important;
+                    color: #3b82f6 !important;
                 }
                 :global(.men-theme) .p-action-btn-v4 {
                     background: rgba(255,255,255,0.05);
