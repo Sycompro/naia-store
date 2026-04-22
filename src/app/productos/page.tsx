@@ -225,11 +225,10 @@ function CatalogContent() {
                     border-radius: var(--radius-xl);
                     margin-bottom: 40px;
                     background: var(--bg);
-                    border: 1px solid var(--slate-100);
+                    border: none;
                     box-shadow: var(--shadow-md);
                 }
                 :global(.men-theme) .catalog-controls-v3 {
-                    border-color: var(--glass-border);
                     background: var(--glass);
                 }
                 
