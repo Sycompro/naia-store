@@ -2,7 +2,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Search, Filter, ChevronDown, SlidersHorizontal, ShoppingCart, Share2, Star } from 'lucide-react';
+import { Search, Filter, ChevronDown, SlidersHorizontal, ShoppingCart, Share2, Star, Info } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import ShareModal from '@/components/ShareModal';
@@ -170,9 +170,12 @@ function CatalogContent() {
                                         <button className="btn-premium-v4 btn-grad flex-1" onClick={() => addToCart(product as any)}>
                                             <ShoppingCart size={18} /> Agregar
                                         </button>
-                                        <button className="p-action-btn-v4 glass-premium" onClick={() => handleShare(product)}>
+                                        <button className="p-action-btn-v4 glass-premium" onClick={() => handleShare(product)} title="Compartir">
                                             <Share2 size={18} />
                                         </button>
+                                        <Link href={`/productos/${product.id}`} className="p-action-btn-v4 glass-premium bg-soft-blue" title="Ver detalles">
+                                            <Info size={18} />
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -394,6 +397,10 @@ function CatalogContent() {
                     box-shadow: var(--shadow-md); 
                     border-color: var(--primary); 
                     color: var(--primary); 
+                }
+                .p-action-btn-v4.bg-soft-blue:hover {
+                    border-color: #3b82f6;
+                    color: #3b82f6;
                 }
                 :global(.men-theme) .p-action-btn-v4 {
                     background: rgba(255,255,255,0.05);
