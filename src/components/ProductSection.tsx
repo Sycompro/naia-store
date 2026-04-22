@@ -148,14 +148,14 @@ export default function ProductSection() {
                 </div>
               </div>
 
-              <div className="p-footer-v3">
+              <div className="p-actions-v3">
                 <button
-                  className="btn-premium-v4 btn-grad p-add"
+                  className="btn-premium-v4 btn-grad flex-1"
                   onClick={() => addToCart(product)}
                 >
                   <ShoppingCart size={18} /> Agregar
                 </button>
-                <div className="p-actions-v3">
+                <div className="p-extra-actions">
                   <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={18} /></button>
                   <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Más información"><Info size={18} /></button>
                 </div>
@@ -327,31 +327,6 @@ export default function ProductSection() {
         .price-item .val { font-size: 18px; font-weight: 900; color: var(--fg); letter-spacing: -0.5px; }
         .wholesale .val { color: var(--primary); }
 
-        .p-footer-v3 { display: flex; align-items: center; gap: 12px; }
-        .p-add { flex: 1; padding: 12px; border-radius: 30px; font-size: 14px; justify-content: center; height: 48px; }
-        
-        .p-actions-v3 { display: flex; gap: 8px; }
-        .p-action-btn-v4 {
-          width: 48px;
-          height: 48px;
-          border-radius: 30px;
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          background: var(--white);
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-          border: 1px solid var(--slate-100);
-        }
-        .p-action-btn-v4:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); border-color: var(--slate-200); }
-        
-        .bg-soft-rose { color: #f43f5e; }
-        .bg-soft-rose:hover { background: #fff1f2; color: #e11d48; }
-        .bg-soft-blue { color: #3b82f6; }
-        .bg-soft-blue:hover { background: #eff6ff; color: #2563eb; }
-
         @media (max-width: 600px) {
           .p-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
           .p-section { padding: 40px 0; }
@@ -361,36 +336,6 @@ export default function ProductSection() {
           .p-desc, .p-rating, .p-wishlist { display: none; }
           .p-price-v3 { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
           .price-item .val { font-size: 15px; }
-          .p-footer-v3 { flex-direction: column; gap: 10px; padding: 0 4px; }
-          .p-add { 
-            width: 100%; 
-            height: 52px; 
-            font-size: 15px; 
-            border-radius: 30px;
-            background: var(--grad-primary);
-            color: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-weight: 800;
-            box-shadow: 0 6px 15px rgba(var(--primary-h), 80%, 70%, 0.25);
-            letter-spacing: -0.01em;
-          }
-          .p-actions-v3 { width: 100%; gap: 10px; }
-          .p-action-btn-v4 { 
-            flex: 1; 
-            height: 52px; 
-            border-radius: 30px; 
-            border: 1px solid rgba(0,0,0,0.04);
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--slate-600);
-          }
         }
       `}</style>
 
