@@ -160,6 +160,8 @@ body {
   text-decoration: none;
   box-shadow: var(--shadow-md);
   user-select: none;
+  white-space: nowrap;
+  min-width: 140px;
 }
 
 .btn-premium-v4:hover {
