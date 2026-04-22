@@ -65,7 +65,10 @@ function CatalogContent() {
     };
 
     const filterProducts = () => {
-        let filtered = products.filter(p => p.gender === currentGender);
+        let filtered = products.filter(p => 
+            p.gender?.toUpperCase() === currentGender.toUpperCase() || 
+            p.gender?.toUpperCase() === 'UNISEX'
+        );
 
         if (selectedCategory !== 'Todas') {
             filtered = filtered.filter(p => p.category === selectedCategory);
