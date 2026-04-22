@@ -73,12 +73,12 @@ export default function Navbar() {
               </button>
 
               {user ? (
-                <Link href="/perfil" className="p-user-btn glass-premium" style={{ textDecoration: 'none' }}>
+                <Link href="/perfil" className="p-user-btn glass-premium desktop-only" style={{ textDecoration: 'none' }}>
                   <User size={20} strokeWidth={2.5} />
-                  <span className="p-user-name desktop-only">{user?.name?.split(' ')[0] || 'Invitado'}</span>
+                  <span className="p-user-name">{user?.name?.split(' ')[0] || 'Invitado'}</span>
                 </Link>
               ) : (
-                <Link href="/auth/login" className="p-icon-btn">
+                <Link href="/auth/login" className="p-icon-btn desktop-only">
                   <User size={22} strokeWidth={2.5} />
                 </Link>
               )}
