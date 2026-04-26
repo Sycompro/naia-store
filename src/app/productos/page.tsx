@@ -390,6 +390,12 @@ function CatalogContent() {
                 @media (min-width: 768px) {
                     .catalog-controls-v3 { flex-direction: row; align-items: center; justify-content: space-between; }
                 }
+
+                @media (max-width: 600px) {
+                    .p-grid-v3 { grid-template-columns: 1fr !important; gap: 20px !important; }
+                    .p-card { padding: 10px !important; }
+                    .p-img-v3 { height: 260px !important; }
+                }
             `}</style>
         </div>
     );

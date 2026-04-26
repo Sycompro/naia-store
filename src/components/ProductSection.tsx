@@ -348,7 +348,7 @@ export default function ProductSection() {
         .wholesale .val { color: var(--primary); }
 
         @media (max-width: 600px) {
-          .p-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+          .p-grid { grid-template-columns: 1fr; gap: 20px; }
           .p-section { padding: 40px 20px; }
           .p-card { padding: 8px; border-radius: 16px; }
           .p-img { height: 180px; }
