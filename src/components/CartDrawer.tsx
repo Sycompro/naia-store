@@ -9,8 +9,6 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
     const { cart, updateQuantity, removeFromCart, totalAmount, isWholesaleActive, clearCart } = useCart();
     const router = useRouter();
 
-    if (!isOpen) return null;
-
     const [isGuestFormOpen, setIsGuestFormOpen] = React.useState(false);
     const [guestInfo, setGuestInfo] = React.useState({ name: '', phone: '' });
     const [loading, setLoading] = React.useState(false);
