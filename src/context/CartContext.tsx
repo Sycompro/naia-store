@@ -114,7 +114,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const totalAmount = useMemo(() => 
         cart.reduce((sum, item) => {
-            const price = isWholesaleActive ? item.wholesalePrice : item.unitPrice;
+            const price = isWholesaleActive ? Number(item.wholesalePrice) : Number(item.unitPrice);
             return sum + (price * item.quantity);
         }, 0),
         [cart, isWholesaleActive]

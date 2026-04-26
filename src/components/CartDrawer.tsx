@@ -48,7 +48,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 const orderId = orderData.order.id;
                 const message = `*Nuevo Pedido Naia #${orderId}*%0A%0A` +
                     cart.map(item => `- ${item.name} x${item.quantity} (${isWholesaleActive ? 'May.' : 'Unit.'})`).join('%0A') +
-                    `%0A%0A*Total: S/ ${totalAmount.toFixed(2)}*%0A%0A_ID de Seguimiento: ${orderId}_`;
+                    `%0A%0A*Total: S/ ${Number(totalAmount).toFixed(2)}*%0A%0A_ID de Seguimiento: ${orderId}_`;
 
                 window.open(`https://wa.me/51944399377?text=${message}`, '_blank');
                 clearCart();
@@ -103,7 +103,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                                         <h4>{item.name}</h4>
                                         <div className="p-item-bottom">
                                             <div className="p-item-price-wrap">
-                                                <span className="p-item-price">S/ {(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}</span>
+                                                <span className="p-item-price">S/ {Number(isWholesaleActive ? item.wholesalePrice : item.unitPrice).toFixed(2)}</span>
                                                 {isWholesaleActive && <span className="p-tag-may">Mayorista</span>}
                                             </div>
                                             <div className="p-item-qty">
@@ -123,9 +123,9 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                     <div className="p-drawer-footer">
                         <div className="shipping-progress">
                             <p className="progress-text">
-                                {totalAmount >= 150 
+                                {Number(totalAmount) >= 150 
                                     ? "✨ Envío Premium Gratuito Desbloqueado" 
-                                    : <>Estás a <strong>S/ {(150 - totalAmount).toFixed(2)}</strong> de envío gratis</>}
+                                    : <>Estás a <strong>S/ {Number(150 - totalAmount).toFixed(2)}</strong> de envío gratis</>}
                             </p>
                             <div className="progress-bar-bg">
                                 <div className="progress-fill" style={{ width: `${Math.min(100, (totalAmount / 150) * 100)}%` }}></div>
@@ -160,7 +160,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                                     <span>Total a pagar</span>
                                     {isWholesaleActive && <span className="wholesale-hint">¡Precio mayorista aplicado!</span>}
                                 </div>
-                                <span className="p-total-price">S/ {totalAmount.toFixed(2)}</span>
+                                <span className="p-total-price">S/ {Number(totalAmount).toFixed(2)}</span>
                             </div>
                             
                             <button
