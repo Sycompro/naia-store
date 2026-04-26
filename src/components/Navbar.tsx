@@ -114,6 +114,23 @@ export default function Navbar() {
           </div>
 
           <div className="mobile-links">
+            <button 
+              className="mobile-menu-btn-link"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsCartOpen(true);
+              }}
+            >
+              <div className="mobile-link-row" style={{ '--i': 0.5 } as any}>
+                <div className="link-content">
+                  <ShoppingBag size={20} /> 
+                  <span>Mi Carrito</span>
+                  {totalItems > 0 && <span className="p-badge-inline">{totalItems}</span>}
+                </div>
+                <ChevronRight size={16} className="chevron" />
+              </div>
+            </button>
+
             <Link href="/productos" onClick={() => setIsMobileMenuOpen(false)}>
               <div className="mobile-link-row" style={{ '--i': 1 } as any}>
                 <div className="link-content"><ShoppingBag size={20} /> <span>Productos</span></div>
@@ -412,8 +429,8 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .desktop-only { display: none; }
           .mobile-only { display: flex; }
-          .nav-container { padding: 0 15px; height: 64px; border-radius: 32px; width: 94%; }
-          .premium-logo { font-size: 22px !important; }
+          .nav-container { padding: 0 12px; height: 60px; border-radius: 30px; width: 96%; }
+          .premium-logo { font-size: 20px !important; }
           .logo-text { font-size: 22px; }
           .p-theme-toggle { padding: 4px 6px; width: 64px; font-size: 10px; }
           .p-theme-toggle .toggle-sphere { width: 22px; height: 22px; }
@@ -526,6 +543,26 @@ export default function Navbar() {
             transition-delay: calc(var(--i) * 0.1s);
           }
           .mobile-overlay.open .mobile-divider { opacity: 1; }
+
+          .mobile-menu-btn-link {
+            background: none;
+            border: none;
+            padding: 0;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+          }
+
+          .p-badge-inline {
+            background: var(--grad-primary);
+            color: white;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+          }
 
           .b2b-mobile-pill {
             background: var(--primary-light);

@@ -186,7 +186,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
             <style jsx>{`
                 .p-cart-overlay {
                     position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-                    backdrop-filter: blur(4px); z-index: 2000;
+                    backdrop-filter: blur(4px); z-index: 2100;
                     display: flex; justify-content: flex-end;
                 }
                 .p-cart-drawer {
