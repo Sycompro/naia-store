@@ -301,7 +301,7 @@ function CatalogContent() {
                     transform: scale(1.05);
                 }
 
-                .p-grid-v3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+                .p-grid-v3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
                 .p-skeleton { height: 420px; border-radius: var(--radius-xl); animation: pulse 1.5s infinite; background: var(--slate-100); }
                 :global(.men-theme) .p-skeleton { background: rgba(255,255,255,0.05); }
                 

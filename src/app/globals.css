@@ -167,7 +167,7 @@ body {
   box-shadow: var(--shadow-md);
   user-select: none;
   white-space: nowrap;
-  min-width: 140px;
+  min-width: 120px;
 }
 
 .btn-premium-v4:hover {
@@ -192,8 +192,8 @@ body {
 
 /* Circular Action Buttons (Share, Info, Wishlist) */
 .p-action-btn-v4 {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--slate-100);
   background: var(--white);
@@ -260,14 +260,14 @@ body {
 .p-actions-v3 {
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: 10px !important;
   width: 100% !important;
   margin-top: 15px !important;
 }
 
 .p-extra-actions {
   display: flex !important;
-  gap: 8px !important;
+  gap: 6px !important;
   flex-shrink: 0 !important;
 }
 

@@ -255,7 +255,7 @@ export default function ProductSection() {
         
         .p-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
           gap: 30px;
         }
         
@@ -350,6 +350,7 @@ export default function ProductSection() {
           .p-card { padding: 10px !important; }
           .p-img-v3 { height: 260px !important; }
           .p-name-link-v3 h3 { font-size: 16px; }
+          .p-actions-v3 { flex-direction: row; flex-wrap: nowrap; overflow: visible; }
         }
       `}</style>
 
