@@ -13,7 +13,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
     const [docType, setDocType] = React.useState<'DNI' | 'RUC'>('DNI');
     const [docNumber, setDocNumber] = React.useState('');
     const [isValidating, setIsValidating] = React.useState(false);
-    const [guestInfo, setGuestInfo] = React.useState({ name: '', phone: '' });
+    const [guestInfo, setGuestInfo] = React.useState({ name: '', phone: '', address: '' });
     const [loading, setLoading] = React.useState(false);
     const { user } = useAuth();
 
@@ -61,8 +61,8 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
             return;
         }
 
-        if (isGuestFormOpen && (!guestInfo.name || !guestInfo.phone)) {
-            alert('Por favor completa tu nombre y teléfono');
+        if (isGuestFormOpen && (!guestInfo.name || !guestInfo.phone || !guestInfo.address)) {
+            alert('Por favor completa todos tus datos (nombre, teléfono y dirección)');
             return;
         }
 
@@ -87,7 +87,12 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 const orderId = orderData.order.id;
                 const message = `*Nuevo Pedido Naia #${orderId}*%0A%0A` +
                     cart.map(item => `- ${item.name} x${item.quantity} (${isWholesaleActive ? 'May.' : 'Unit.'})`).join('%0A') +
-                    `%0A%0A*Total: S/ ${Number(totalAmount).toFixed(2)}*%0A%0A_ID de Seguimiento: ${orderId}_`;
+                    `%0A%0A*Total: S/ ${Number(totalAmount).toFixed(2)}*` +
+                    `%0A%0A*Datos de entrega:*%0A` +
+                    `- Nombre: ${user ? user.name : guestInfo.name}%0A` +
+                    `- Celular: ${user ? (user as any).phone : guestInfo.phone}%0A` +
+                    `- Dirección: ${guestInfo.address}%0A` +
+                    `%0A_ID de Seguimiento: ${orderId}_`;
 
                 window.open(`https://wa.me/51944399377?text=${message}`, '_blank');
                 clearCart();
@@ -214,6 +219,13 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                                         placeholder="WhatsApp (ej: 999 123 456)"
                                         value={guestInfo.phone}
                                         onChange={e => setGuestInfo({ ...guestInfo, phone: e.target.value })}
+                                        className="premium-input"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Dirección completa de entrega"
+                                        value={guestInfo.address}
+                                        onChange={e => setGuestInfo({ ...guestInfo, address: e.target.value })}
                                         className="premium-input"
                                     />
                                 </div>
