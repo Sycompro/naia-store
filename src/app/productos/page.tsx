@@ -34,6 +34,12 @@ function CatalogContent() {
     const { addToCart } = useCart();
 
     useEffect(() => {
+        // Force scroll to top on mount
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         fetchProducts();
 
         const observer = new MutationObserver(() => {
