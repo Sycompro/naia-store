@@ -376,8 +376,8 @@ export default function Navbar() {
           .mobile-only { display: flex; }
           .desktop-only { display: none; }
           .p-user-name { display: none; }
-          .p-actions { gap: 6px; }
-          .nav-right { gap: 8px; }
+          .p-actions { gap: 10px; }
+          .nav-right { gap: 12px; }
         }
 
         .mobile-overlay {
@@ -439,9 +439,10 @@ export default function Navbar() {
           .p-theme-toggle { padding: 4px; width: 50px; font-size: 0; }
           .p-theme-toggle span { display: none; }
           .p-theme-toggle .toggle-sphere { width: 20px; height: 20px; }
-          .p-actions { gap: 6px; }
-          .p-icon-btn { width: 38px; height: 38px; border-radius: 12px; }
-          .p-icon-btn :global(svg) { width: 20px; height: 20px; }
+          .p-actions { gap: 10px; }
+          .p-icon-btn { width: 40px; height: 40px; border-radius: 12px; }
+          .p-icon-btn :global(svg) { width: 22px; height: 22px; }
+          .nav-right { gap: 12px; }
           
           .mobile-menu-content {
             background: #ffffff !important;
