@@ -124,10 +124,10 @@ body {
 }
 
 /* Specific pastel backgrounds for icons */
-.bg-rose { background-color: #fff1f2; color: #e11d48; }
-.bg-blue { background-color: #eff6ff; color: #2563eb; }
-.bg-amber { background-color: #fffbeb; color: #d97706; }
 .bg-emerald { background-color: #ecfdf5; color: #059669; }
+.bg-soft-green { background-color: #f0fdf4; color: #10b981; }
+.bg-soft-rose { background-color: #fff1f2; color: #e11d48; }
+.bg-soft-blue { background-color: #eff6ff; color: #2563eb; }
 .bg-violet { background-color: #f5f3ff; color: #7c3aed; }
 
 .section-divider {
@@ -219,6 +219,7 @@ body {
 /* Color Variants for Action Buttons */
 .p-action-btn-v4.bg-soft-rose:hover { background: #fff1f2 !important; color: #e11d48 !important; border-color: #fecdd3 !important; }
 .p-action-btn-v4.bg-soft-blue:hover { background: #eff6ff !important; color: #2563eb !important; border-color: #dbeafe !important; }
+.p-action-btn-v4.bg-soft-green:hover { background: #f0fdf4 !important; color: #10b981 !important; border-color: #dcfce7 !important; }
 .p-action-btn-v4.bg-soft-amber:hover { background: #fffbeb !important; color: #d97706 !important; border-color: #fef3c7 !important; }
 
 /* Dark/Men Theme Overrides for Buttons */

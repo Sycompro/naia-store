@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Heart, Share2, Info, Star } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, Info, Star, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
@@ -18,6 +18,7 @@ export default function ProductSection() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todas');
   const categories = ['Todas', 'Facial', 'Capilar', 'Corporal'];
+  const [waNumber, setWaNumber] = useState('51944399377');
 
   const fetchProducts = async (pageNum: number, gender: string, append = false, search = '') => {
     setLoading(true);
@@ -53,6 +54,14 @@ export default function ProductSection() {
     checkTheme();
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    // Fetch public settings
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.buyWhatsAppNumber) setWaNumber(data.buyWhatsAppNumber);
+      })
+      .catch(console.error);
 
     // Initial fetch if empty
     if (products.length === 0) fetchProducts(1, currentGender, false, searchTerm);
@@ -158,6 +167,16 @@ export default function ProductSection() {
                 <div className="p-extra-actions">
                   <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={18} /></button>
                   <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Más información"><Info size={18} /></button>
+                  <button 
+                    className="p-action-btn-v4 bg-soft-green" 
+                    onClick={() => {
+                      const msg = `Hola, me interesa el producto ${product.name}. ¿Me podrían dar más información?`;
+                      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+                    }} 
+                    title="Comprar por WhatsApp"
+                  >
+                    <MessageCircle size={18} />
+                  </button>
                 </div>
               </div>
             </div>

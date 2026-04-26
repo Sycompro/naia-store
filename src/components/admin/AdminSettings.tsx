@@ -144,13 +144,14 @@ function SettingsContent() {
                                     />
                                 </div>
                                 <div className="form-item-premium">
-                                    <label>Correo de Soporte</label>
+                                    <label>WhatsApp de Compra Directa</label>
                                     <input
-                                        type="email"
-                                        value={settings?.supportEmail || ''}
-                                        placeholder="soporte@naia.com"
-                                        onChange={(e) => updateField('supportEmail', e.target.value)}
+                                        type="text"
+                                        value={settings?.buyWhatsAppNumber || ''}
+                                        placeholder="Ej: 51944399377"
+                                        onChange={(e) => updateField('buyWhatsAppNumber', e.target.value)}
                                     />
+                                    <span className="field-hint">Incluye el código de país sin el signo +</span>
                                 </div>
                             </div>
                         </AdminCard>
@@ -295,6 +296,7 @@ function SettingsContent() {
                     font-size: 14px;
                 }
                 .form-item-premium input:focus { border-color: #ec4899; background: #fff; box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.05); }
+                .field-hint { font-size: 11px; color: #94a3b8; font-weight: 700; margin-top: 4px; padding-left: 2px; }
 
                 .api-dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
                 .secondary-action-btn {

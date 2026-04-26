@@ -165,6 +165,7 @@ model Setting {
   storeName           String   @default("Naia Beauty Store")
   supportEmail        String   @default("soporte@naia.com")
   mainAddress         String   @default("Av. Principal 123, Lima, Perú")
+  buyWhatsAppNumber   String   @default("51944399377")
   whatsappPhoneId     String?
   whatsappVerifyToken String?
   whatsappStatus      String   @default("Conectado")
