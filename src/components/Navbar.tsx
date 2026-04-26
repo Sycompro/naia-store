@@ -374,7 +374,10 @@ export default function Navbar() {
           .nav-container { height: 68px; padding: 0 20px; border-radius: 16px; width: 94%; }
           .premium-logo { font-size: 24px !important; }
           .mobile-only { display: flex; }
+          .desktop-only { display: none; }
           .p-user-name { display: none; }
+          .p-actions { gap: 6px; }
+          .nav-right { gap: 8px; }
         }
 
         .mobile-overlay {
@@ -430,11 +433,15 @@ export default function Navbar() {
           .desktop-only { display: none; }
           .mobile-only { display: flex; }
           .nav-container { padding: 0 12px; height: 60px; border-radius: 30px; width: 96%; }
-          .premium-logo { font-size: 20px !important; }
-          .logo-text { font-size: 22px; }
-          .p-theme-toggle { padding: 4px 6px; width: 64px; font-size: 10px; }
-          .p-theme-toggle .toggle-sphere { width: 22px; height: 22px; }
-          .p-actions { gap: 8px; }
+          .premium-logo { font-size: 19px !important; }
+          .logo-text { font-size: 19px; }
+          .logo-dot { width: 4px; height: 4px; }
+          .p-theme-toggle { padding: 4px; width: 50px; font-size: 0; }
+          .p-theme-toggle span { display: none; }
+          .p-theme-toggle .toggle-sphere { width: 20px; height: 20px; }
+          .p-actions { gap: 6px; }
+          .p-icon-btn { width: 38px; height: 38px; border-radius: 12px; }
+          .p-icon-btn :global(svg) { width: 20px; height: 20px; }
           
           .mobile-menu-content {
             background: #ffffff !important;
