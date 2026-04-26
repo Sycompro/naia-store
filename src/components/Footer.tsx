@@ -112,14 +112,17 @@ export default function Footer() {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: white;
-          background: rgba(255,255,255,0.05);
+          color: var(--slate-400);
+          background: var(--slate-50);
+          border: 1px solid var(--slate-100);
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .p-social-btn:hover {
           color: white;
           background: var(--primary);
+          border-color: var(--primary);
           transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(var(--primary-h), 100%, 70%, 0.2);
         }
 
         .p-footer-title {
