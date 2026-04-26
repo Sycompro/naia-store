@@ -10,11 +10,50 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
     const router = useRouter();
 
     const [isGuestFormOpen, setIsGuestFormOpen] = React.useState(false);
+    const [docType, setDocType] = React.useState<'DNI' | 'RUC'>('DNI');
+    const [docNumber, setDocNumber] = React.useState('');
+    const [isValidating, setIsValidating] = React.useState(false);
     const [guestInfo, setGuestInfo] = React.useState({ name: '', phone: '' });
     const [loading, setLoading] = React.useState(false);
     const { user } = useAuth();
 
     if (!isOpen) return null;
+
+    const handleValidateDocument = async () => {
+        if (docType === 'DNI' && docNumber.length !== 8) {
+            alert('El DNI debe tener 8 dígitos');
+            return;
+        }
+        if (docType === 'RUC' && docNumber.length !== 11) {
+            alert('El RUC debe tener 11 dígitos');
+            return;
+        }
+
+        setIsValidating(true);
+        try {
+            const res = await fetch('/api/validate-document', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: docType, document: docNumber })
+            });
+            const result = await res.json();
+            
+            if (result.success && result.data) {
+                const fullName = docType === 'DNI' 
+                    ? result.data.nombre_completo 
+                    : result.data.nombre_o_razon_social;
+                
+                setGuestInfo(prev => ({ ...prev, name: fullName }));
+            } else {
+                alert('No se pudo encontrar información para este documento');
+            }
+        } catch (error) {
+            console.error('Error validating document:', error);
+            alert('Error al validar el documento');
+        } finally {
+            setIsValidating(false);
+        }
+    };
 
     const handleWhatsAppCheckout = async () => {
         if (!user && !isGuestFormOpen) {
@@ -135,13 +174,40 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                         {isGuestFormOpen && !user && (
                             <div className="guest-form animate-up">
                                 <h4>Datos de Entrega</h4>
+                                <div className="doc-selector">
+                                    <button 
+                                        className={`doc-btn ${docType === 'DNI' ? 'active' : ''}`}
+                                        onClick={() => setDocType('DNI')}
+                                    >Persona Natural</button>
+                                    <button 
+                                        className={`doc-btn ${docType === 'RUC' ? 'active' : ''}`}
+                                        onClick={() => setDocType('RUC')}
+                                    >Empresa</button>
+                                </div>
                                 <div className="form-group">
+                                    <div className="doc-input-row">
+                                        <input
+                                            type="text"
+                                            placeholder={docType === 'DNI' ? "Número de DNI" : "Número de RUC"}
+                                            value={docNumber}
+                                            onChange={e => setDocNumber(e.target.value)}
+                                            className="premium-input-small"
+                                        />
+                                        <button 
+                                            className={`validate-btn ${isValidating ? 'loading' : ''}`}
+                                            onClick={handleValidateDocument}
+                                            disabled={isValidating}
+                                        >
+                                            {isValidating ? '...' : 'Validar'}
+                                        </button>
+                                    </div>
                                     <input
                                         type="text"
-                                        placeholder="Tu nombre completo"
+                                        placeholder="Nombre o Razón Social"
                                         value={guestInfo.name}
                                         onChange={e => setGuestInfo({ ...guestInfo, name: e.target.value })}
                                         className="premium-input"
+                                        readOnly={docType === 'RUC' && guestInfo.name !== ''}
                                     />
                                     <input
                                         type="tel"
@@ -237,6 +303,13 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 .guest-form { margin-bottom: 25px; padding: 20px; border-radius: 20px; background: var(--slate-50); border: 1px solid var(--slate-100); }
                 .guest-form h4 { font-size: 13px; font-weight: 800; margin-bottom: 15px; color: var(--slate-400); text-transform: uppercase; letter-spacing: 0.05em; }
                 .form-group { display: flex; flex-direction: column; gap: 12px; }
+                .doc-selector { display: flex; gap: 8px; margin-bottom: 12px; }
+                .doc-btn { flex: 1; padding: 8px; border-radius: 10px; border: 1px solid var(--slate-200); background: white; font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.3s; color: var(--slate-400); }
+                .doc-btn.active { background: var(--fg); color: white; border-color: var(--fg); }
+                .doc-input-row { display: flex; gap: 8px; }
+                .premium-input-small { flex: 1; min-width: 0; background: var(--white); border: 1px solid var(--slate-200); padding: 12px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; outline: none; }
+                .validate-btn { padding: 0 16px; border-radius: 12px; border: none; background: #1e1e1e; color: white; font-weight: 800; font-size: 12px; cursor: pointer; }
+                .validate-btn.loading { opacity: 0.7; }
                 .premium-input { background: var(--white); border: 1px solid var(--slate-200); padding: 14px 18px; border-radius: 14px; font-size: 14px; font-weight: 600; outline: none; transition: 0.3s; }
                 .premium-input:focus { border-color: var(--primary); box-shadow: 0 4px 15px rgba(var(--primary-h), 100%, 70%, 0.1); }
 
