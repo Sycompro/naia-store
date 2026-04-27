@@ -73,11 +73,21 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    items: cart,
-                    total: totalAmount,
-                    customerName: user ? undefined : guestInfo.name,
-                    customerPhone: user ? undefined : guestInfo.phone,
-                    customerAddress: guestInfo.address
+                    items: cart.map(item => ({
+                        id: Number(item.id),
+                        name: String(item.name || ''),
+                        unitPrice: Number(item.unitPrice),
+                        wholesalePrice: Number(item.wholesalePrice),
+                        imageUrl: item.imageUrl || undefined,
+                        quantity: Number(item.quantity),
+                        presentation: String(item.presentation || 'Unidad'),
+                        category: String(item.category || 'General'),
+                        gender: String(item.gender || 'FEMALE')
+                    })),
+                    total: Number(totalAmount),
+                    customerName: user ? undefined : String(guestInfo.name),
+                    customerPhone: user ? undefined : String(guestInfo.phone),
+                    customerAddress: String(guestInfo.address)
                 })
             });
 
