@@ -155,26 +155,21 @@ export default function ProductSection() {
               </div>
 
               <div className="p-actions-v3">
-                <div className="p-main-actions">
-                  <button 
-                    className="btn-premium-v4 btn-grad flex-1"
-                    onClick={() => addToCart(product)}
-                  >
-                    <ShoppingCart size={18} /> <span>Agregar</span>
-                  </button>
-                  <button 
-                    className="btn-premium-v4 btn-wa flex-1"
-                    onClick={() => {
-                      const msg = `Hola, me interesa el producto ${product.name}. ¿Me podrían dar más información?`;
-                      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
-                    }} 
-                  >
-                    <MessageCircle size={18} /> <span>Comprar</span>
-                  </button>
-                </div>
-                <div className="p-extra-actions">
-                  <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={16} /></button>
-                </div>
+                <button className="btn-premium-v4 btn-grad flex-1" onClick={() => addToCart(product)}>
+                  <ShoppingCart size={18} /> <span>Agregar</span>
+                </button>
+                <button 
+                  className="btn-premium-v4 btn-wa flex-1" 
+                  onClick={() => {
+                    const msg = `Hola, me interesa el producto ${product.name}. ¿Me podrían dar más información?`;
+                    window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+                  }}
+                >
+                  <MessageCircle size={18} /> <span>Comprar</span>
+                </button>
+                <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir">
+                  <Share2 size={18} />
+                </button>
               </div>
             </div>
           </div>
