@@ -81,12 +81,12 @@ export default function ProductDetailPage() {
                     <div className="p-detail-prices-v4">
                         <div className="price-box">
                             <span className="p-label-v4">Por Unidad</span>
-                            <span className="p-val-v4">S/ {product.unitPrice.toFixed(2)}</span>
+                            <span className="p-val-v4">S/ {Number(product.unitPrice || 0).toFixed(2)}</span>
                         </div>
                         <div className="price-divider"></div>
                         <div className="price-box">
                             <span className="p-label-v4">Mayorista <span className="p-info-tag">(3+ unidades)</span></span>
-                            <span className="p-val-v4 text-primary">S/ {product.wholesalePrice.toFixed(2)}</span>
+                            <span className="p-val-v4 text-primary">S/ {Number(product.wholesalePrice || 0).toFixed(2)}</span>
                         </div>
                     </div>
 

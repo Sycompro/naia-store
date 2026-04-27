@@ -44,7 +44,7 @@ export default function AdminDashboard({
                     <div className="stat-footer-alt">
                         <span className={`trend ${stats?.revenueTrend >= 0 ? 'pos' : 'neg'}`}>
                             {stats?.revenueTrend >= 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-                            {stats?.revenueTrend !== undefined ? `${stats.revenueTrend.toFixed(1)}%` : '0%'}
+                            {stats?.revenueTrend !== undefined ? `${Number(stats.revenueTrend).toFixed(1)}%` : '0%'}
                         </span>
                         <span className="period">crecimiento mensual</span>
                     </div>
@@ -111,7 +111,7 @@ export default function AdminDashboard({
                                             className="bar-fill"
                                             style={{ height: `${Math.max((m.total / maxSale) * 100, 8)}%` }}
                                         >
-                                            <div className="bar-value">S/ {m.total.toFixed(0)}</div>
+                                            <div className="bar-value">S/ {Number(m.total).toFixed(0)}</div>
                                         </div>
                                     </div>
                                     <span className="bar-label">{m.month.substring(0, 3)}</span>

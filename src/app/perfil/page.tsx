@@ -211,7 +211,7 @@ export default function PerfilPage() {
                                         {order.items.map((item: OrderItem, i: number) => (
                                             <div key={i} className="order-item">
                                                 <span>{item.name} × {item.quantity}</span>
-                                                <span>S/ {(item.price * item.quantity).toFixed(2)}</span>
+                                                <span>S/ {Number(item.price * item.quantity).toFixed(2)}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -219,7 +219,7 @@ export default function PerfilPage() {
                                         <span className="order-date">
                                             <Clock size={14} /> {new Date(order.createdAt).toLocaleDateString('es-PE')}
                                         </span>
-                                        <span className="order-total">Total: S/ {order.total.toFixed(2)}</span>
+                                        <span className="order-total">Total: S/ {Number(order.total).toFixed(2)}</span>
                                     </div>
                                 </div>
                             ))
