@@ -76,7 +76,8 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                     items: cart,
                     total: totalAmount,
                     customerName: user ? undefined : guestInfo.name,
-                    customerPhone: user ? undefined : guestInfo.phone
+                    customerPhone: user ? undefined : guestInfo.phone,
+                    customerAddress: guestInfo.address
                 })
             });
 
@@ -359,7 +360,11 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean, onClo
                     .checkout-btn { height: 50px; font-size: 15px; border-radius: 14px; }
                     .p-total-price { font-size: 26px; }
                     .guest-form { padding: 15px; }
-                    .premium-input { padding: 12px 14px; font-size: 13px; }
+                    .premium-input { padding: 15px 18px; font-size: 15px; border-radius: 16px; }
+                    .premium-input-small { padding: 14px 16px; font-size: 14px; border-radius: 14px; }
+                    .doc-btn { padding: 10px 6px; font-size: 12px; }
+                    .validate-btn { padding: 0 14px; font-size: 12px; height: 48px; }
+                    .doc-input-row { gap: 6px; }
                 }
             `}</style>
 

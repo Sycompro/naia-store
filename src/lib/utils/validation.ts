@@ -13,7 +13,8 @@ export const passwordSchema = z
 
 export const phoneSchema = z
   .string()
-  .regex(/^9\d{8}$/, 'Teléfono debe tener 9 dígitos开始')
+  .min(1, 'El teléfono es requerido')
+  .max(20, 'Teléfono muy largo')
   .or(z.string().length(0));
 
 export const loginSchema = z.object({
@@ -60,7 +61,8 @@ export const createOrderSchema = z.object({
   total: z.number().positive('El total debe ser positivo').max(999999),
   note: z.string().max(1000).optional(),
   customerName: z.string().max(255).optional(),
-  customerPhone: phoneSchema.optional(),
+  customerPhone: z.string().max(20).optional(),
+  customerAddress: z.string().max(500).optional(),
 });
 
 export const updateOrderStatusSchema = z.object({

@@ -147,6 +147,7 @@ model Order {
   user          User?       @relation(fields: [userId], references: [id])
   customerName  String?
   customerPhone String?
+  customerAddress String?
   items         String      // JSON string of cart items
   total         Decimal     @db.Decimal(10, 2)
   status        OrderStatus @default(PENDIENTE)

@@ -65,13 +65,14 @@ export async function POST(request: Request) {
       throw new ValidationAppError(validation.error || 'Datos inválidos');
     }
 
-    const { items, total, note, customerName, customerPhone } = validation.data!;
+    const { items, total, note, customerName, customerPhone, customerAddress } = validation.data!;
 
     const order = await prisma.order.create({
       data: {
         userId: user?.userId,
         customerName: customerName || null,
         customerPhone: customerPhone || null,
+        customerAddress: customerAddress || null,
         items: JSON.stringify(items),
         total: new Prisma.Decimal(total),
         note: note || null,
