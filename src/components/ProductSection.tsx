@@ -174,7 +174,6 @@ export default function ProductSection() {
                 </div>
                 <div className="p-extra-actions">
                   <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={16} /></button>
-                  <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Más información"><Info size={16} /></button>
                 </div>
               </div>
             </div>

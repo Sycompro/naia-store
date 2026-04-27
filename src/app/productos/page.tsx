@@ -196,9 +196,6 @@ function CatalogContent() {
                                             <button className="p-action-btn-v4 bg-soft-rose" onClick={() => handleShare(product)} title="Compartir">
                                                 <Share2 size={16} />
                                             </button>
-                                            <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Ver detalles">
-                                                <Info size={16} />
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
