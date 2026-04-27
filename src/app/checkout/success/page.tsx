@@ -36,13 +36,13 @@ function SuccessContent() {
 
                 <div className="success-actions">
                     <button
-                        className="btn-premium btn-primary-v3"
+                        className="btn-premium-v4 btn-grad"
                         onClick={() => router.push('/productos')}
                     >
                         <ShoppingBag size={18} /> Seguir Comprando
                     </button>
                     <button
-                        className="btn-outline-premium glass-premium"
+                        className="btn-premium-v4 btn-outline"
                         onClick={() => window.open(`https://wa.me/51944399377?text=Hola, quiero consultar el estado de mi pedido #${orderId}`, '_blank')}
                     >
                         <MessageCircle size={18} /> Consultar WhatsApp
@@ -135,11 +135,22 @@ function SuccessContent() {
                     display: flex;
                     gap: 15px;
                     justify-content: center;
+                    margin-top: 20px;
+                }
+                .btn-outline {
+                    background: transparent;
+                    border: 2px solid var(--slate-200);
+                    color: var(--fg);
+                }
+                .btn-outline:hover {
+                    background: var(--slate-50);
+                    border-color: var(--primary);
+                    color: var(--primary);
                 }
                 @media (max-width: 600px) {
                     .success-card { padding: 40px 20px; }
-                    .success-actions { flex-direction: column; }
-                    .btn-premium { width: 100%; justify-content: center; }
+                    .success-actions { flex-direction: column; gap: 12px; }
+                    :global(.btn-premium-v4) { width: 100%; }
                 }
             `}</style>
         </div>
