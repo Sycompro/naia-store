@@ -178,15 +178,26 @@ function CatalogContent() {
                                     </div>
 
                                     <div className="p-actions-v3">
-                                        <button className="btn-premium-v4 btn-grad flex-1" onClick={() => addToCart(product as any)}>
-                                            <ShoppingCart size={18} /> Agregar
-                                        </button>
+                                        <div className="p-main-actions">
+                                            <button className="btn-premium-v4 btn-grad flex-1" onClick={() => addToCart(product as any)}>
+                                                <ShoppingCart size={18} /> <span>Agregar</span>
+                                            </button>
+                                            <button 
+                                                className="btn-premium-v4 btn-wa flex-1" 
+                                                onClick={() => {
+                                                    const msg = `Hola, me interesa el producto ${product.name}. ¿Me podrían dar más información?`;
+                                                    window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+                                                }}
+                                            >
+                                                <MessageCircle size={18} /> <span>Chat</span>
+                                            </button>
+                                        </div>
                                         <div className="p-extra-actions">
                                             <button className="p-action-btn-v4 bg-soft-rose" onClick={() => handleShare(product)} title="Compartir">
-                                                <Share2 size={18} />
+                                                <Share2 size={16} />
                                             </button>
                                             <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Ver detalles">
-                                                <Info size={18} />
+                                                <Info size={16} />
                                             </button>
                                         </div>
                                     </div>

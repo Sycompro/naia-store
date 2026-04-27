@@ -155,25 +155,26 @@ export default function ProductSection() {
               </div>
 
               <div className="p-actions-v3">
-                <button
-                  className="btn-premium-v4 btn-grad flex-1"
-                  onClick={() => addToCart(product)}
-                >
-                  <ShoppingCart size={18} /> Agregar
-                </button>
-                <div className="p-extra-actions">
-                  <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={18} /></button>
-                  <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Más información"><Info size={18} /></button>
+                <div className="p-main-actions">
                   <button 
-                    className="p-action-btn-v4 bg-soft-green" 
+                    className="btn-premium-v4 btn-grad flex-1"
+                    onClick={() => addToCart(product)}
+                  >
+                    <ShoppingCart size={18} /> <span>Agregar</span>
+                  </button>
+                  <button 
+                    className="btn-premium-v4 btn-wa flex-1"
                     onClick={() => {
                       const msg = `Hola, me interesa el producto ${product.name}. ¿Me podrían dar más información?`;
                       window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
                     }} 
-                    title="Comprar por WhatsApp"
                   >
-                    <MessageCircle size={18} />
+                    <MessageCircle size={18} /> <span>Chat</span>
                   </button>
+                </div>
+                <div className="p-extra-actions">
+                  <button className="p-action-btn-v4 bg-soft-rose" onClick={() => setSharingProduct(product)} title="Compartir"><Share2 size={16} /></button>
+                  <button className="p-action-btn-v4 bg-soft-blue" onClick={() => router.push(`/productos/${product.id}`)} title="Más información"><Info size={16} /></button>
                 </div>
               </div>
             </div>
