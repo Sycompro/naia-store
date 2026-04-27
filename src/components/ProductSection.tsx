@@ -169,7 +169,7 @@ export default function ProductSection() {
                       window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
                     }} 
                   >
-                    <MessageCircle size={18} /> <span>Chat</span>
+                    <MessageCircle size={18} /> <span>Comprar</span>
                   </button>
                 </div>
                 <div className="p-extra-actions">
