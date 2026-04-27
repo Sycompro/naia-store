@@ -227,8 +227,8 @@ body {
 }
 
 /* Color Variants for Action Buttons */
-.p-action-btn-v4.bg-soft-rose { background: #fffcfd !important; color: #ff4d94 !important; border-color: #ffe4ef !important; }
-.p-action-btn-v4.bg-soft-rose:hover { background: #ff4d94 !important; color: white !important; border-color: #ff4d94 !important; box-shadow: 0 8px 20px rgba(255, 77, 148, 0.3) !important; }
+.p-action-btn-v4.bg-soft-rose { background: #fcfaff !important; color: #8b5cf6 !important; border-color: #ede9fe !important; }
+.p-action-btn-v4.bg-soft-rose:hover { background: #8b5cf6 !important; color: white !important; border-color: #8b5cf6 !important; box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3) !important; }
 .p-action-btn-v4.bg-soft-blue:hover { background: #eff6ff !important; color: #2563eb !important; border-color: #dbeafe !important; }
 .p-action-btn-v4.bg-soft-green:hover { background: #f0fdf4 !important; color: #10b981 !important; border-color: #dcfce7 !important; }
 .p-action-btn-v4.bg-soft-amber:hover { background: #fffbeb !important; color: #d97706 !important; border-color: #fef3c7 !important; }
