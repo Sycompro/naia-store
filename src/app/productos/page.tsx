@@ -2,7 +2,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Search, Filter, ChevronDown, SlidersHorizontal, ShoppingCart, Share2, Star, Info } from 'lucide-react';
+import { Search, Filter, ChevronDown, SlidersHorizontal, ShoppingCart, Share2, Star, Info, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
